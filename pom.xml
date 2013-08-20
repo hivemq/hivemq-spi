@@ -138,4 +138,19 @@
         </plugins>
     </build>
 
+
+    <distributionManagement>
+        <repository>
+            <id>repository.hivemq.com</id>
+            <name>HiveMQ Repository</name>
+            <url>http://repository.hivemq.com:8081/nexus/content/repositories/releases/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>repository.hivemq.com Snapshots</id>
+            <name>HiveMQ Snapshot Repository</name>
+            <url>http://repository.hivemq.com:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
