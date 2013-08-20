@@ -17,7 +17,6 @@ Plugin development for HiveMQ is as easy as writing a Java main method once you 
 At the moment the plugin SDK is not yet available in Maven central. To develop your own plugins, use the following repository:
 
 [source,xml]
-.Maven Repository POM entry
 ----
         <repository>
             <id>repository.hivemq.com</id>
@@ -41,7 +40,6 @@ To use the SDK, add the following dependency to your Maven project:
 
 
 [source,xml]
-.Dependency
 ----
     <dependency>
         <groupId>com.dcsquare.hivemq</groupId>
