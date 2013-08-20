@@ -1,0 +1,57 @@
+:hivemq-github-link: https://github.com/hivemq
+:hivemq-link: http://www.hivemq.com
+
+== HiveMQ SDK
+
+image:https://travis-ci.org/hivemq/hivemq-spi.png?branch=master["Build Status", link="https://travis-ci.org/hivemq/hivemq-spi"]
+
+Since version 1.4, HiveMQ offers this free and open source plugin SDK with service provider interfaces. This allows everyone to extend HiveMQ and add custom functionality via plugins.
+
+With custom HiveMQ plugins, it's easy to add functionality like writing messages to databases, integrate with other service buses, collect statistics, add fine-grained security and virtually anything you else you can imagine.
+
+Plugin development for HiveMQ is as easy as writing a Java main method once you grasp the core concepts.
+
+
+=== Maven Repository
+
+At the moment the plugin SDK is not yet available in Maven central. To develop your own plugins, use the following repository:
+
+[source,xml]
+.Maven Repository POM entry
+----
+        <repository>
+            <id>repository.hivemq.com</id>
+            <name>HiveMQ Repository</name>
+            <url>http://repository.hivemq.com:8081/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+----
+
+
+=== Using the SDK
+
+To use the SDK, add the following dependency to your Maven project:
+
+
+[source,xml]
+.Dependency
+----
+    <dependency>
+        <groupId>com.dcsquare.hivemq</groupId>
+        <artifactId>hivemq-spi</artifactId>
+        <version>1.4</version>
+    </dependency>
+
+
+----
+
+=== Plugin Development Documentation
+
+Please visit {hivemq-link}[http://www.hivemq.com] for the documentation how to develop plugins
