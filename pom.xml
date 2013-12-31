@@ -23,7 +23,7 @@
 
     <groupId>com.dcsquare.hivemq</groupId>
     <artifactId>hivemq-spi</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.1</version>
 
     <description>
         The Service Provider Interfaces for developing HiveMQ plugins.
