@@ -16,7 +16,6 @@
 
 package com.dcsquare.hivemq.spi.topic;
 
-import com.dcsquare.hivemq.spi.topic.exception.InvalidTopicException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,10 +32,10 @@ import static org.junit.Assert.assertTrue;
  * @see <a href="http://mqtt.org/wiki/doku.php/topic_format">Topic Clarifications</a>
  * @see <a href="http://mqtt.org/wiki/doku.php/overlapping_topics">Overlapping Topics</a>
  */
-public class TokenizedTopicMatcherTest {
+public class PermissionTopicMatcherTest {
 
     private String actual;
-    private TokenizedTopicMatcher topicMatcher;
+    private PermissionTopicMatcher topicMatcher;
 
     @Rule
     public ErrorCollector errorCollector = new ErrorCollector();
@@ -46,7 +45,7 @@ public class TokenizedTopicMatcherTest {
 
         actual = "my/test/topic/for/the/unit/test";
 
-        topicMatcher = new TokenizedTopicMatcher();
+        topicMatcher = new PermissionTopicMatcher();
 
     }
 
@@ -125,24 +124,6 @@ public class TokenizedTopicMatcherTest {
     }
 
     @Test
-    public void testMatchesSysTopic() throws Exception {
-
-        final String actualTopic = "$SYS/broker/messages/sent";
-
-        assertTrue(topicMatcher.matches("$SYS/#", actualTopic));
-        assertTrue(topicMatcher.matches("$SYS/#", actualTopic));
-        assertTrue(topicMatcher.matches("$SYS/+/messages/sent", actualTopic));
-
-        assertFalse(topicMatcher.matches("#", actualTopic));
-        assertFalse(topicMatcher.matches("+/#", actualTopic));
-        assertFalse(topicMatcher.matches("SYS/#", actualTopic));
-        assertFalse(topicMatcher.matches("/$SYS/#", actualTopic));
-
-        assertFalse(topicMatcher.matches("$SYS/#", "test/topic"));
-
-    }
-
-    @Test
     public void test_invalid_wildcard_handling() throws Exception {
 
 
@@ -156,47 +137,4 @@ public class TokenizedTopicMatcherTest {
         assertFalse(topicMatcher.matches("my/+t", "my/t"));
         assertFalse(topicMatcher.matches("my/t+t", "my/ttt"));
     }
-
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_hash_sign_1() throws Exception {
-        topicMatcher.matches("my/#", "my/t#");
-    }
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_hash_sign_2() throws Exception {
-        topicMatcher.matches("#", "my/t#");
-    }
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_hash_sign_3() throws Exception {
-        topicMatcher.matches("#", "my/t#");
-    }
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_hash_sign_4() throws Exception {
-        topicMatcher.matches("+/#", "my/t#");
-    }
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_hash_sign_5() throws Exception {
-        assertFalse(topicMatcher.matches("my/#/test/topic", "my/#/test/topic"));
-    }
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_plus_sign_1() throws Exception {
-        assertFalse(topicMatcher.matches("my/t+", "my/t+"));
-    }
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_plus_sign_2() throws Exception {
-        assertFalse(topicMatcher.matches("my/#", "my/t+"));
-    }
-
-    @Test(expected = InvalidTopicException.class)
-    public void test_invalid_actual_topic_with_plus_sign_3() throws Exception {
-        assertFalse(topicMatcher.matches("+/#", "my/t+"));
-    }
-
-
 }

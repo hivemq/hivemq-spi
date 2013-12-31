@@ -19,7 +19,6 @@ package com.dcsquare.hivemq.spi.topic;
 import com.dcsquare.hivemq.spi.message.QoS;
 import com.dcsquare.hivemq.spi.topic.MqttTopicPermission.ALLOWED_ACTIVITY;
 import com.dcsquare.hivemq.spi.topic.MqttTopicPermission.ALLOWED_QOS;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -29,15 +28,6 @@ import static org.junit.Assert.*;
  * @author Dominik Obermaier
  */
 public class MqttTopicPermissionTest {
-
-
-    private TokenizedTopicMatcher topicMatcher;
-
-    @Before
-    public void before() {
-        this.topicMatcher = new TokenizedTopicMatcher();
-    }
-
 
     @Test
     public void testQualityOfService() throws Exception {
@@ -162,12 +152,16 @@ public class MqttTopicPermissionTest {
         //Has nothing to do with t1
         final MqttTopicPermission t2 = new MqttTopicPermission("testtopic1");
 
+        assertTrue(t2.implies(t2));
+
         assertFalse(t2.implies(t1));
         assertFalse(t1.implies(t2));
 
 
         //test subtopic without wildcards
         final MqttTopicPermission t3 = new MqttTopicPermission("testtopic/subtopic");
+
+        assertTrue(t3.implies(t3));
 
         assertFalse(t1.implies(t3));
         assertFalse(t3.implies(t1));
@@ -179,6 +173,8 @@ public class MqttTopicPermissionTest {
         //Test wildcard
         final MqttTopicPermission t4 = new MqttTopicPermission("testtopic/#");
 
+        assertTrue(t4.implies(t4));
+
         assertTrue(t4.implies(t1));
         assertFalse(t1.implies(t4));
 
@@ -186,6 +182,8 @@ public class MqttTopicPermissionTest {
         assertFalse(t3.implies(t4));
 
         final MqttTopicPermission t5 = new MqttTopicPermission("testtopic/+");
+
+        assertTrue(t5.implies(t5));
 
         assertFalse(t5.implies(t1));
         assertFalse(t1.implies(t5));
@@ -200,6 +198,19 @@ public class MqttTopicPermissionTest {
 
         assertTrue(t4.implies(t6));
         assertFalse(t6.implies(t4));
+
+        final MqttTopicPermission t7 = new MqttTopicPermission("#");
+
+        assertTrue(t7.implies(t7));
+
+        assertTrue(t7.implies(t6));
+        assertFalse(t6.implies(t7));
+
+        assertTrue(t7.implies(t5));
+        assertFalse(t5.implies(t7));
+
+        assertTrue(t7.implies(t4));
+        assertFalse(t4.implies(t7));
 
     }
 

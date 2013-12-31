@@ -28,17 +28,14 @@ import static java.lang.Math.min;
  * @since 1.4
  */
 
-public class TokenizedTopicMatcher implements TopicMatcher {
+public class PermissionTopicMatcher implements TopicMatcher {
 
-    TokenizedTopicMatcher() {
+    PermissionTopicMatcher() {
         //decrease visibility
     }
 
     public boolean matches(final String topicSubscription, final String actualTopic) throws InvalidTopicException {
 
-        if (StringUtils.containsAny(actualTopic, "#+")) {
-            throw new InvalidTopicException("The actual topic must not contain a wildard character (# or +)");
-        }
         final String subscription = StringUtils.stripEnd(topicSubscription, "/");
 
         String topic = actualTopic;
@@ -50,9 +47,6 @@ public class TokenizedTopicMatcher implements TopicMatcher {
         if (StringUtils.containsNone(topicSubscription, "#+")) {
 
             return subscription.equals(topic);
-        }
-        if (actualTopic.startsWith("$SYS/") && !topicSubscription.startsWith("$SYS/")) {
-            return false;
         }
         return matchesWildcards(subscription, topic);
     }

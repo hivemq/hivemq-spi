@@ -39,7 +39,7 @@ public class MqttTopicPermission {
     private final String topic;
     private final ALLOWED_QOS qos;
     private final ALLOWED_ACTIVITY activity;
-    private TopicMatcher topicMatcher = new TokenizedTopicMatcher();
+    private TopicMatcher topicMatcher = new PermissionTopicMatcher();
 
     /**
      * Represents the allowed Quality of Service levels for a MqttTopicPermission
