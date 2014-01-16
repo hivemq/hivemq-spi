@@ -44,7 +44,7 @@ public interface OnPublishReceivedCallback extends SynchronousCallback {
      * <p/>
      * The publish parameter references the publish object, that is sent to the subscribers,
      * after the onPublishReceived method was called. So if you don´t want your plugin to
-     * interfere in the regular publishing process, you might consider copying the publish object.
+     * interfere in the regular publishing process, you must copy the {@link PUBLISH} object.
      * Use the static copy method of the PUBLISH class for this purpose. Similar to the following code example.
      * PUBLISH copy = PUBLISH.copy(publish);
      *
