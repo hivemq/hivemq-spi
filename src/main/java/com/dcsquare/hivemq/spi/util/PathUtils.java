@@ -16,7 +16,10 @@
 
 package com.dcsquare.hivemq.spi.util;
 
+import com.google.common.io.Files;
 import com.netflix.config.ConfigurationManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
@@ -28,6 +31,9 @@ import java.io.File;
  */
 public class PathUtils {
 
+    private static Logger log = LoggerFactory.getLogger(PathUtils.class);
+
+
     /**
      * @return the home folder of HiveMQ
      */
@@ -35,6 +41,11 @@ public class PathUtils {
 
         final String homeFolder = System.getProperty("hivemq.home");
 
+        if (homeFolder == null) {
+            final File tempDir = Files.createTempDir();
+            log.warn("No hivemq.home property was set. Using a temporary directory ({}) HiveMQ will behave unexpectedly!", tempDir.getAbsolutePath());
+            return tempDir;
+        }
         return new File(homeFolder);
     }
 
