@@ -53,6 +53,13 @@
             <organization>dc-square GmbH</organization>
             <organizationUrl>http://www.dc-square.de</organizationUrl>
         </developer>
+        <developer>
+            <id>lbrandl</id>
+            <name>Lukas Brandl</name>
+            <email>lukas.brandl@dc-square.de</email>
+            <organization>dc-square GmbH</organization>
+            <organizationUrl>http://www.dc-square.de</organizationUrl>
+        </developer>
     </developers>
 
     <properties>
