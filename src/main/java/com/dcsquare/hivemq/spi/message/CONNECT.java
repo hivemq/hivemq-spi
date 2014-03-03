@@ -48,6 +48,7 @@ public class CONNECT extends Message {
 
     private String password;
 
+    private boolean bridge;
 
     public boolean isCleanSession() {
         return cleanSession;
@@ -151,5 +152,13 @@ public class CONNECT extends Message {
 
     public void setProtocolVersion(final byte protocolVersion) {
         this.protocolVersion = protocolVersion;
+    }
+
+    public boolean isBridge() {
+        return bridge;
+    }
+
+    public void setBridge(boolean bridge) {
+        this.bridge = bridge;
     }
 }

@@ -17,6 +17,11 @@
 package com.dcsquare.hivemq.spi.message;
 
 /**
+ * A MQTT Publish
+ * <p/>
+ * <p/>
+ * Note that a PUBLISH message is considered equal if the topic Strings are equal
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
@@ -52,6 +57,12 @@ public class PUBLISH extends Message {
         this.messageId = messageId;
     }
 
+    /**
+     * Makes a deep copy of a {@link PUBLISH} object.
+     *
+     * @param original the original PUBLISH message
+     * @return a deep copy of the original PUBLISH message
+     */
     public static PUBLISH copy(final PUBLISH original) {
         final PUBLISH publish = new PUBLISH();
         publish.setQoS(original.getQoS());
