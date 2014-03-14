@@ -36,8 +36,6 @@ public class CONNECT extends Message {
 
     private int keepAliveTimer;
 
-    private Byte protocolVersion;
-
     private String clientIdentifier;
 
     private String willTopic;
@@ -49,6 +47,9 @@ public class CONNECT extends Message {
     private String password;
 
     private boolean bridge;
+
+    //Default version is 3.1 until 3.1.1 gained enough traction
+    private ProtocolVersion protocolVersion = ProtocolVersion.MQTTv3_1;
 
     public boolean isCleanSession() {
         return cleanSession;
@@ -146,19 +147,19 @@ public class CONNECT extends Message {
         this.password = password;
     }
 
-    public Byte getProtocolVersion() {
-        return protocolVersion;
-    }
-
-    public void setProtocolVersion(final byte protocolVersion) {
-        this.protocolVersion = protocolVersion;
-    }
-
     public boolean isBridge() {
         return bridge;
     }
 
-    public void setBridge(boolean bridge) {
+    public void setBridge(final boolean bridge) {
         this.bridge = bridge;
+    }
+
+    public ProtocolVersion getProtocolVersion() {
+        return protocolVersion;
+    }
+
+    public void setProtocolVersion(final ProtocolVersion protocolVersion) {
+        this.protocolVersion = protocolVersion;
     }
 }
