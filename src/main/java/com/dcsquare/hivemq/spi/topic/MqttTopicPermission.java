@@ -227,7 +227,7 @@ public class MqttTopicPermission {
      * Checks if an activity implies another activity
      *
      * @param other the other permission with an activity
-     * @return <code>true</code> if the permission activity imply the other permission activit<
+     * @return <code>true</code> if the permission activity imply the other permission activity
      */
     private boolean getActivityImplicity(final MqttTopicPermission other) {
         if (this.getActivity() == ALLOWED_ACTIVITY.ALL) {
