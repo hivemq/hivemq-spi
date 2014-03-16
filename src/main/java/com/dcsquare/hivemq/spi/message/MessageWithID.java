@@ -22,7 +22,10 @@ package com.dcsquare.hivemq.spi.message;
  */
 public class MessageWithID extends Message {
 
-    private int messageId;
+    protected int messageId;
+
+    public MessageWithID() {
+    }
 
     MessageWithID(final int messageId) {
         this.messageId = messageId;

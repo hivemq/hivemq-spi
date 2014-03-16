@@ -25,13 +25,11 @@ package com.dcsquare.hivemq.spi.message;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class PUBLISH extends Message {
+public class PUBLISH extends MessageWithID {
 
     private byte[] payload;
 
     private String topic;
-
-    private int messageId;
 
     public byte[] getPayload() {
         return payload;
@@ -49,13 +47,6 @@ public class PUBLISH extends Message {
         this.topic = topic;
     }
 
-    public int getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(final int messageId) {
-        this.messageId = messageId;
-    }
 
     /**
      * Makes a deep copy of a {@link PUBLISH} object.
