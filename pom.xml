@@ -82,19 +82,19 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>16.0.1</version>
+            <version>17.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.netflix.archaius</groupId>
             <artifactId>archaius-core</artifactId>
-            <version>0.5.11</version>
+            <version>0.6.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.netflix.governator</groupId>
             <artifactId>governator</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.7</version>
             <scope>test</scope>
         </dependency>
 
