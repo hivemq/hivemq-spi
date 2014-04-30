@@ -17,6 +17,7 @@
 package com.dcsquare.hivemq.spi.callback.registry;
 
 import com.dcsquare.hivemq.spi.callback.Callback;
+import com.dcsquare.hivemq.spi.callback.schedule.ScheduledCallback;
 
 import java.util.List;
 import java.util.Set;
@@ -94,4 +95,14 @@ public interface CallbackRegistry {
      * @return list of all callbacks
      */
     Set<Callback> getAllCallbacks();
+
+
+    /**
+     * Manually triggers a reload of the Scheduled Expression of a {@link ScheduledCallback}.
+     * <br/>
+     * By default, the Cron expressions of a {@link ScheduledCallback}s don't get reloaded.
+     * This reload trigger is useful if your Cron expression can change at runtime. If the cron expression
+     * of your {@link ScheduledCallback} is static, it's not recommended to do a manual reload.
+     */
+    void reloadScheduledCallbackExpression(final ScheduledCallback scheduledCallback);
 }
