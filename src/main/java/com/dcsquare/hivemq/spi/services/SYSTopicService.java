@@ -35,7 +35,7 @@ public interface SYSTopicService {
      *
      * @param entry the {@link SYSTopicEntry} to check
      * @return <code>true</code> if the Service contains the given {@link SYSTopicEntry},
-     *         <code>false</code> otherwiese
+     *         <code>false</code> otherwise
      */
     boolean contains(final SYSTopicEntry entry);
 
