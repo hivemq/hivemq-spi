@@ -24,6 +24,7 @@ import java.security.cert.Certificate;
  * Represents information available of a connected client.
  *
  * @author Christian Goetz
+ * @author Dominik Obermaier
  * @since 1.4
  */
 public interface ClientData {
@@ -50,8 +51,14 @@ public interface ClientData {
     public Optional<Certificate> getCertificate();
 
     /**
-     * @return if the client is anonymous. That means the client is <b>not</b> authenticated
+     * @return <code>true</code> if the client is anonymous. That means the client is <b>not</b> authenticated
      */
     public boolean isAnonymous();
+
+    /**
+     * @return <code>true</code> if this client is a bridge.
+     * @since 2.0
+     */
+    public boolean isBridge();
 
 }
