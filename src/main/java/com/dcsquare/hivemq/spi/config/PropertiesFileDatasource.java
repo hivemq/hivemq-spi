@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import static com.google.common.io.Closeables.closeQuietly;
+import static com.netflix.config.PollResult.createFull;
+
 /**
  * This is used in {@link Configurations} to provide an easy to use property-based configuration.
  *
@@ -60,7 +63,7 @@ public class PropertiesFileDatasource implements PolledConfigurationSource {
     @Override
     public PollResult poll(final boolean initial, final Object checkPoint) throws Exception {
 
-        final Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> propertiesMap = new HashMap<String, Object>();
         for (final String fileName : propertiesFileNames) {
 
             final File configFromFolder = new File(baseFolder, fileName);
@@ -68,8 +71,8 @@ public class PropertiesFileDatasource implements PolledConfigurationSource {
             if (configFromFolder.canRead() && configFromFolder.isFile()) {
 
                 final Properties properties = loadProperties(configFromFolder);
-                for (final Map.Entry<Object, Object> entry : properties.entrySet()) {
-                    map.put((String) entry.getKey(), entry.getValue());
+                for (final Map.Entry<Object, Object> property : properties.entrySet()) {
+                    properties.put(property.getKey(), property.getValue());
                 }
             } else {
                 if (!optional) {
@@ -79,13 +82,20 @@ public class PropertiesFileDatasource implements PolledConfigurationSource {
                 }
             }
         }
-        return PollResult.createFull(map);
+        return createFull(propertiesMap);
     }
 
 
     private Properties loadProperties(final File file) throws Exception {
         final Properties properties = new Properties();
-        properties.load(new FileInputStream(file));
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            properties.load(fis);
+        } finally {
+            closeQuietly(fis);
+        }
         return properties;
     }
 }
