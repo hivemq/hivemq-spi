@@ -1,6 +1,5 @@
 package com.dcsquare.hivemq.spi.bridge;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +39,7 @@ public class Bridge {
 
     private boolean notificationsEnabled = true;
 
-    private List<Notification> notifications = new ArrayList<Notification>();
+    private Notification notification;
 
 
     public List<Address> getAddresses() {
@@ -163,12 +162,11 @@ public class Bridge {
         this.notificationsEnabled = notificationsEnabled;
     }
 
-    public List<Notification> getNotifications() {
-        return notifications;
+    public Notification getNotification() {
+        return notification;
     }
 
-    public void setNotifications(final List<Notification> notifications) {
-        this.notifications = notifications;
+    public void setNotification(Notification notification) {
+        this.notification = notification;
     }
-
 }
