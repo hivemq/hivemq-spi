@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Dominik Obermaier
@@ -21,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class PropertiesFileDatasourceTest {
 
     public static final String PROPERTIES_FILE = "properties.file";
+
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 

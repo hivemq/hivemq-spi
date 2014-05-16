@@ -72,7 +72,7 @@ public class PropertiesFileDatasource implements PolledConfigurationSource {
 
                 final Properties properties = loadProperties(configFromFolder);
                 for (final Map.Entry<Object, Object> property : properties.entrySet()) {
-                    properties.put(property.getKey(), property.getValue());
+                    propertiesMap.put((String) property.getKey(), property.getValue());
                 }
             } else {
                 if (!optional) {
