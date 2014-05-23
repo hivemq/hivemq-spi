@@ -9,7 +9,7 @@ import javax.ws.rs.ext.ContextResolver;
 public class DefaultJacksonMapperConfig implements ContextResolver<ObjectMapper> {
     private final ObjectMapper objectMapper;
 
-    DefaultJacksonMapperConfig() {
+    public DefaultJacksonMapperConfig() {
         objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
         objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
