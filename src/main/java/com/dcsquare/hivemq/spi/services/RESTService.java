@@ -9,7 +9,7 @@ import com.dcsquare.hivemq.spi.services.rest.RESTConfig;
 @Experimental
 public interface RESTService {
 
-    void start(RESTConfig restConfig);
+    void start(RESTConfig restConfig) throws Exception;
 
     void stop();
 

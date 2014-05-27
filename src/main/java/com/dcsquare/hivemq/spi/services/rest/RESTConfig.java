@@ -5,7 +5,6 @@ import com.dcsquare.hivemq.spi.annotations.ReadOnly;
 import com.google.common.base.Preconditions;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import javax.ws.rs.ext.ContextResolver;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,18 +17,19 @@ import java.util.List;
 @Experimental
 public class RESTConfig {
 
-    private ContextResolver<ObjectMapper> objectMapperContextResolver = new DefaultJacksonMapperConfig();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     private final List<Class<?>> resources = new ArrayList<Class<?>>();
 
     private int port = 8080;
 
-    public ContextResolver<ObjectMapper> getObjectMapperContextResolver() {
-        return objectMapperContextResolver;
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 
-    public void setObjectMapperContextResolver(final ContextResolver<ObjectMapper> objectMapperContextResolver) {
-        this.objectMapperContextResolver = objectMapperContextResolver;
+    public void setObjectMapper(final ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     public int getPort() {
