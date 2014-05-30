@@ -1,6 +1,6 @@
 :hivemq-github-link: https://github.com/hivemq
 :hivemq-link: http://www.hivemq.com
-:hivemq-plugin-docu-link: www.hivemq.com/docs/plugins/latest/
+:hivemq-plugin-docu-link: www.hivemq.com/docs/plugins/latest
 
 == HiveMQ SDK
 
