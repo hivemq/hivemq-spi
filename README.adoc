@@ -59,4 +59,4 @@ To use the SDK, add the following dependency to your Maven project:
 
 === Plugin Development Documentation
 
-Please visit {hivemq-plugin-docu-link}[http://www.hivemq.com] for the documentation how to develop plugins.
+Please visit {hivemq-plugin-docu-link}[our website] for the documentation how to develop plugins.
