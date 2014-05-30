@@ -36,7 +36,4 @@ public class BridgeException extends RuntimeException {
         super(cause);
     }
 
-    protected BridgeException(final String message, final Throwable cause, final boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
