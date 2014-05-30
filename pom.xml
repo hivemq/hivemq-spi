@@ -208,4 +208,9 @@
         </repository>
     </repositories>
 
+    <ciManagement>
+        <system>travis</system>
+        <url>https://travis-ci.org/hivemq/hivemq-spi</url>
+    </ciManagement>
+
 </project>
