@@ -63,7 +63,7 @@ public class PathUtils {
      * @return the config folder of HiveMQ
      */
     public static File getHiveMQConfigFolder() {
-        return new File(getHiveMQHomeFolder(), "conf");
+        return findAbsoluteAndRelative("conf");
     }
 
     /**
