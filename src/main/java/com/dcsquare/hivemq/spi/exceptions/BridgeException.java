@@ -1,7 +1,7 @@
 package com.dcsquare.hivemq.spi.exceptions;
 
 /**
- * A exception which indicates that a bridge error occured or a bridge configuration
+ * An exception which indicates that a bridge error occurred or a bridge configuration
  * was invalid
  *
  * @author Dominik Obermaier
