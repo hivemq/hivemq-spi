@@ -59,7 +59,9 @@ public class PluginEntryPointTest {
 
                 bind(String.class).toInstance("testString");
             }
-        }).createInjector();
+        }).build().createInjector();
+
+        //FIXEN!!
     }
 
     @Test
