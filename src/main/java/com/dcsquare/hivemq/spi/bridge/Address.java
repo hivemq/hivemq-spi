@@ -3,6 +3,8 @@ package com.dcsquare.hivemq.spi.bridge;
 import java.io.File;
 
 /**
+ * A concrete address a bridge tries to connect to
+ *
  * @author Dominik Obermaier
  * @since 2.0
  */

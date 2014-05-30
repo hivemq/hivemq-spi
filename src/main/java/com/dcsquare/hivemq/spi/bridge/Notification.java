@@ -3,11 +3,17 @@ package com.dcsquare.hivemq.spi.bridge;
 import com.dcsquare.hivemq.spi.message.QoS;
 
 /**
+ * A concrete notification which consists of a topic and a quality of service level
+ *
  * @author Dominik Obermaier
  * @since 2.0
  */
 public class Notification {
 
+    /**
+     * The default notification topic on remote brokers:
+     * <code>$SYS/broker/connection/#{clientId}/state</code>
+     */
     public final static String DEFAULT_NOTIFICATION_TOPIC = "$SYS/broker/connection/#{clientId}/state";
 
     private String topic;

@@ -8,7 +8,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * This is a marker interface which indicates that the method returns
+ * This is an informal annotation which indicates that the method returns
  * a read-only type.
  * <p/>
  * If you encounter this on a method which returns a {@link java.util.Collection},

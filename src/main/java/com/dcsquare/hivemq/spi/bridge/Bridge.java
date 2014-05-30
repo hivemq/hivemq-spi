@@ -3,6 +3,8 @@ package com.dcsquare.hivemq.spi.bridge;
 import java.util.List;
 
 /**
+ * A concrete bridge configuration.
+ *
  * @author Dominik Obermaier
  * @since 2.0
  */

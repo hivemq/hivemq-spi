@@ -10,7 +10,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 /**
  * This annotation indicates that an API is experimental an can be subject
  * to change in later versions. If you are relying on an experimental API,
- * it is possible that you have to modify your code after an upgrade
+ * it is possible that you have to modify your code after an upgrade.
  *
  * @author Dominik Obermaier
  * @since 2.0
