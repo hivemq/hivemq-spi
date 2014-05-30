@@ -61,7 +61,6 @@ public class PluginEntryPointTest {
             }
         }).build().createInjector();
 
-        //FIXEN!!
     }
 
     @Test
