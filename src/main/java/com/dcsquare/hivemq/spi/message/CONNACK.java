@@ -25,13 +25,44 @@ public class CONNACK extends Message {
 
     private final ReturnCode returnCode;
 
+    /**
+     * Session Present is a MQTT 3.1.1 Feature and
+     * is ignored in MQTT 3.1 environments.
+     *
+     * @see <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html#_Toc385349255">
+     *      MQTT Session Present Flag</a>
+     */
+    private boolean sessionPresent;
+
     public CONNACK(final ReturnCode returnCode) {
+        this(returnCode, false);
+    }
+
+    public CONNACK(final ReturnCode returnCode, final boolean sessionPresent) {
+
+        if (returnCode != ReturnCode.ACCEPTED && sessionPresent) {
+            throw new IllegalArgumentException("The sessionPresent flag is only allowed for return code " + ReturnCode.ACCEPTED);
+        }
         this.returnCode = returnCode;
+        this.sessionPresent = sessionPresent;
     }
 
     public ReturnCode getReturnCode() {
         return returnCode;
     }
+
+    /**
+     * Returns <code>true</code> if there is already a session present on the
+     * MQTT Broker for a client. Returns <false></false> if the client
+     * has a clean session
+     *
+     * @return if there is a session present on the MQTT broker
+     * @since 2.1.0
+     */
+    public boolean isSessionPresent() {
+        return sessionPresent;
+    }
+
 
     @Override
     public boolean equals(final Object o) {
@@ -40,6 +71,7 @@ public class CONNACK extends Message {
 
         final CONNACK connack = (CONNACK) o;
 
+        if (sessionPresent != connack.sessionPresent) return false;
         if (returnCode != connack.returnCode) return false;
 
         return true;
@@ -47,6 +79,8 @@ public class CONNACK extends Message {
 
     @Override
     public int hashCode() {
-        return returnCode != null ? returnCode.hashCode() : 0;
+        int result = returnCode.hashCode();
+        result = 31 * result + (sessionPresent ? 1 : 0);
+        return result;
     }
 }
