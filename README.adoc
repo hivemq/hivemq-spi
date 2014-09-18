@@ -1,12 +1,13 @@
 :hivemq-github-link: https://github.com/hivemq
 :hivemq-link: http://www.hivemq.com
 :hivemq-plugin-docu-link: http://www.hivemq.com/docs/plugins/latest
+:hivemq-plugin-directory: http://www.hivemq.com/plugins/
 
 == HiveMQ SDK
 
 image:https://travis-ci.org/hivemq/hivemq-spi.png?branch=master["Build Status", link="https://travis-ci.org/hivemq/hivemq-spi"]
 
-Since version 1.4, HiveMQ offers this free and open source plugin SDK with service provider interfaces. This allows everyone to extend HiveMQ and add custom functionality via plugins.
+The enterprise MQTT broker HiveMQ offers this free and open source plugin SDK with service provider interfaces. This allows everyone to extend HiveMQ and add custom functionality via plugins.
 
 With custom HiveMQ plugins, it's easy to add functionality like writing messages to databases, integrate with other service buses, collect statistics, add fine-grained security and virtually anything you else you can imagine.
 
@@ -21,24 +22,7 @@ You can also clone our example open source HiveMQ plugins at {hivemq-github-link
 
 === Maven Repository
 
-At the moment the plugin SDK is not yet available in Maven central. To develop your own plugins, use the following repository:
-
-[source,xml]
-----
-        <repository>
-            <id>repository.hivemq.com</id>
-            <name>HiveMQ Repository</name>
-            <url>http://repository.hivemq.com:8081/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-----
+*Since version 2.0.0, the _hivemq-spi_ is available in Maven central, so no special configuration is needed*.
 
 
 === Using the SDK
@@ -51,7 +35,7 @@ To use the SDK, add the following dependency to your Maven project:
     <dependency>
         <groupId>com.hivemq</groupId>
         <artifactId>hivemq-spi</artifactId>
-        <version>2.0.0</version>
+        <version>2.1.0</version>
     </dependency>
 
 
@@ -60,3 +44,9 @@ To use the SDK, add the following dependency to your Maven project:
 === Plugin Development Documentation
 
 Please visit {hivemq-plugin-docu-link}[our website] for the documentation how to develop plugins.
+
+=== Example plugins
+
+Many example plugins are available, most of them as open source. You can find an overview of officially supported plugins {hivemq-plugin-directory}[here]:
+
+You can find many example plugins by browsing {hivemq-github-link}[here on Github].
