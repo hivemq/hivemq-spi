@@ -110,6 +110,7 @@
             </exclusions>
         </dependency>
 
+        <!-- Test dependencies -->
         <dependency>
             <groupId>com.netflix.governator</groupId>
             <artifactId>governator</artifactId>
@@ -117,7 +118,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -179,9 +179,9 @@
 
     <distributionManagement>
         <repository>
-            <id>repository.hivemq.com</id>
-            <name>HiveMQ Repository</name>
-            <url>http://repository.hivemq.com:8081/nexus/content/repositories/releases/</url>
+            <id>bintray-hivemq-HiveMQ-hivemq-spi</id>
+            <name>hivemq-HiveMQ-hivemq-spi</name>
+            <url>https://api.bintray.com/maven/hivemq/HiveMQ/hivemq-spi</url>
         </repository>
 
         <snapshotRepository>
@@ -191,19 +191,6 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <repositories>
-        <repository>
-            <id>repository.hivemq.com</id>
-            <name>HiveMQ Repository</name>
-            <url>http://repository.hivemq.com:8081/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <licenses>
         <license>
