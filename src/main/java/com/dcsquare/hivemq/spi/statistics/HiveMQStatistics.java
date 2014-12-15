@@ -132,8 +132,11 @@ public interface HiveMQStatistics {
     long getTotalRetainedMessages();
 
     /**
+     * Deprecated. Always returns 0
+     *
      * @return the total number of retained messages and stored messages for inactive clients
      */
+    @Deprecated
     long getStoredMessages();
 
     /**

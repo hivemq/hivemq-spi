@@ -17,7 +17,6 @@
 package com.dcsquare.hivemq.spi.util;
 
 import com.google.common.io.Files;
-import com.netflix.config.ConfigurationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,10 +52,7 @@ public class PathUtils {
      * @return the plugin folder of HiveMQ
      */
     public static File getPluginFolder() {
-        // We are asking Archaius directly for the Plugin folder since we cannot
-        // use dependency injection in static methods
-        final String pluginFolder = ConfigurationManager.getConfigInstance().getString("plugin.folder");
-        return findAbsoluteAndRelative(pluginFolder);
+        throw new RuntimeException("Not yet implemented");
     }
 
     /**

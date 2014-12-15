@@ -17,7 +17,7 @@
 package com.dcsquare.hivemq.spi.topic;
 
 import com.dcsquare.hivemq.spi.topic.exception.InvalidTopicException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import static java.lang.Math.min;
 

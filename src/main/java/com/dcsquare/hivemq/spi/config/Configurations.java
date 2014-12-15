@@ -16,14 +16,8 @@
 
 package com.dcsquare.hivemq.spi.config;
 
-import com.dcsquare.hivemq.spi.util.PathUtils;
 import com.google.inject.Provider;
-import com.netflix.config.AbstractPollingScheduler;
-import com.netflix.config.DynamicConfiguration;
-import com.netflix.config.FixedDelayPollingScheduler;
 import org.apache.commons.configuration.AbstractConfiguration;
-
-import java.util.concurrent.TimeUnit;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -65,23 +59,6 @@ public class Configurations {
                 return newArrayList();
             }
         };
-    }
-
-    /**
-     * Creates a new Properties file configuration which automatically reloads itself in the given interval.
-     * <p/>
-     * Searches for the configuration file in the plugins folder of HiveMQ.
-     *
-     * @param fileName       the file name of the properties file which is located in the plugins folder of HiveMQ.
-     * @param reReadSchedule the time schedule when a reload should occur
-     * @param timeUnit       the time unit of the reReadSchedule
-     * @return a reloadable properties file configuration
-     */
-    public static AbstractConfiguration newReloadablePropertiesConfiguration(final String fileName, final int reReadSchedule, final TimeUnit timeUnit) {
-        final PropertiesFileDatasource datasource = new PropertiesFileDatasource(PathUtils.getPluginFolder(), fileName);
-        final Long scheduleInMillis = timeUnit.toMillis(reReadSchedule);
-        final AbstractPollingScheduler scheduler = new FixedDelayPollingScheduler(scheduleInMillis.intValue(), scheduleInMillis.intValue(), true);
-        return new DynamicConfiguration(datasource, scheduler);
     }
 
 }
