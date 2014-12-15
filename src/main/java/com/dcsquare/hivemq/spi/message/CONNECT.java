@@ -16,6 +16,8 @@
 
 package com.dcsquare.hivemq.spi.message;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author Dominik Obermaier
  * @since 1.4
@@ -44,7 +46,7 @@ public class CONNECT extends Message {
 
     private String username;
 
-    private String password;
+    private byte[] password;
 
     private boolean bridge;
 
@@ -139,12 +141,23 @@ public class CONNECT extends Message {
         this.username = username;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
-    public void setPassword(final String password) {
+    public String getPasswordAsUTF8String() {
+        if (password == null) {
+            return "";
+        }
+        return new String(password, StandardCharsets.UTF_8);
+    }
+
+    public void setPassword(final byte[] password) {
         this.password = password;
+    }
+
+    public void setPassword(final String password) {
+        this.password = password.getBytes(StandardCharsets.UTF_8);
     }
 
     public boolean isBridge() {
