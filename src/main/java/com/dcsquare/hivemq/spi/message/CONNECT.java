@@ -42,7 +42,7 @@ public class CONNECT extends Message {
 
     private String willTopic;
 
-    private String willMessage;
+    private byte[] willMessage;
 
     private String username;
 
@@ -125,11 +125,11 @@ public class CONNECT extends Message {
         this.willTopic = willTopic;
     }
 
-    public String getWillMessage() {
+    public byte[] getWillMessage() {
         return willMessage;
     }
 
-    public void setWillMessage(final String willMessage) {
+    public void setWillMessage(final byte[] willMessage) {
         this.willMessage = willMessage;
     }
 
