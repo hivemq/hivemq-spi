@@ -18,7 +18,7 @@ package com.dcsquare.hivemq.spi.message;
 
 import com.google.common.base.Preconditions;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,8 +36,8 @@ public class SUBACK extends MessageWithID {
     private List<Byte> grantedQos;
 
 
-    public SUBACK(final int messageId) {
-        this(messageId, Collections.<Byte>emptyList());
+    public SUBACK(final int messageId, final Byte... entries) {
+        this(messageId, Arrays.asList(entries));
     }
 
     public SUBACK(final int messageId, final List<Byte> grantedQos) {
