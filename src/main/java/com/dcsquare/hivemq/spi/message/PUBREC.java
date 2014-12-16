@@ -22,9 +22,6 @@ package com.dcsquare.hivemq.spi.message;
  */
 public class PUBREC extends MessageWithID {
 
-    public PUBREC() {
-        this(0);
-    }
 
     public PUBREC(final int messageId) {
         super(messageId);
