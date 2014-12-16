@@ -23,14 +23,9 @@ package com.dcsquare.hivemq.spi.message;
 public class PUBREL extends MessageWithID {
 
 
-    public PUBREL() {
-        this(0, false);
-    }
-
-    public PUBREL(final int messageId, final boolean dup) {
+    public PUBREL(final int messageId) {
 
         super(messageId);
-        setDuplicateDelivery(dup);
         setQoS(QoS.AT_LEAST_ONCE);
     }
 }
