@@ -23,10 +23,6 @@ package com.dcsquare.hivemq.spi.message;
 public class PUBCOMP extends MessageWithID {
 
 
-    public PUBCOMP() {
-        this(0);
-    }
-
     public PUBCOMP(final int messageId) {
         super(messageId);
     }
