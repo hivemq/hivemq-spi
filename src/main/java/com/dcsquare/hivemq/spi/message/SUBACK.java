@@ -16,7 +16,7 @@
 
 package com.dcsquare.hivemq.spi.message;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,18 +25,21 @@ import java.util.List;
  */
 public class SUBACK extends MessageWithID {
 
+    public static final byte QoS_0 = 0x00;
+    public static final byte QoS_1 = 0x01;
+    public static final byte QoS_2 = 0x02;
+    public static final byte FAILURE = (byte) 0x80;
+
+
     private List<Byte> grantedQos;
 
+
     public SUBACK() {
-        this(0, new ArrayList<Byte>());
+        this(Collections.<Byte>emptyList());
     }
 
-    public SUBACK(final int messageId) {
-        this(messageId, new ArrayList<Byte>());
-    }
-
-    public SUBACK(final int messageId, final List<Byte> grantedQos) {
-        super(messageId);
+    public SUBACK(final List<Byte> grantedQos) {
+        super(0);
         this.grantedQos = grantedQos;
     }
 
