@@ -18,11 +18,14 @@ package com.dcsquare.hivemq.spi.topic.exception;
 
 /**
  * Indicates that a provided topic is not compliant with the definition of a topic in the mqtt specification.
+ * <p/>
+ * Please note that that since HiveMQ 3.0 this is a {@link RuntimeException}. Prior to HiveMQ 3.0
+ * this was a checked Exception.
  *
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class InvalidTopicException extends Exception {
+public class InvalidTopicException extends RuntimeException {
 
     public InvalidTopicException() {
     }
