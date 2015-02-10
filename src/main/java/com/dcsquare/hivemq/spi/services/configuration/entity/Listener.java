@@ -21,10 +21,10 @@ package com.dcsquare.hivemq.spi.services.configuration.entity;
  * implement this interface.
  *
  * @author Dominik Obermaier
- * @see com.dcsquare.hivemq.spi.services.configuration.entity.TcpListener
- * @see com.dcsquare.hivemq.spi.services.configuration.entity.TlsTcpListener
+ * @see TcpListener
+ * @see TlsTcpListener
  * @see com.dcsquare.hivemq.spi.services.configuration.entity.WebsocketListener
- * @see com.dcsquare.hivemq.spi.services.configuration.entity.TlsWebsocketListener
+ * @see TlsWebsocketListener
  */
 public interface Listener {
 
