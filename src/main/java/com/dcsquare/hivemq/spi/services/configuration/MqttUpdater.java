@@ -16,23 +16,17 @@
 
 package com.dcsquare.hivemq.spi.services.configuration;
 
-import com.dcsquare.hivemq.spi.services.configuration.entity.Value;
-
 /**
  * @author Dominik Obermaier
  */
-public interface MqttConfigurationService {
-
-    Value<Integer> maxClientIdLength();
-
-    Value<Integer> retryInterval();
-
-    Value<Long> maxQueuedMessages();
-
-    MqttUpdater updateMqttConfig();
-
-    boolean isOverridable();
+public interface MqttUpdater {
 
 
+    MqttUpdater maxClientIdLength(int maxLength);
 
+    MqttUpdater retryInterval(int retryInterval);
+
+    MqttUpdater maxQueuedMessages(long maxQueuedMessages);
+
+    void update();
 }

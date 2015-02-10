@@ -16,6 +16,7 @@
 
 package com.dcsquare.hivemq.spi.services;
 
+import com.dcsquare.hivemq.spi.services.configuration.MqttConfigurationService;
 import com.dcsquare.hivemq.spi.services.configuration.entity.OverridableConfiguration;
 import com.dcsquare.hivemq.spi.services.configuration.exception.ConfigurationNotOverridableException;
 import com.dcsquare.hivemq.spi.services.configuration.listener.ListenerConfigurationService;
@@ -27,10 +28,12 @@ import com.dcsquare.hivemq.spi.services.configuration.listener.ListenerConfigura
 public interface ConfigurationService {
 
 
-    public void replaceConfiguration(final OverridableConfiguration configuration) throws ConfigurationNotOverridableException;
+    void replaceConfiguration(final OverridableConfiguration configuration) throws ConfigurationNotOverridableException;
 
 
-    public ListenerConfigurationService listenerConfiguration();
+    ListenerConfigurationService listenerConfiguration();
+
+    MqttConfigurationService mqttConfiguration();
 
 }
 
