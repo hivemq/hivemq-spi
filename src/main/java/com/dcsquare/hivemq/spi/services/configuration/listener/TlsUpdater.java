@@ -20,21 +20,69 @@ import com.dcsquare.hivemq.spi.services.configuration.entity.Tls;
 import com.dcsquare.hivemq.spi.services.configuration.exception.ConfigurationNotOverridableException;
 import com.dcsquare.hivemq.spi.services.configuration.exception.ConfigurationValidationException;
 
-import java.io.File;
-
 /**
  * @author Dominik Obermaier
  * @author Christoph Schäbel
  */
 public interface TlsUpdater<T> {
 
-    TlsUpdater<T> keystore(final File path, String password) throws ConfigurationNotOverridableException;
+    /**
+     * Sets the keystore<br/>
+     * the type of the keystore is assumed to be a Java Key Store (JKS)<br/>
+     * and the password for the private key / key pair must be the same as the keystorePassword
+     *
+     * @param path             absolute path to the keystore file
+     * @param keystorePassword password for the keystore
+     * @return the updater
+     * @throws ConfigurationNotOverridableException
+     */
+    TlsUpdater<T> keystore(final String path, final String keystorePassword) throws ConfigurationNotOverridableException;
 
-    TlsUpdater<T> keystoreType(final String type) throws ConfigurationNotOverridableException;
+    /**
+     * Sets the keystore <br/>
+     * the type of the keystore is assumed to be a Java Key Store (JKS)
+     *
+     * @param path               absolute path to the keystore file
+     * @param keystorePassword   password for the keystore
+     * @param privateKeyPassword password for the private key / key pair
+     * @return the updater
+     * @throws ConfigurationNotOverridableException
+     */
+    TlsUpdater<T> keystore(final String path, final String keystorePassword, final String privateKeyPassword) throws ConfigurationNotOverridableException;
 
-    TlsUpdater<T> truststore(final File path, String password) throws ConfigurationNotOverridableException;
+    /**
+     * Sets the keystore
+     *
+     * @param path               absolute path to the keystore file
+     * @param keystorePassword   password for the keystore
+     * @param privateKeyPassword password for the private key / key pair
+     * @param keystoreType       type of the keystore (for example "JKS" or "PKCS12")
+     * @return the updater
+     * @throws ConfigurationNotOverridableException
+     */
+    TlsUpdater<T> keystore(final String path, final String keystorePassword, final String privateKeyPassword, final String keystoreType) throws ConfigurationNotOverridableException;
 
-    TlsUpdater<T> truststoreType(final String type) throws ConfigurationNotOverridableException;
+    /**
+     * Sets the truststore <br/>
+     * the type of the keystore is assumed to be a Java Key Store (JKS)
+     *
+     * @param path     absolute path to the keystore file
+     * @param password password for the keystore
+     * @return the updater
+     * @throws ConfigurationNotOverridableException
+     */
+    TlsUpdater<T> truststore(final String path, String password) throws ConfigurationNotOverridableException;
+
+    /**
+     * Sets the keystore
+     *
+     * @param path         absolute path to the keystore file
+     * @param password     password for the keystore
+     * @param keystoreType type of the keystore (for example "JKS" or "PKCS12")
+     * @return the updater
+     * @throws ConfigurationNotOverridableException
+     */
+    TlsUpdater<T> truststore(final String path, String password, final String keystoreType) throws ConfigurationNotOverridableException;
 
     TlsUpdater<T> handshakeTimeout(final int timeout) throws ConfigurationNotOverridableException;
 

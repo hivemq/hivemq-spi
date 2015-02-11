@@ -54,6 +54,7 @@ public class Tls extends OverridableConfiguration {
     private final Value<String> keystorePath;
     private final Value<String> keystorePassword;
     private final Value<String> keystoreType;
+    private final Value<String> privateKeyPassword;
     private final Value<String> truststorePath;
     private final Value<String> truststorePassword;
     private final Value<String> truststoreType;
@@ -68,7 +69,7 @@ public class Tls extends OverridableConfiguration {
     private final ValueList<String> cipherSuites;
 
     private Tls(final boolean overridable, final Value<String> keystorePath,
-                final Value<String> keystorePassword, Value<String> keystoreType, final Value<String> truststorePath,
+                final Value<String> keystorePassword, Value<String> keystoreType, Value<String> privateKeyPassword, final Value<String> truststorePath,
                 final Value<String> truststorePassword, Value<String> truststoreType, final Value<Integer> handshakeTimeout,
                 final boolean passCertificateToPlugins, final Value<ClientAuthMode> clientAuthMode,
                 final ValueList<String> protocols, final boolean printAvailableSuites, final ValueList<String> cipherSuites) {
@@ -77,6 +78,7 @@ public class Tls extends OverridableConfiguration {
         this.keystorePath = keystorePath;
         this.keystorePassword = keystorePassword;
         this.keystoreType = keystoreType;
+        this.privateKeyPassword = privateKeyPassword;
         this.truststorePath = truststorePath;
         this.truststorePassword = truststorePassword;
         this.truststoreType = truststoreType;
@@ -98,6 +100,10 @@ public class Tls extends OverridableConfiguration {
 
     public Value<String> getKeystoreType() {
         return keystoreType;
+    }
+
+    public Value<String> getPrivateKeyPassword() {
+        return privateKeyPassword;
     }
 
     public Value<String> getTruststorePath() {
@@ -141,6 +147,7 @@ public class Tls extends OverridableConfiguration {
         private Value<String> keystorePath = overridableValue("");
         private Value<String> keystorePassword = overridableValue("");
         private Value<String> keystoreType = overridableValue("JKS");
+        private Value<String> privateKeyPassword = overridableValue("");
         private Value<String> truststorePath = overridableValue("");
         private Value<String> truststorePassword = overridableValue("");
         private Value<String> truststoreType = overridableValue("JKS");
@@ -171,6 +178,12 @@ public class Tls extends OverridableConfiguration {
         public Builder keystoreType(final Value<String> keystoreType) {
             checkNotNull(keystoreType);
             this.keystoreType = keystoreType;
+            return this;
+        }
+
+        public Builder privateKeyPassword(final Value<String> privateKeyPassword) {
+            checkNotNull(privateKeyPassword);
+            this.privateKeyPassword = privateKeyPassword;
             return this;
         }
 
@@ -227,7 +240,7 @@ public class Tls extends OverridableConfiguration {
         }
 
         public Tls build() {
-            return new Tls(overridable, keystorePath, keystorePassword, keystoreType, truststorePath,
+            return new Tls(overridable, keystorePath, keystorePassword, keystoreType, privateKeyPassword, truststorePath,
                     truststorePassword, truststoreType, handshakeTimeout, passCertificateToPlugins,
                     clientAuthMode, protocols, printAvailableSuites, cipherSuites);
         }
