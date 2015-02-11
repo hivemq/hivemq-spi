@@ -63,6 +63,13 @@
             <organization>dc-square GmbH</organization>
             <organizationUrl>http://www.dc-square.de</organizationUrl>
         </developer>
+        <developer>
+            <id>cschaebe</id>
+            <name>Christoph Schäbel</name>
+            <email>christoph.schaebel@dc-square.de</email>
+            <organization>dc-square GmbH</organization>
+            <organizationUrl>http://www.dc-square.de</organizationUrl>
+        </developer>
     </developers>
 
     <properties>

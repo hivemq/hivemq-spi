@@ -24,12 +24,17 @@ import java.io.File;
 
 /**
  * @author Dominik Obermaier
+ * @author Christoph Schäbel
  */
 public interface TlsUpdater<T> {
 
     TlsUpdater<T> keystore(final File path, String password) throws ConfigurationNotOverridableException;
 
+    TlsUpdater<T> keystoreType(final String type) throws ConfigurationNotOverridableException;
+
     TlsUpdater<T> truststore(final File path, String password) throws ConfigurationNotOverridableException;
+
+    TlsUpdater<T> truststoreType(final String type) throws ConfigurationNotOverridableException;
 
     TlsUpdater<T> handshakeTimeout(final int timeout) throws ConfigurationNotOverridableException;
 

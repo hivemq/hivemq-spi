@@ -24,6 +24,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Dominik Obermaier
+ * @author Christoph Schäbel
  */
 @Immutable
 public class Tls extends OverridableConfiguration {
@@ -52,8 +53,10 @@ public class Tls extends OverridableConfiguration {
 
     private final Value<String> keystorePath;
     private final Value<String> keystorePassword;
+    private final Value<String> keystoreType;
     private final Value<String> truststorePath;
     private final Value<String> truststorePassword;
+    private final Value<String> truststoreType;
     private final Value<Integer> handshakeTimeout;
 
     private final boolean passCertificateToPlugins;
@@ -65,16 +68,18 @@ public class Tls extends OverridableConfiguration {
     private final ValueList<String> cipherSuites;
 
     private Tls(final boolean overridable, final Value<String> keystorePath,
-                final Value<String> keystorePassword, final Value<String> truststorePath,
-                final Value<String> truststorePassword, final Value<Integer> handshakeTimeout,
+                final Value<String> keystorePassword, Value<String> keystoreType, final Value<String> truststorePath,
+                final Value<String> truststorePassword, Value<String> truststoreType, final Value<Integer> handshakeTimeout,
                 final boolean passCertificateToPlugins, final Value<ClientAuthMode> clientAuthMode,
                 final ValueList<String> protocols, final boolean printAvailableSuites, final ValueList<String> cipherSuites) {
         super(overridable);
 
         this.keystorePath = keystorePath;
         this.keystorePassword = keystorePassword;
+        this.keystoreType = keystoreType;
         this.truststorePath = truststorePath;
         this.truststorePassword = truststorePassword;
+        this.truststoreType = truststoreType;
         this.handshakeTimeout = handshakeTimeout;
         this.passCertificateToPlugins = passCertificateToPlugins;
         this.clientAuthMode = clientAuthMode;
@@ -91,12 +96,20 @@ public class Tls extends OverridableConfiguration {
         return keystorePassword;
     }
 
+    public Value<String> getKeystoreType() {
+        return keystoreType;
+    }
+
     public Value<String> getTruststorePath() {
         return truststorePath;
     }
 
     public Value<String> getTruststorePassword() {
         return truststorePassword;
+    }
+
+    public Value<String> getTruststoreType() {
+        return truststoreType;
     }
 
     public Value<Integer> getHandshakeTimeout() {
@@ -127,8 +140,10 @@ public class Tls extends OverridableConfiguration {
         private boolean overridable = true;
         private Value<String> keystorePath = overridableValue("");
         private Value<String> keystorePassword = overridableValue("");
+        private Value<String> keystoreType = overridableValue("JKS");
         private Value<String> truststorePath = overridableValue("");
         private Value<String> truststorePassword = overridableValue("");
+        private Value<String> truststoreType = overridableValue("JKS");
         private Value<Integer> handshakeTimeout = overridableValue(0);
         private boolean passCertificateToPlugins = true;
         private Value<Tls.ClientAuthMode> clientAuthMode = overridableValue(ClientAuthMode.NONE);
@@ -153,6 +168,12 @@ public class Tls extends OverridableConfiguration {
             return this;
         }
 
+        public Builder keystoreType(final Value<String> keystoreType) {
+            checkNotNull(keystoreType);
+            this.keystoreType = keystoreType;
+            return this;
+        }
+
         public Builder truststorePath(final Value<String> truststorePath) {
             checkNotNull(truststorePath);
             this.truststorePath = truststorePath;
@@ -162,6 +183,12 @@ public class Tls extends OverridableConfiguration {
         public Builder truststorePassword(final Value<String> truststorePassword) {
             checkNotNull(truststorePassword);
             this.truststorePassword = truststorePassword;
+            return this;
+        }
+
+        public Builder truststoreType(final Value<String> truststoreType) {
+            checkNotNull(truststoreType);
+            this.truststoreType = truststoreType;
             return this;
         }
 
@@ -200,8 +227,8 @@ public class Tls extends OverridableConfiguration {
         }
 
         public Tls build() {
-            return new Tls(overridable, keystorePath, keystorePassword, truststorePath,
-                    truststorePassword, handshakeTimeout, passCertificateToPlugins,
+            return new Tls(overridable, keystorePath, keystorePassword, keystoreType, truststorePath,
+                    truststorePassword, truststoreType, handshakeTimeout, passCertificateToPlugins,
                     clientAuthMode, protocols, printAvailableSuites, cipherSuites);
         }
 
