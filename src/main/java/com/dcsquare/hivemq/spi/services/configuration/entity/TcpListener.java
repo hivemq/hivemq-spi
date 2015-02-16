@@ -46,10 +46,12 @@ public class TcpListener extends OverridableConfiguration implements Listener {
     }
 
 
+    @Override
     public Value<Integer> getPort() {
         return port;
     }
 
+    @Override
     public Value<String> getBindAddress() {
         return bindAddress;
     }

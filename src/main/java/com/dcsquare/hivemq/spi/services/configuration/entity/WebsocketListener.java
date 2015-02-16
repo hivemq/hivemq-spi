@@ -49,10 +49,12 @@ public class WebsocketListener extends OverridableConfiguration implements Liste
     }
 
 
+    @Override
     public Value<Integer> getPort() {
         return port;
     }
 
+    @Override
     public Value<String> getBindAddress() {
         return bindAddress;
     }
