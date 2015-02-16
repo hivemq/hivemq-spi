@@ -39,4 +39,9 @@ public class TlsTcpListener extends TcpListener {
     public Tls getTls() {
         return tls;
     }
+
+    @Override
+    public String readableName() {
+        return "TCP Listener with TLS";
+    }
 }

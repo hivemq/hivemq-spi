@@ -59,6 +59,11 @@ public class WebsocketListener extends OverridableConfiguration implements Liste
         return bindAddress;
     }
 
+    @Override
+    public String readableName() {
+        return "Websocket Listener";
+    }
+
     public Value<String> getPath() {
         return path;
     }

@@ -31,4 +31,6 @@ public interface Listener {
     Value<Integer> getPort();
 
     Value<String> getBindAddress();
+
+    String readableName();
 }

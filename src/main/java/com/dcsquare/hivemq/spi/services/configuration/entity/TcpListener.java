@@ -55,4 +55,9 @@ public class TcpListener extends OverridableConfiguration implements Listener {
     public Value<String> getBindAddress() {
         return bindAddress;
     }
+
+    @Override
+    public String readableName() {
+        return "TCP Listener";
+    }
 }

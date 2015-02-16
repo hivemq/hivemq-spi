@@ -40,6 +40,11 @@ public class TlsWebsocketListener extends WebsocketListener {
         return tls;
     }
 
+    @Override
+    public String readableName() {
+        return "Websocket Listener with TLS";
+    }
+
 
     public static class Builder extends WebsocketListener.Builder {
 
