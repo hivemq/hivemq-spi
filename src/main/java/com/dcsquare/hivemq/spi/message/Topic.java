@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class Topic implements Serializable {
+public class Topic implements Serializable, Comparable<Topic> {
 
     /**
      * Name of the topic
@@ -73,6 +73,12 @@ public class Topic implements Serializable {
     @Override
     public int hashCode() {
         return topic.hashCode();
+    }
+
+
+    @Override
+    public int compareTo(final Topic o) {
+        return this.topic.compareTo(o.getTopic());
     }
 
     @Override
