@@ -18,8 +18,6 @@ package com.dcsquare.hivemq.spi.security;
 
 import com.google.common.base.Optional;
 
-import java.security.cert.Certificate;
-
 /**
  * Represents information available of a connected client.
  *
@@ -45,10 +43,11 @@ public interface ClientData {
     public boolean isAuthenticated();
 
     /**
-     * @return an {@link Optional} of a {@link Certificate} which was provided in the transport level
-     *         client certificate authentication.
+     * @return an {@link Optional} of a {@link com.dcsquare.hivemq.spi.security.SslClientCertificate} which was provided at transport level
+     * client certificate authentication.
+     * @since 3.0
      */
-    public Optional<Certificate> getCertificate();
+    public Optional<SslClientCertificate> getCertificate();
 
     /**
      * @return <code>true</code> if the client is anonymous. That means the client is <b>not</b> authenticated
