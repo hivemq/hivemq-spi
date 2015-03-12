@@ -18,7 +18,6 @@ package com.dcsquare.hivemq.spi.services.configuration.entity;
 
 import com.dcsquare.hivemq.spi.annotations.Immutable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -73,6 +72,8 @@ public class Tls {
                final List<String> protocols, final List<String> cipherSuites) {
 
         checkNotNull(clientAuthMode, "clientAuthMode must not be null");
+        checkNotNull(protocols, "protocols must not be null");
+        checkNotNull(cipherSuites, "cipher suites must not be null");
         this.keystorePath = keystorePath;
         this.keystorePassword = keystorePassword;
         this.keystoreType = keystoreType;
@@ -82,16 +83,8 @@ public class Tls {
         this.truststoreType = truststoreType;
         this.handshakeTimeout = handshakeTimeout;
         this.clientAuthMode = clientAuthMode;
-        if (protocols == null) {
-            this.protocols = new ArrayList<>();
-        } else {
-            this.protocols = protocols;
-        }
-        if (cipherSuites == null) {
-            this.cipherSuites = new ArrayList<>();
-        } else {
-            this.cipherSuites = cipherSuites;
-        }
+        this.protocols = protocols;
+        this.cipherSuites = cipherSuites;
     }
 
     public String getKeystorePath() {
