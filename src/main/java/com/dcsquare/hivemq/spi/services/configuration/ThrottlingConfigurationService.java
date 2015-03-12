@@ -16,25 +16,28 @@
 
 package com.dcsquare.hivemq.spi.services.configuration;
 
-import com.dcsquare.hivemq.spi.services.configuration.entity.Value;
-
 /**
  * @author Dominik Obermaier
  */
 public interface ThrottlingConfigurationService {
 
 
-    Value<Long> maxConnections();
+    long maxConnections();
 
-    Value<Long> maxMessageSize();
+    int maxMessageSize();
 
-    Value<Long> outgoingLimit();
+    long outgoingLimit();
 
-    Value<Long> incomingLimit();
+    long incomingLimit();
 
-    ThrottlingUpdater updateThrottlingConfig();
 
-    boolean isOverridable();
+    void setMaxConnections(long maxConnections);
+
+    void setMaxMessageSize(int maxMessageSize);
+
+    void setOutgoingLimit(long outgoingLimit);
+
+    void setIncomingLimit(long incomingLimit);
 
 
 }

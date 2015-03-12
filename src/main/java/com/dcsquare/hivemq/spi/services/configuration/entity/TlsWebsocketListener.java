@@ -18,6 +18,8 @@ package com.dcsquare.hivemq.spi.services.configuration.entity;
 
 import com.dcsquare.hivemq.spi.annotations.Immutable;
 
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -28,11 +30,11 @@ public class TlsWebsocketListener extends WebsocketListener {
 
     private final Tls tls;
 
-    private TlsWebsocketListener(final boolean overridable, final Value<Integer> port,
-                                 final Value<String> bindAddress, final Value<String> path,
-                                 final Value<Boolean> allowExtensions, final ValueList<String> subprotocols,
+    private TlsWebsocketListener(final int port,
+                                 final String bindAddress, final String path,
+                                 final Boolean allowExtensions, final List<String> subprotocols,
                                  final Tls tls) {
-        super(overridable, port, bindAddress, path, allowExtensions, subprotocols);
+        super(port, bindAddress, path, allowExtensions, subprotocols);
         this.tls = tls;
     }
 
@@ -57,37 +59,31 @@ public class TlsWebsocketListener extends WebsocketListener {
         }
 
         @Override
-        public Builder overridable(final boolean overridable) {
-            super.overridable(overridable);
-            return this;
-        }
-
-        @Override
-        public Builder port(final Value<Integer> port) {
+        public Builder port(final int port) {
             super.port(port);
             return this;
         }
 
         @Override
-        public Builder bindAddress(final Value<String> bindAddress) {
+        public Builder bindAddress(final String bindAddress) {
             super.bindAddress(bindAddress);
             return this;
         }
 
         @Override
-        public Builder path(final Value<String> path) {
+        public Builder path(final String path) {
             super.path(path);
             return this;
         }
 
         @Override
-        public Builder allowExtensions(final Value<Boolean> allowExtensions) {
+        public Builder allowExtensions(final boolean allowExtensions) {
             super.allowExtensions(allowExtensions);
             return this;
         }
 
         @Override
-        public Builder setSubprotocols(final ValueList<String> subprotocols) {
+        public Builder setSubprotocols(final List<String> subprotocols) {
             super.setSubprotocols(subprotocols);
             return this;
         }
@@ -98,7 +94,7 @@ public class TlsWebsocketListener extends WebsocketListener {
             if (tls == null) {
                 throw new IllegalStateException("The TLS settings for a TLS Websocket listener was not set.");
             }
-            return new TlsWebsocketListener(overridable, port, bindAddress, path, allowExtensions, subprotocols, tls);
+            return new TlsWebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, tls);
         }
 
     }

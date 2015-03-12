@@ -17,9 +17,7 @@
 package com.dcsquare.hivemq.spi.services.configuration.listener;
 
 import com.dcsquare.hivemq.spi.annotations.ReadOnly;
-import com.dcsquare.hivemq.spi.services.configuration.SubmoduleConfiguration;
 import com.dcsquare.hivemq.spi.services.configuration.entity.*;
-import com.dcsquare.hivemq.spi.services.configuration.exception.ConfigurationNotOverridableException;
 import com.dcsquare.hivemq.spi.services.configuration.exception.ConfigurationValidationException;
 
 import java.util.List;
@@ -27,10 +25,10 @@ import java.util.List;
 /**
  * @author Dominik Obermaier
  */
-public interface ListenerConfigurationService extends SubmoduleConfiguration {
+public interface ListenerConfigurationService {
 
 
-    <T extends Listener> void addListener(final T listener) throws ConfigurationNotOverridableException, ConfigurationValidationException, IllegalArgumentException;
+    <T extends Listener> void addListener(final T listener) throws ConfigurationValidationException, IllegalArgumentException;
 
     @ReadOnly
     List<Listener> getListeners();
@@ -46,17 +44,6 @@ public interface ListenerConfigurationService extends SubmoduleConfiguration {
 
     @ReadOnly
     List<TlsWebsocketListener> getTlsWebsocketListeners();
-
-    boolean isOverridable();
-
-
-    TcpListenerUpdater updateListener(TcpListener listener) throws ConfigurationNotOverridableException;
-
-    TlsTcpListenerUpdater updateListener(TlsTcpListener listener) throws ConfigurationNotOverridableException;
-
-    WebsocketListenerUpdater updateListener(WebsocketListener listener) throws ConfigurationNotOverridableException;
-
-    TlsWebsocketListenerUpdater updateListener(TlsWebsocketListener listener) throws ConfigurationNotOverridableException;
 
 
 }

@@ -17,6 +17,10 @@
 package com.dcsquare.hivemq.spi.services.configuration.entity;
 
 import com.dcsquare.hivemq.spi.annotations.Immutable;
+import com.google.common.collect.ImmutableList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -24,23 +28,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Dominik Obermaier
  */
 @Immutable
-public class WebsocketListener extends OverridableConfiguration implements Listener {
+public class WebsocketListener implements Listener {
 
-    private Value<Integer> port;
+    private Integer port;
 
-    private Value<String> bindAddress;
+    private String bindAddress;
 
-    private Value<String> path;
+    private String path;
 
-    private Value<Boolean> allowExtensions;
+    private Boolean allowExtensions;
 
-    private ValueList<String> subprotocols;
+    private List<String> subprotocols;
 
 
-    protected WebsocketListener(final boolean overridable, final Value<Integer> port,
-                                final Value<String> bindAddress, final Value<String> path,
-                                final Value<Boolean> allowExtensions, final ValueList<String> subprotocols) {
-        super(overridable);
+    protected WebsocketListener(final int port,
+                                final String bindAddress, final String path,
+                                final boolean allowExtensions, final List<String> subprotocols) {
         this.port = port;
         this.bindAddress = bindAddress;
         this.path = path;
@@ -50,12 +53,12 @@ public class WebsocketListener extends OverridableConfiguration implements Liste
 
 
     @Override
-    public Value<Integer> getPort() {
+    public int getPort() {
         return port;
     }
 
     @Override
-    public Value<String> getBindAddress() {
+    public String getBindAddress() {
         return bindAddress;
     }
 
@@ -64,25 +67,24 @@ public class WebsocketListener extends OverridableConfiguration implements Liste
         return "Websocket Listener";
     }
 
-    public Value<String> getPath() {
+    public String getPath() {
         return path;
     }
 
-    public Value<Boolean> getAllowExtensions() {
+    public Boolean getAllowExtensions() {
         return allowExtensions;
     }
 
-    public ValueList<String> getSubprotocols() {
+    public List<String> getSubprotocols() {
         return subprotocols;
     }
 
     public static class Builder {
-        protected boolean overridable = true;
-        protected Value<Integer> port;
-        protected Value<String> bindAddress;
-        protected Value<String> path = Value.overridableValue("");
-        protected Value<Boolean> allowExtensions = Value.overridableValue(false);
-        protected ValueList<String> subprotocols = ValueList.overridableList();
+        protected Integer port;
+        protected String bindAddress;
+        protected String path = "";
+        protected boolean allowExtensions = false;
+        protected List<String> subprotocols = new ArrayList<>();
 
 
         public Builder() {
@@ -90,38 +92,31 @@ public class WebsocketListener extends OverridableConfiguration implements Liste
             subprotocols.add("mqtt");
         }
 
-        public Builder overridable(boolean overridable) {
-            this.overridable = overridable;
-            return this;
-        }
-
-        public Builder port(final Value<Integer> port) {
-            checkNotNull(path);
+        public Builder port(final int port) {
             this.port = port;
             return this;
         }
 
-        public Builder bindAddress(final Value<String> bindAddress) {
-            checkNotNull(path);
+        public Builder bindAddress(final String bindAddress) {
+            checkNotNull(bindAddress);
             this.bindAddress = bindAddress;
             return this;
         }
 
-        public Builder path(final Value<String> path) {
+        public Builder path(final String path) {
             checkNotNull(path);
             this.path = path;
             return this;
         }
 
-        public Builder allowExtensions(final Value<Boolean> allowExtensions) {
-            checkNotNull(allowExtensions);
+        public Builder allowExtensions(final boolean allowExtensions) {
             this.allowExtensions = allowExtensions;
             return this;
         }
 
-        public Builder setSubprotocols(final ValueList<String> subprotocols) {
+        public Builder setSubprotocols(final List<String> subprotocols) {
             checkNotNull(subprotocols);
-            this.subprotocols = subprotocols;
+            this.subprotocols = ImmutableList.copyOf(subprotocols);
             return this;
         }
 
@@ -134,7 +129,7 @@ public class WebsocketListener extends OverridableConfiguration implements Liste
                 throw new IllegalStateException("The bind address for a Websocket listener was not set.");
             }
 
-            return new WebsocketListener(overridable, port, bindAddress, path, allowExtensions, subprotocols);
+            return new WebsocketListener(port, bindAddress, path, allowExtensions, subprotocols);
         }
     }
 }

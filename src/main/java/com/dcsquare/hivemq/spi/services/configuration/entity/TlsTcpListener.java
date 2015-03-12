@@ -16,24 +16,22 @@
 
 package com.dcsquare.hivemq.spi.services.configuration.entity;
 
+import com.dcsquare.hivemq.spi.annotations.Immutable;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Dominik Obermaier
  */
+@Immutable
 public class TlsTcpListener extends TcpListener {
 
     private Tls tls;
 
-    public TlsTcpListener(final Value<Integer> port, final Value<String> bindAddress, final Tls tls) {
-        this(port, bindAddress, tls, true);
-    }
-
-    public TlsTcpListener(final Value<Integer> port, final Value<String> bindAddress, final Tls tls, final boolean overridable) {
-        super(port, bindAddress, overridable);
+    public TlsTcpListener(final Integer port, final String bindAddress, final Tls tls) {
+        super(port, bindAddress);
         checkNotNull(tls);
         this.tls = tls;
-
     }
 
     public Tls getTls() {

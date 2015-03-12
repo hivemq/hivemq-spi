@@ -18,8 +18,9 @@ package com.dcsquare.hivemq.spi.services.configuration.entity;
 
 import com.dcsquare.hivemq.spi.annotations.Immutable;
 
-import static com.dcsquare.hivemq.spi.services.configuration.entity.Value.overridableValue;
-import static com.dcsquare.hivemq.spi.services.configuration.entity.ValueList.overridableList;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -27,7 +28,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Christoph Schäbel
  */
 @Immutable
-public class Tls extends OverridableConfiguration {
+public class Tls {
 
 
     public enum ClientAuthMode {
@@ -51,30 +52,27 @@ public class Tls extends OverridableConfiguration {
         }
     }
 
-    private final Value<String> keystorePath;
-    private final Value<String> keystorePassword;
-    private final Value<String> keystoreType;
-    private final Value<String> privateKeyPassword;
-    private final Value<String> truststorePath;
-    private final Value<String> truststorePassword;
-    private final Value<String> truststoreType;
-    private final Value<Integer> handshakeTimeout;
+    private final String keystorePath;
+    private final String keystorePassword;
+    private final String keystoreType;
+    private final String privateKeyPassword;
+    private final String truststorePath;
+    private final String truststorePassword;
+    private final String truststoreType;
+    private final Integer handshakeTimeout;
 
-    private final boolean passCertificateToPlugins;
-    private final Value<ClientAuthMode> clientAuthMode;
+    private final ClientAuthMode clientAuthMode;
 
-    private final ValueList<String> protocols;
+    private final List<String> protocols;
 
-    private final boolean printAvailableSuites;
-    private final ValueList<String> cipherSuites;
+    private final List<String> cipherSuites;
 
-    private Tls(final boolean overridable, final Value<String> keystorePath,
-                final Value<String> keystorePassword, Value<String> keystoreType, Value<String> privateKeyPassword, final Value<String> truststorePath,
-                final Value<String> truststorePassword, Value<String> truststoreType, final Value<Integer> handshakeTimeout,
-                final boolean passCertificateToPlugins, final Value<ClientAuthMode> clientAuthMode,
-                final ValueList<String> protocols, final boolean printAvailableSuites, final ValueList<String> cipherSuites) {
-        super(overridable);
+    public Tls(final String keystorePath,
+               final String keystorePassword, final String keystoreType, final String privateKeyPassword, final String truststorePath,
+               final String truststorePassword, String truststoreType, final int handshakeTimeout, final ClientAuthMode clientAuthMode,
+               final List<String> protocols, final List<String> cipherSuites) {
 
+        checkNotNull(clientAuthMode, "clientAuthMode must not be null");
         this.keystorePath = keystorePath;
         this.keystorePassword = keystorePassword;
         this.keystoreType = keystoreType;
@@ -83,167 +81,60 @@ public class Tls extends OverridableConfiguration {
         this.truststorePassword = truststorePassword;
         this.truststoreType = truststoreType;
         this.handshakeTimeout = handshakeTimeout;
-        this.passCertificateToPlugins = passCertificateToPlugins;
         this.clientAuthMode = clientAuthMode;
-        this.protocols = protocols;
-        this.printAvailableSuites = printAvailableSuites;
-        this.cipherSuites = cipherSuites;
+        if (protocols == null) {
+            this.protocols = new ArrayList<>();
+        } else {
+            this.protocols = protocols;
+        }
+        if (cipherSuites == null) {
+            this.cipherSuites = new ArrayList<>();
+        } else {
+            this.cipherSuites = cipherSuites;
+        }
     }
 
-    public Value<String> getKeystorePath() {
+    public String getKeystorePath() {
         return keystorePath;
     }
 
-    public Value<String> getKeystorePassword() {
+    public String getKeystorePassword() {
         return keystorePassword;
     }
 
-    public Value<String> getKeystoreType() {
+    public String getKeystoreType() {
         return keystoreType;
     }
 
-    public Value<String> getPrivateKeyPassword() {
+    public String getPrivateKeyPassword() {
         return privateKeyPassword;
     }
 
-    public Value<String> getTruststorePath() {
+    public String getTruststorePath() {
         return truststorePath;
     }
 
-    public Value<String> getTruststorePassword() {
+    public String getTruststorePassword() {
         return truststorePassword;
     }
 
-    public Value<String> getTruststoreType() {
+    public String getTruststoreType() {
         return truststoreType;
     }
 
-    public Value<Integer> getHandshakeTimeout() {
+    public int getHandshakeTimeout() {
         return handshakeTimeout;
     }
 
-    public boolean isPassCertificateToPlugins() {
-        return passCertificateToPlugins;
-    }
-
-    public Value<ClientAuthMode> getClientAuthMode() {
+    public ClientAuthMode getClientAuthMode() {
         return clientAuthMode;
     }
 
-    public ValueList<String> getProtocols() {
+    public List<String> getProtocols() {
         return protocols;
     }
 
-    public boolean isPrintAvailableSuites() {
-        return printAvailableSuites;
-    }
-
-    public ValueList<String> getCipherSuites() {
+    public List<String> getCipherSuites() {
         return cipherSuites;
-    }
-
-    public static class Builder {
-        private boolean overridable = true;
-        private Value<String> keystorePath = overridableValue("");
-        private Value<String> keystorePassword = overridableValue("");
-        private Value<String> keystoreType = overridableValue("JKS");
-        private Value<String> privateKeyPassword = overridableValue("");
-        private Value<String> truststorePath = overridableValue("");
-        private Value<String> truststorePassword = overridableValue("");
-        private Value<String> truststoreType = overridableValue("JKS");
-        private Value<Integer> handshakeTimeout = overridableValue(0);
-        private boolean passCertificateToPlugins = true;
-        private Value<Tls.ClientAuthMode> clientAuthMode = overridableValue(ClientAuthMode.NONE);
-        private ValueList<String> protocols = overridableList();
-        private boolean printAvailableSuites = false;
-        private ValueList<String> cipherSuites = overridableList();
-
-        public Builder overridable(final boolean overridable) {
-            this.overridable = overridable;
-            return this;
-        }
-
-        public Builder keystorePath(final Value<String> keystorePath) {
-            checkNotNull(keystorePath);
-            this.keystorePath = keystorePath;
-            return this;
-        }
-
-        public Builder keystorePassword(final Value<String> keystorePassword) {
-            checkNotNull(keystorePassword);
-            this.keystorePassword = keystorePassword;
-            return this;
-        }
-
-        public Builder keystoreType(final Value<String> keystoreType) {
-            checkNotNull(keystoreType);
-            this.keystoreType = keystoreType;
-            return this;
-        }
-
-        public Builder privateKeyPassword(final Value<String> privateKeyPassword) {
-            checkNotNull(privateKeyPassword);
-            this.privateKeyPassword = privateKeyPassword;
-            return this;
-        }
-
-        public Builder truststorePath(final Value<String> truststorePath) {
-            checkNotNull(truststorePath);
-            this.truststorePath = truststorePath;
-            return this;
-        }
-
-        public Builder truststorePassword(final Value<String> truststorePassword) {
-            checkNotNull(truststorePassword);
-            this.truststorePassword = truststorePassword;
-            return this;
-        }
-
-        public Builder truststoreType(final Value<String> truststoreType) {
-            checkNotNull(truststoreType);
-            this.truststoreType = truststoreType;
-            return this;
-        }
-
-        public Builder handshakeTimeout(final Value<Integer> handshakeTimeout) {
-            checkNotNull(handshakeTimeout);
-            this.handshakeTimeout = handshakeTimeout;
-            return this;
-        }
-
-        public Builder passCertificateToPlugins(boolean passCertificateToPlugins) {
-            this.passCertificateToPlugins = passCertificateToPlugins;
-            return this;
-        }
-
-        public Builder clientAuthMode(final Value<Tls.ClientAuthMode> clientAuthMode) {
-            checkNotNull(clientAuthMode);
-            this.clientAuthMode = clientAuthMode;
-            return this;
-        }
-
-        public Builder protocols(final ValueList<String> protocols) {
-            checkNotNull(protocols);
-            this.protocols = protocols;
-            return this;
-        }
-
-        public Builder printAvailableSuites(final boolean printAvailableSuites) {
-            this.printAvailableSuites = printAvailableSuites;
-            return this;
-        }
-
-        public Builder cipherSuites(final ValueList<String> cipherSuites) {
-            checkNotNull(cipherSuites);
-            this.cipherSuites = cipherSuites;
-            return this;
-        }
-
-        public Tls build() {
-            return new Tls(overridable, keystorePath, keystorePassword, keystoreType, privateKeyPassword, truststorePath,
-                    truststorePassword, truststoreType, handshakeTimeout, passCertificateToPlugins,
-                    clientAuthMode, protocols, printAvailableSuites, cipherSuites);
-        }
-
     }
 }

@@ -24,35 +24,27 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Dominik Obermaier
  */
 @Immutable
-public class TcpListener extends OverridableConfiguration implements Listener {
+public class TcpListener implements Listener {
 
 
-    private Value<Integer> port;
+    private int port;
 
-    private Value<String> bindAddress;
+    private String bindAddress;
 
-    public TcpListener(final Value<Integer> port, final Value<String> bindAddress) {
-        this(port, bindAddress, true);
-
-    }
-
-    public TcpListener(final Value<Integer> port, final Value<String> bindAddress, final boolean overridable) {
-        super(overridable);
-        checkNotNull(port);
+    public TcpListener(final int port, final String bindAddress) {
         checkNotNull(bindAddress);
         this.port = port;
         this.bindAddress = bindAddress;
-
     }
 
 
     @Override
-    public Value<Integer> getPort() {
+    public int getPort() {
         return port;
     }
 
     @Override
-    public Value<String> getBindAddress() {
+    public String getBindAddress() {
         return bindAddress;
     }
 

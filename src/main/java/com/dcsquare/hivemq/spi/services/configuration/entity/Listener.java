@@ -28,9 +28,9 @@ package com.dcsquare.hivemq.spi.services.configuration.entity;
  */
 public interface Listener {
 
-    Value<Integer> getPort();
+    int getPort();
 
-    Value<String> getBindAddress();
+    String getBindAddress();
 
     String readableName();
 }
