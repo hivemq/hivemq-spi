@@ -24,26 +24,31 @@ import com.dcsquare.hivemq.spi.annotations.Immutable;
 @Immutable
 public class ValidationError {
 
-    private final Severity severity;
     private final String message;
 
-    public enum Severity {
-        ERROR,
-        WARNING
-    }
+    public ValidationError(final String message, final Object... args) {
 
-    public ValidationError(final Severity severity, final String message, final Object... args) {
-
-
-        this.severity = severity;
         this.message = String.format(message, args);
-    }
-
-    public Severity getSeverity() {
-        return severity;
     }
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final ValidationError that = (ValidationError) o;
+
+        if (message != null ? !message.equals(that.message) : that.message != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return message != null ? message.hashCode() : 0;
     }
 }

@@ -16,6 +16,10 @@
 
 package com.dcsquare.hivemq.spi.services.configuration;
 
+import com.dcsquare.hivemq.spi.services.configuration.validation.annotation.Validate;
+import com.dcsquare.hivemq.spi.services.configuration.validation.validators.MaxClientIdValidator;
+import com.dcsquare.hivemq.spi.services.configuration.validation.validators.ZeroablePositiveNumber;
+
 /**
  * @author Dominik Obermaier
  */
@@ -28,10 +32,13 @@ public interface MqttConfigurationService {
     long maxQueuedMessages();
 
 
+    @Validate(MaxClientIdValidator.class)
     void setMaxClientIdLength(int maxClientIdLength);
 
+    @Validate(value = ZeroablePositiveNumber.class, name = "retryInterval'")
     void setRetryInterval(int retryInterval);
 
+    @Validate(value = ZeroablePositiveNumber.class, name = "max queued messages")
     void setMaxQueuedMessages(long maxQueuedMessages);
 
 }
