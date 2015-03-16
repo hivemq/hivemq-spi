@@ -53,6 +53,15 @@ public interface CallbackRegistry {
     void addCallbacks(Callback... callbacks);
 
     /**
+     * Returns true if a callbacks for the specific callback class is registered, false otherwise.
+     *
+     * @param callbackClass interface of the callback for which the
+     *                      status should be checked
+     * @return true, if callback is registered with callbackClass, false otherwise
+     */
+    <T extends Callback> boolean isCallbackAvailable(Class<T> callbackClass);
+
+    /**
      * Returns a list of all available callbacks for a specific callback class.
      *
      * @param callbackClass interface of the callback for which the
