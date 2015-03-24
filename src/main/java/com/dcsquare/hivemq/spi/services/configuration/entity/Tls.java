@@ -130,4 +130,48 @@ public class Tls {
     public List<String> getCipherSuites() {
         return cipherSuites;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final Tls tls = (Tls) o;
+
+        if (cipherSuites != null ? !cipherSuites.equals(tls.cipherSuites) : tls.cipherSuites != null) return false;
+        if (clientAuthMode != tls.clientAuthMode) return false;
+        if (handshakeTimeout != null ? !handshakeTimeout.equals(tls.handshakeTimeout) : tls.handshakeTimeout != null)
+            return false;
+        if (keystorePassword != null ? !keystorePassword.equals(tls.keystorePassword) : tls.keystorePassword != null)
+            return false;
+        if (keystorePath != null ? !keystorePath.equals(tls.keystorePath) : tls.keystorePath != null) return false;
+        if (keystoreType != null ? !keystoreType.equals(tls.keystoreType) : tls.keystoreType != null) return false;
+        if (privateKeyPassword != null ? !privateKeyPassword.equals(tls.privateKeyPassword) : tls.privateKeyPassword != null)
+            return false;
+        if (protocols != null ? !protocols.equals(tls.protocols) : tls.protocols != null) return false;
+        if (truststorePassword != null ? !truststorePassword.equals(tls.truststorePassword) : tls.truststorePassword != null)
+            return false;
+        if (truststorePath != null ? !truststorePath.equals(tls.truststorePath) : tls.truststorePath != null)
+            return false;
+        if (truststoreType != null ? !truststoreType.equals(tls.truststoreType) : tls.truststoreType != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = keystorePath != null ? keystorePath.hashCode() : 0;
+        result = 31 * result + (keystorePassword != null ? keystorePassword.hashCode() : 0);
+        result = 31 * result + (keystoreType != null ? keystoreType.hashCode() : 0);
+        result = 31 * result + (privateKeyPassword != null ? privateKeyPassword.hashCode() : 0);
+        result = 31 * result + (truststorePath != null ? truststorePath.hashCode() : 0);
+        result = 31 * result + (truststorePassword != null ? truststorePassword.hashCode() : 0);
+        result = 31 * result + (truststoreType != null ? truststoreType.hashCode() : 0);
+        result = 31 * result + (handshakeTimeout != null ? handshakeTimeout.hashCode() : 0);
+        result = 31 * result + (clientAuthMode != null ? clientAuthMode.hashCode() : 0);
+        result = 31 * result + (protocols != null ? protocols.hashCode() : 0);
+        result = 31 * result + (cipherSuites != null ? cipherSuites.hashCode() : 0);
+        return result;
+    }
 }
