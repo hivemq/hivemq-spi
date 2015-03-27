@@ -28,9 +28,22 @@ import com.google.common.base.Optional;
  */
 public interface ClientCredentialsData extends ClientData {
     /**
-     * Returns an {@link Optional} of the clear text password the client used
+     * Returns an {@link Optional} of the clear text password the client used encoded
+     * as UTF-8.
+     * <p/>
+     * Consider using the {@link #getPasswordBytes()} method instead, since passwords
+     * are not required to be human readable and can be any arbitrary byte array
      *
-     * @return the password if present
+     * @return the password, if present
      */
-    public Optional<String> getPassword();
+    Optional<String> getPassword();
+
+
+    /**
+     * Returns an {@link Optional} of the text password the client used
+     *
+     * @return the password, if present
+     * @since 3.0.0
+     */
+    Optional<byte[]> getPasswordBytes();
 }
