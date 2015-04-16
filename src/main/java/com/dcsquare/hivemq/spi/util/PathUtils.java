@@ -32,10 +32,11 @@ public class PathUtils {
 
     private static Logger log = LoggerFactory.getLogger(PathUtils.class);
 
-
     /**
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the home folder of HiveMQ
      */
+    @Deprecated
     public static File getHiveMQHomeFolder() {
 
         final String homeFolder = System.getProperty("hivemq.home");
@@ -49,22 +50,28 @@ public class PathUtils {
     }
 
     /**
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the plugin folder of HiveMQ
      */
+    @Deprecated
     public static File getPluginFolder() {
         throw new RuntimeException("Not yet implemented");
     }
 
     /**
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the config folder of HiveMQ
      */
+    @Deprecated
     public static File getHiveMQConfigFolder() {
         return findAbsoluteAndRelative("conf");
     }
 
     /**
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the log folder of HiveMQ
      */
+    @Deprecated
     public static File getHiveMQLogFolder() {
         return new File(getHiveMQHomeFolder(), "log");
     }
@@ -73,9 +80,11 @@ public class PathUtils {
      * Tries to find a file in the given absolute path or
      * relative to the HiveMQ home folder
      *
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @param fileLocation the absolute or relative path
      * @return a file
      */
+    @Deprecated
     public static File findAbsoluteAndRelative(final String fileLocation) {
         final File file = new File(fileLocation);
         if (file.isAbsolute()) {
