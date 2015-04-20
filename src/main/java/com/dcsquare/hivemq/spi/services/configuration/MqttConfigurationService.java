@@ -31,6 +31,7 @@ public interface MqttConfigurationService {
 
     long maxQueuedMessages();
 
+    long noConnectIdleTimeoutMillis();
 
     @Validate(MaxClientIdValidator.class)
     void setMaxClientIdLength(int maxClientIdLength);
@@ -41,4 +42,6 @@ public interface MqttConfigurationService {
     @Validate(value = ZeroablePositiveNumber.class, name = "max queued messages")
     void setMaxQueuedMessages(long maxQueuedMessages);
 
+    @Validate(value = ZeroablePositiveNumber.class, name = "no connect packet idle timeout millis")
+    void setNoConnectIdleTimeoutMillis(final long noConnectPacketIdleTimeoutMillis);
 }
