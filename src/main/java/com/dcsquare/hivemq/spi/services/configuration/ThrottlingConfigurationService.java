@@ -40,4 +40,12 @@ public interface ThrottlingConfigurationService {
     void setIncomingLimit(long incomingLimit);
 
 
+    void maxConnectionsChanged(ValueChangedCallback<Long> callback);
+
+    void maxMessageSizeChanged(ValueChangedCallback<Integer> callback);
+
+    void outgoingLimitChanged(ValueChangedCallback<Long> callback);
+
+    void incomingLimitChanged(ValueChangedCallback<Long> callback);
+
 }
