@@ -18,6 +18,8 @@ package com.dcsquare.hivemq.spi.security;
 
 import com.google.common.base.Optional;
 
+import java.net.InetAddress;
+
 /**
  * Represents information available of a connected client.
  *
@@ -59,5 +61,12 @@ public interface ClientData {
      * @since 2.0
      */
     public boolean isBridge();
+
+
+    /**
+     * @return an {@link Optional} of the clients IP address as {@link InetAddress}
+     * @since 3.0
+     */
+    public Optional<InetAddress> getInetAddress();
 
 }
