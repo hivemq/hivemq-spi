@@ -169,31 +169,67 @@ public class MqttTopicPermission {
             return false;
         }
 
-        final boolean activityImplies = getActivityImplicity(other);
+        return implies(other.getTopic(), other.getQos(), other.getActivity());
+    }
+
+
+    /**
+     * Checks the MqttTopicPermission implies a given topic, qos and activity combination
+     *
+     * @param topic    the topic to check
+     * @param qoS      the QoS to check
+     * @param activity the activity to check
+     * @return <code>true</code> if the given topic, qos and activity combination is implied
+     */
+    public boolean implies(final String topic, final QoS qoS, final ALLOWED_ACTIVITY activity) {
+
+        if (qoS == null) {
+            return false;
+        }
+
+        return implies(topic, ALLOWED_QOS.from(qoS), activity);
+    }
+
+    /**
+     * Checks the MqttTopicPermission implies a given topic, qos and activity combination
+     *
+     * @param topic    the topic to check
+     * @param qoS      the QoS to check
+     * @param activity the activity to check
+     * @return <code>true</code> if the given topic, qos and activity combination is implied
+     */
+    public boolean implies(final String topic, final ALLOWED_QOS qoS, final ALLOWED_ACTIVITY activity) {
+
+        if (topic == null || qoS == null || activity == null) {
+            return false;
+        }
+
+        final boolean activityImplies = getActivityImplicity(activity);
 
         if (!activityImplies) {
             return false;
         }
 
-        final boolean qosImplies = getQosImplicity(other);
+        final boolean qosImplies = getQosImplicity(qoS);
 
         if (!qosImplies) {
             return false;
         }
 
-        return topicImplicity(other);
+        return topicImplicity(topic);
+
     }
 
     /**
      * Checks if the topic implies a given MqttTopicPermissions topic
      *
-     * @param other the other MqttTopicPermission
+     * @param topic the topic to check
      * @return <code>true</code> if the given MqttTopicPermissions topic is implied by the current one
      */
-    private boolean topicImplicity(final MqttTopicPermission other) {
+    private boolean topicImplicity(final String topic) {
 
         try {
-            return topicMatcher.matches(this.getTopic(), other.getTopic());
+            return topicMatcher.matches(this.getTopic(), topic);
         } catch (InvalidTopicException e) {
             return false;
         }
@@ -202,48 +238,46 @@ public class MqttTopicPermission {
     /**
      * Checks if the MqttTopicPermission implies a given QoS
      *
-     * @param other the other MqttTopicPermission
+     * @param qos the activity to check
      * @return <code>true</code> if the QoS level implies the given QoS
      */
-    private boolean getQosImplicity(final MqttTopicPermission other) {
-
+    private boolean getQosImplicity(final ALLOWED_QOS qos) {
         if (this.getQos() == ALLOWED_QOS.ALL) {
             return true;
         }
 
-        if (other.getQos() == ALLOWED_QOS.ALL && this.getQos() != ALLOWED_QOS.ALL) {
+        if (qos == ALLOWED_QOS.ALL) {
             return false;
         } else if (this.getQos() == ALLOWED_QOS.ZERO_ONE) {
-            return (other.getQos() == ALLOWED_QOS.ZERO) || (other.getQos() == ALLOWED_QOS.ONE) || (other.getQos() == ALLOWED_QOS.ZERO_ONE);
+            return (qos == ALLOWED_QOS.ZERO) || (qos == ALLOWED_QOS.ONE) || (qos == ALLOWED_QOS.ZERO_ONE);
         } else if (this.getQos() == ALLOWED_QOS.ONE_TWO) {
-            return (other.getQos() == ALLOWED_QOS.ONE) || (other.getQos() == ALLOWED_QOS.TWO) || (other.getQos() == ALLOWED_QOS.ONE_TWO);
+            return (qos == ALLOWED_QOS.ONE) || (qos == ALLOWED_QOS.TWO) || (qos == ALLOWED_QOS.ONE_TWO);
         } else if (this.getQos() == ALLOWED_QOS.ZERO_TWO) {
-            return (other.getQos() == ALLOWED_QOS.ZERO) || (other.getQos() == ALLOWED_QOS.TWO) || (other.getQos() == ALLOWED_QOS.ZERO_TWO);
+            return (qos == ALLOWED_QOS.ZERO) || (qos == ALLOWED_QOS.TWO) || (qos == ALLOWED_QOS.ZERO_TWO);
         }
-        return this.getQos() == other.getQos();
+        return this.getQos() == qos;
     }
 
     /**
      * Checks if an activity implies another activity
      *
-     * @param other the other permission with an activity
+     * @param activity the activity to check
      * @return <code>true</code> if the permission activity imply the other permission activity
      */
-    private boolean getActivityImplicity(final MqttTopicPermission other) {
-        if (this.getActivity() == ALLOWED_ACTIVITY.ALL) {
+    private boolean getActivityImplicity(final ALLOWED_ACTIVITY activity) {
+        if (this.activity == ALLOWED_ACTIVITY.ALL) {
             return true;
         }
 
-        if ((other.getActivity() == ALLOWED_ACTIVITY.SUBSCRIBE) && (this.activity == ALLOWED_ACTIVITY.PUBLISH)) {
+        if ((activity == ALLOWED_ACTIVITY.SUBSCRIBE) && (this.activity == ALLOWED_ACTIVITY.PUBLISH)) {
             return false;
-        } else if ((other.getActivity() == ALLOWED_ACTIVITY.PUBLISH) && (this.activity == ALLOWED_ACTIVITY.SUBSCRIBE)) {
+        } else if ((activity == ALLOWED_ACTIVITY.PUBLISH) && (this.activity == ALLOWED_ACTIVITY.SUBSCRIBE)) {
             return false;
-        } else if (other.getActivity() == ALLOWED_ACTIVITY.ALL && this.getActivity() != ALLOWED_ACTIVITY.ALL) {
+        } else if (activity == ALLOWED_ACTIVITY.ALL && this.getActivity() != ALLOWED_ACTIVITY.ALL) {
             return false;
         }
         return true;
     }
-
 
     public String getTopic() {
         return topic;

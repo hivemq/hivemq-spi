@@ -235,4 +235,17 @@ public class MqttTopicPermissionTest {
     public void test_allowed_qos_at_least_once() throws Exception {
         assertEquals(MqttTopicPermission.ALLOWED_QOS.from(QoS.AT_LEAST_ONCE), ALLOWED_QOS.ONE);
     }
+
+    @Test
+    public void test_implies_params_null() throws Exception {
+
+        final MqttTopicPermission t1 = new MqttTopicPermission("#", ALLOWED_QOS.ALL, ALLOWED_ACTIVITY.ALL);
+
+        assertFalse(t1.implies(null, QoS.AT_LEAST_ONCE, ALLOWED_ACTIVITY.PUBLISH));
+
+        //hack for Qos to be null
+        assertFalse(t1.implies("test", QoS.valueOf(4), ALLOWED_ACTIVITY.PUBLISH));
+
+        assertFalse(t1.implies("test", QoS.AT_LEAST_ONCE, null));
+    }
 }
