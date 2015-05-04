@@ -46,7 +46,7 @@ public interface AfterLoginCallback extends AsynchronousCallback {
      * Called after a client was denied authentication
      * The client will be disconnected after calling this method.
      *
-     * @param exception  the exception which has details why the client had an unsuccessful login attempt.
+     * @param exception  the exception which has details why the client had an unsuccessful login attempt or null if no exception was thrown.
      * @param clientData information about the client
      */
     void afterFailedLogin(AuthenticationException exception, final ClientData clientData);

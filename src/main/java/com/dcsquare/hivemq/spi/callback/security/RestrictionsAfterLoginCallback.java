@@ -16,7 +16,7 @@
 
 package com.dcsquare.hivemq.spi.callback.security;
 
-import com.dcsquare.hivemq.spi.callback.SynchronousCallback;
+import com.dcsquare.hivemq.spi.callback.AsynchronousCallback;
 import com.dcsquare.hivemq.spi.security.ClientData;
 import com.dcsquare.hivemq.spi.security.Restriction;
 
@@ -33,9 +33,10 @@ import java.util.Set;
  *
  * @author Dominik Obermaier
  * @author Chrisitan Goetz
+ * @author Christoph Schaebel
  * @since 1.4
  */
-public interface RestrictionsAfterLoginCallback extends SynchronousCallback {
+public interface RestrictionsAfterLoginCallback extends AsynchronousCallback {
 
     /**
      * Gets called after a successful login of a client.
