@@ -77,7 +77,7 @@ public class DefaultSslEngineUtil {
         try {
             final SSLEngine engine = getDefaultSslEngine();
 
-            return ImmutableList.copyOf(engine.getEnabledProtocols());
+            return ImmutableList.copyOf(engine.getEnabledCipherSuites());
 
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new SslException("Not able to get list of enabled cipher suites from JVM", e);
