@@ -16,6 +16,7 @@
 
 package com.dcsquare.hivemq.spi.services;
 
+import com.dcsquare.hivemq.spi.services.configuration.GeneralConfigurationService;
 import com.dcsquare.hivemq.spi.services.configuration.MqttConfigurationService;
 import com.dcsquare.hivemq.spi.services.configuration.ThrottlingConfigurationService;
 import com.dcsquare.hivemq.spi.services.configuration.listener.ListenerConfigurationService;
@@ -26,6 +27,7 @@ import com.dcsquare.hivemq.spi.services.configuration.listener.ListenerConfigura
 
 public interface ConfigurationService {
 
+    GeneralConfigurationService generalConfiguration();
 
     ListenerConfigurationService listenerConfiguration();
 
