@@ -436,6 +436,13 @@ public class HiveMQMetrics {
     public static final HiveMQMetric<Gauge> CONNECTIONS_OVERALL_CURRENT =
             HiveMQMetric.valueOf("com.hivemq.networking.connections.current", Gauge.class);
 
+    /**
+     * represents a {@link Gauge}, which holds total number of connections
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Histogram> CONNECTIONS_OVERALL_MEAN =
+            HiveMQMetric.valueOf("com.hivemq.networking.connections.mean", Histogram.class);
 
     /**
      * represents a {@link Counter}, which measures the current count of active persistent sessions
