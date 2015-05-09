@@ -384,6 +384,22 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf("com.hivemq.messages.outgoing.unsuback.rate", Meter.class);
 
     /**
+     * represents a {@link Gauge}, which holds the current amount of retained messages
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Gauge> RETAINED_MESSAGES_CURRENT =
+            HiveMQMetric.valueOf("com.hivemq.messages.retained.current", Gauge.class);
+
+    /**
+     * represents a {@link Histogram}, which holds the current amount of retained messages
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Histogram> RETAINED_MESSAGES_MEAN =
+            HiveMQMetric.valueOf("com.hivemq.messages.retained.mean", Histogram.class);
+
+    /**
      * represents a {@link Counter}, which counts every outgoing MQTT UNSUBACK messages
      *
      * @since 3.0
@@ -443,6 +459,15 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Histogram> CONNECTIONS_OVERALL_MEAN =
             HiveMQMetric.valueOf("com.hivemq.networking.connections.mean", Histogram.class);
+
+
+    /**
+     * represents a {@link Counter}, which measures the current count of subscriptions
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Counter> SUBSCRIPTIONS_CURRENT =
+            HiveMQMetric.valueOf("com.hivemq.subscriptions.overall.current", Counter.class);
 
     /**
      * represents a {@link Counter}, which measures the current count of active persistent sessions
