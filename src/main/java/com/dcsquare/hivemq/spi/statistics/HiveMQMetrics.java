@@ -560,4 +560,121 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".scheduled.percent-of-period", Histogram.class);
 
 
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.security.AfterLoginCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_AFTER_LOGIN_SUCCESS =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.after-login.success.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.security.AfterLoginCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_AFTER_LOGIN_FAILED =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.after-login.failed.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.security.OnAuthenticationCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_AUTHENTICATION =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.authentication.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.security.RestrictionsAfterLoginCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_RESTRICTIONS =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.restrictions.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.security.OnAuthorizationCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_AUTHORIZATION =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.authorization.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.security.OnInsufficientPermissionDisconnect}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PERMISSIONS_DISCONNECT_PUBLISH =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.permissions-disconnect.publish.time", Timer.class);
+
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.security.OnInsufficientPermissionDisconnect}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PERMISSIONS_DISCONNECT_SUBSCRIBE =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.permissions-disconnect.subscribe.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.events.OnConnectCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_CONNECT =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.connect.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.events.OnDisconnectCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_DISCONNECT =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.disconnect.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.events.OnPublishReceivedCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBLISH_RECEIVED =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.publish-received.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.events.OnPublishSend}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBLISH_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.publish-send.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.events.OnSubscribeCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_SUBSCRIBE =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.subscribe.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link com.dcsquare.hivemq.spi.callback.events.OnUnsubscribeCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_UNSUBSCRIBE =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.unsubscribe.time", Timer.class);
 }
