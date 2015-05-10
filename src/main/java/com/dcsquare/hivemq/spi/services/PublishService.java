@@ -36,5 +36,20 @@ public interface PublishService {
      * @throws NullPointerException if the given object is <code>null</code> or any relevant information like topic, qos
      *                              or message is <code>null</code>
      */
-    public void publish(PUBLISH publish);
+    public void publish(final PUBLISH publish);
+
+
+    /**
+     * Publishes a new MQTT {@link PUBLISH} message.
+     * The PUBLISH will only be delivered to the client with the specified client identifier.
+     * Also the client needs to be subscribed on the topic of the PUBLISH to receive it.
+     * <p/>
+     * If the given {@link PUBLISH} or any of its information (topic,qos,message) is null, a {@link NullPointerException}
+     * will be thrown
+     *
+     * @param publish object with topic, QoS and message, which should be published to all subscribed clients
+     * @throws NullPointerException if the given object is <code>null</code> or any relevant information like topic, qos
+     *                              or message is <code>null</code>
+     */
+    public void publishtoClient(final PUBLISH publish, final String clientId);
 }

@@ -31,10 +31,10 @@ import java.util.Collection;
  * <p/>
  *
  * @author Dominik Obermaier
+ * @author Christoph Schäbel
  * @since 2.0
  */
 public interface SYSTopicService {
-
 
     /**
      * Returns a Collection of all {@link SYSTopicEntry}s topics available.
@@ -51,7 +51,7 @@ public interface SYSTopicService {
      *
      * @param entry the {@link SYSTopicEntry} to check
      * @return <code>true</code> if the Service contains the given {@link SYSTopicEntry},
-     *         <code>false</code> otherwise
+     * <code>false</code> otherwise
      */
     boolean contains(final SYSTopicEntry entry);
 
@@ -79,5 +79,20 @@ public interface SYSTopicService {
      */
     boolean removeEntry(final SYSTopicEntry entry);
 
+    /**
+     * Triggers a PUBLISH of all registered SYSTopicEntries with {@link Type} STANDARD to all clients which are subscribed to the SYSTopics
+     *
+     * @since 3.0
+     */
+    void triggerStandardSysTopicPublish();
+
+    /**
+     * Triggers a PUBLISH of all registered SYSTopicEntries with {@link Type} STATIC to a specified client.
+     * The client receives all messages from topics it is subscribed on.
+     *
+     * @param clientId The clientid for which to trigger the publishes
+     * @since 3.0
+     */
+    void triggerStaticSysTopicPublishToClient(final String clientId);
 
 }
