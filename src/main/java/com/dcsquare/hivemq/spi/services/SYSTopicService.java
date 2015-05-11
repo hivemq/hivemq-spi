@@ -95,4 +95,13 @@ public interface SYSTopicService {
      */
     void triggerStaticSysTopicPublishToClient(final String clientId);
 
+    /**
+     * Triggers a PUBLISH of all registered SYSTopicEntries with {@link Type} STANDARD to a specified client.
+     * The client receives all messages from topics it is subscribed on.
+     *
+     * @param clientId The clientid for which to trigger the publishes
+     * @since 3.0
+     */
+    void triggerStandardSysTopicPublishToClient(final String clientId);
+
 }
