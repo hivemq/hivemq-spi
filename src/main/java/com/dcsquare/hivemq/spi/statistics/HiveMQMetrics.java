@@ -445,7 +445,7 @@ public class HiveMQMetrics {
 
 
     /**
-     * represents a {@link Gauge}, which holds total number of connections
+     * represents a {@link Gauge}, which holds the current total number of connections
      *
      * @since 3.0
      */
@@ -453,7 +453,7 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf("com.hivemq.networking.connections.current", Gauge.class);
 
     /**
-     * represents a {@link Gauge}, which holds total number of connections
+     * represents a {@link Gauge}, which holds the mean total number of connections
      *
      * @since 3.0
      */
@@ -479,12 +479,12 @@ public class HiveMQMetrics {
 
 
     /**
-     * represents a {@link Counter}, which measures the current count of stored persistent sessions
+     * represents a {@link Gauge}, which measures the current count of stored sessions
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Counter> PERSISTENT_SESSIONS_STORED =
-            HiveMQMetric.valueOf("com.hivemq.sessions.persistent.stored", Counter.class);
+    public static final HiveMQMetric<Gauge> CLIENT_SESSIONS_CURRENT =
+            HiveMQMetric.valueOf("com.hivemq.sessions.overall.current", Gauge.class);
 
 
     /**
