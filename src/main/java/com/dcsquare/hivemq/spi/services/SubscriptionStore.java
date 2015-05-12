@@ -16,15 +16,18 @@
 
 package com.dcsquare.hivemq.spi.services;
 
+import com.dcsquare.hivemq.spi.annotations.NotNull;
+import com.dcsquare.hivemq.spi.annotations.ReadOnly;
 import com.dcsquare.hivemq.spi.message.Topic;
 import com.google.common.collect.Multimap;
 
 import java.util.Set;
 
 /**
- * The subscription store allows the management of all client subscription from within a plugin
+ * The subscription store allows the management of all client subscriptions from within a plugin
  *
  * @author Lukas Brandl
+ * @author Dominik Obermaier
  * @since 1.5
  */
 public interface SubscriptionStore {
@@ -32,45 +35,63 @@ public interface SubscriptionStore {
     /**
      * This method returns all subscriptions on HiveMQ as a {@link Multimap} of client identifiers and topics.
      * <p/>
-     * Please be aware that calling this method very often on HiveMQ instances with many subscriptions could have
-     * negative performance effects
+     * Please be aware that calling this method on HiveMQ instances with many subscriptions could have
+     * negative performance effects.
+     * <p/>
+     * The returned Multimap is read-only and must not be modified.
      *
      * @return a {@link Multimap} of client identifiers and their topic subscriptions
      */
-    public Multimap<String, Topic> getSubscriptions();
+    @ReadOnly
+    Multimap<String, Topic> getSubscriptions();
 
     /**
      * Returns all MQTT client subscriber identifiers for a given topic. MQTT Wildcards are allowed.
+     * <p/>
+     * Don't pass <code>null</code> as topic. This method is lenient, so
+     * it will just return an empty Set.
+     * <p/>
+     * The returned Set is read-only and must not be modified.
      *
      * @param topic the topic
      * @return client identifiers of all subscribers that subscribed to the topic
      */
-    public Set<String> getSubscribers(String topic);
+    @ReadOnly
+    Set<String> getSubscribers(@NotNull String topic);
 
     /**
-     * Returns all topics a client subscribed to.
+     * Returns all topics a client is subscribed to.
+     * <p/>
+     * If the client does not exist, an empty Set is returned.
+     * <p/>
+     * Don't pass <code>null</code> as clientId. This method is lenient, so
+     * it will just return an empty Set.
+     * <p/>
+     * The returned Set is read-only and must not be modified.
      *
      * @param clientID of the client
      * @return all topics the client subscribed to
      */
-    public Set<Topic> getTopics(String clientID);
+    @ReadOnly
+    Set<Topic> getTopics(@NotNull String clientID);
 
     /**
      * This method adds a subscription for a certain client to a certain topic.
      * <p/>
-     * If the clientId or the topic are <code>null</code>, nothing will happen.
+     * This method is lenient, so if the clientId or the topic
+     * is <code>null</code>, nothing will happen.
      *
      * @param clientID client, which should be subscribed
      * @param topic    topic to which the client should be subscribed
      */
-    public void addSubscription(String clientID, Topic topic);
+    void addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
     /**
-     * This method removes a subscription for a certain client to a certain topic
+     * This method removes a subscription for a certain client and a certain topic
      *
-     * @param clientID client, which should be unsubscribed
-     * @param topic    topic from which the client should be unsubscribed
+     * @param clientID client, which should get unsubscribed
+     * @param topic    topic from which the client should get unsubscribed
      */
-    public void removeSubscription(String clientID, String topic);
+    void removeSubscription(@NotNull String clientID, @NotNull String topic);
 
 }
