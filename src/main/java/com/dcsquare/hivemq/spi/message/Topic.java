@@ -16,6 +16,8 @@
 
 package com.dcsquare.hivemq.spi.message;
 
+import com.dcsquare.hivemq.spi.annotations.NotNull;
+import com.dcsquare.hivemq.spi.annotations.Nullable;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
@@ -39,21 +41,23 @@ public class Topic implements Serializable, Comparable<Topic> {
     private final QoS qoS;
 
 
-    public Topic(final String topic, final QoS qoS) {
+    public Topic(@NotNull final String topic, @Nullable final QoS qoS) {
 
         Preconditions.checkArgument(topic != null, "A Topic must not be null");
         this.topic = topic;
         this.qoS = qoS;
     }
 
-    public static Topic topicFromString(final String s) {
+    public static Topic topicFromString(@NotNull final String s) {
         return new Topic(s, null);
     }
 
+    @NotNull
     public String getTopic() {
         return topic;
     }
 
+    @Nullable
     public QoS getQoS() {
         return qoS;
     }
