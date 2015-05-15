@@ -3,6 +3,8 @@ package com.dcsquare.hivemq.spi.statistics;
 import com.codahale.metrics.*;
 
 /**
+ * This class holds a constant {@link HiveMQMetric} for every metric which is provided by HiveMQ
+ *
  * @author Christoph Schäbel
  */
 public class HiveMQMetrics {

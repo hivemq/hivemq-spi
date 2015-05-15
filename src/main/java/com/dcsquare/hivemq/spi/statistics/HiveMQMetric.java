@@ -5,6 +5,8 @@ import com.codahale.metrics.Metric;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * A convenience class to specify constant names and types of the internal HiveMQ metrics
+ *
  * @author Christoph Schäbel
  */
 public class HiveMQMetric<T extends Metric> {
@@ -32,4 +34,3 @@ public class HiveMQMetric<T extends Metric> {
         return clazz;
     }
 }
-

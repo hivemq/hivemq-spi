@@ -17,36 +17,18 @@
 package com.dcsquare.hivemq.spi;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provider;
-import com.google.inject.multibindings.Multibinder;
-import org.apache.commons.configuration.AbstractConfiguration;
 
 /**
  * The HiveMQ Plugin Guice Module class from which you should inherit when writing a HiveMQ plugin.
- * <p/>
- * Essentially you have to provide a {@link Provider} with subclasses of {@link AbstractConfiguration}s which provide
- * the configuration properties for your plugin. {@link com.dcsquare.hivemq.spi.config.Configurations} provides convenient
- * methods for simplifying implementing this Provider.
  * <p/>
  * The <code>entryPointClass()</code> must return a subclass of {@link PluginEntryPoint}.
  * It's possible to use Dependency Injection with Guice in this entry point
  *
  * @author Dominik Obermaier
+ * @author Christoph Schäbel
  * @since 1.4
  */
 public abstract class HiveMQPluginModule extends AbstractModule {
-
-    /**
-     * Returns all configurations which are needed for the plugin. It's possible to return
-     * different configuration sources like databases, files, etc.
-     * <p/>
-     * The {@link com.dcsquare.hivemq.spi.config.Configurations} class offers some useful utilities
-     * for dealing with configuration providers.
-     *
-     * @return a Provider with a list of {@link AbstractConfiguration}s.
-     */
-    public abstract Provider<Iterable<? extends AbstractConfiguration>> getConfigurations();
-
 
     /**
      * {@inheritDoc}
@@ -54,14 +36,6 @@ public abstract class HiveMQPluginModule extends AbstractModule {
     @Override
     protected final void configure() {
 
-        final Multibinder<AbstractConfiguration> multibinder = Multibinder.newSetBinder(binder(), AbstractConfiguration.class);
-
-        final Provider<Iterable<? extends AbstractConfiguration>> configurations = getConfigurations();
-        final Iterable<? extends AbstractConfiguration> abstractConfigurations = configurations.get();
-
-        for (AbstractConfiguration abstractConfiguration : abstractConfigurations) {
-            multibinder.addBinding().toInstance(abstractConfiguration);
-        }
         configurePlugin();
 
         //Bind the main entry class and immediately start injection

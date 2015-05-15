@@ -26,6 +26,7 @@ import java.io.File;
  * Useful utilities when dealing with paths and folders
  *
  * @author Dominik Obermaier
+ * @author Christoph Schäbel
  * @since 1.4
  */
 public class PathUtils {
@@ -33,8 +34,8 @@ public class PathUtils {
     private static Logger log = LoggerFactory.getLogger(PathUtils.class);
 
     /**
-     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the home folder of HiveMQ
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      */
     @Deprecated
     public static File getHiveMQHomeFolder() {
@@ -50,8 +51,8 @@ public class PathUtils {
     }
 
     /**
-     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the plugin folder of HiveMQ
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      */
     @Deprecated
     public static File getPluginFolder() {
@@ -59,8 +60,8 @@ public class PathUtils {
     }
 
     /**
-     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the config folder of HiveMQ
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      */
     @Deprecated
     public static File getHiveMQConfigFolder() {
@@ -68,8 +69,8 @@ public class PathUtils {
     }
 
     /**
-     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @return the log folder of HiveMQ
+     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      */
     @Deprecated
     public static File getHiveMQLogFolder() {
@@ -80,11 +81,9 @@ public class PathUtils {
      * Tries to find a file in the given absolute path or
      * relative to the HiveMQ home folder
      *
-     * @deprecated since version 3.0. Please inject {@link com.dcsquare.hivemq.spi.config.SystemInformation} instead
      * @param fileLocation the absolute or relative path
      * @return a file
      */
-    @Deprecated
     public static File findAbsoluteAndRelative(final String fileLocation) {
         final File file = new File(fileLocation);
         if (file.isAbsolute()) {

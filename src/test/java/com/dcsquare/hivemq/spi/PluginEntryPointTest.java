@@ -19,8 +19,8 @@ package com.dcsquare.hivemq.spi;
 import com.dcsquare.hivemq.spi.callback.Callback;
 import com.dcsquare.hivemq.spi.callback.registry.CallbackRegistry;
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.netflix.governator.guice.LifecycleInjector;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -52,14 +52,14 @@ public class PluginEntryPointTest {
         callbackValues.add(new Callback() {
         });
         when(registry.getAllCallbacks()).thenReturn(callbackValues);
-        injector = LifecycleInjector.builder().withModules(new AbstractModule() {
+        injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
                 bind(CallbackRegistry.class).toInstance(registry);
 
                 bind(String.class).toInstance("testString");
             }
-        }).build().createInjector();
+        });
 
     }
 
@@ -86,15 +86,6 @@ public class PluginEntryPointTest {
 
         assertSame(instance.getCallbackRegistry2(), instance.getCallbackRegistry());
     }
-
-    @Test
-    public void test_lifecycle_methods_working() throws Exception {
-        final TestHiveMQPluginEntryPointWithPostConstruct instance = injector.getInstance(TestHiveMQPluginEntryPointWithPostConstruct.class);
-
-        assertNotNull(instance.getSetAfterPostconstruct());
-        assertEquals("set!", instance.getSetAfterPostconstruct());
-    }
-
 
     public static class TestHiveMQPluginEntryPoint extends PluginEntryPoint {
 
