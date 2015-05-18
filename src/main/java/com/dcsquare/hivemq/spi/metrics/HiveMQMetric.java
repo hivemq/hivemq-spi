@@ -1,4 +1,4 @@
-package com.dcsquare.hivemq.spi.statistics;
+package com.dcsquare.hivemq.spi.metrics;
 
 import com.codahale.metrics.Metric;
 

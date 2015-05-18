@@ -6,7 +6,7 @@ package com.dcsquare.hivemq.spi.services;
 
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
-import com.dcsquare.hivemq.spi.statistics.HiveMQMetric;
+import com.dcsquare.hivemq.spi.metrics.HiveMQMetric;
 
 /**
  * This service allows plugins to get or add global Statistics
