@@ -17,10 +17,11 @@
 package com.hivemq.spi.topic;
 
 import com.hivemq.spi.message.QoS;
-import com.hivemq.spi.topic.MqttTopicPermission.ALLOWED_ACTIVITY;
-import com.hivemq.spi.topic.MqttTopicPermission.ALLOWED_QOS;
+import com.hivemq.spi.topic.MqttTopicPermission.ACTIVITY;
+import com.hivemq.spi.topic.MqttTopicPermission.QOS;
 import org.junit.Test;
 
+import static com.hivemq.spi.topic.MqttTopicPermission.*;
 import static org.junit.Assert.*;
 
 
@@ -32,16 +33,16 @@ public class MqttTopicPermissionTest {
     @Test
     public void testQualityOfService() throws Exception {
 
-        final MqttTopicPermission all = new MqttTopicPermission("testtopic", ALLOWED_QOS.ALL);
+        final MqttTopicPermission all = new MqttTopicPermission("testtopic", TYPE.ALLOW, QOS.ALL);
         assertTrue(all.implies(all));
 
-        final MqttTopicPermission one = new MqttTopicPermission("testtopic", ALLOWED_QOS.ONE);
+        final MqttTopicPermission one = new MqttTopicPermission("testtopic", TYPE.ALLOW, QOS.ONE);
         assertTrue(one.implies(one));
 
         assertTrue(all.implies(one));
         assertFalse(one.implies(all));
 
-        final MqttTopicPermission two = new MqttTopicPermission("testtopic", ALLOWED_QOS.TWO);
+        final MqttTopicPermission two = new MqttTopicPermission("testtopic", TYPE.ALLOW, QOS.TWO);
         assertTrue(two.implies(two));
 
         assertTrue(all.implies(two));
@@ -50,7 +51,7 @@ public class MqttTopicPermissionTest {
         assertFalse(two.implies(one));
         assertFalse(one.implies(two));
 
-        final MqttTopicPermission zero = new MqttTopicPermission("testtopic", ALLOWED_QOS.ZERO);
+        final MqttTopicPermission zero = new MqttTopicPermission("testtopic", TYPE.ALLOW, QOS.ZERO);
         assertTrue(zero.implies(zero));
 
         assertTrue(all.implies(zero));
@@ -62,7 +63,7 @@ public class MqttTopicPermissionTest {
         assertFalse(two.implies(zero));
         assertFalse(zero.implies(two));
 
-        final MqttTopicPermission one_two = new MqttTopicPermission("testtopic", ALLOWED_QOS.ONE_TWO);
+        final MqttTopicPermission one_two = new MqttTopicPermission("testtopic", TYPE.ALLOW, QOS.ONE_TWO);
         assertTrue(one_two.implies(one_two));
 
         assertTrue(all.implies(one_two));
@@ -77,7 +78,7 @@ public class MqttTopicPermissionTest {
         assertFalse(one_two.implies(zero));
         assertFalse(zero.implies(one_two));
 
-        final MqttTopicPermission zero_one = new MqttTopicPermission("testtopic", ALLOWED_QOS.ZERO_ONE);
+        final MqttTopicPermission zero_one = new MqttTopicPermission("testtopic", TYPE.ALLOW, QOS.ZERO_ONE);
         assertTrue(zero_one.implies(zero_one));
 
         assertTrue(all.implies(zero_one));
@@ -95,7 +96,7 @@ public class MqttTopicPermissionTest {
         assertFalse(zero_one.implies(one_two));
         assertFalse(one_two.implies(zero_one));
 
-        final MqttTopicPermission zero_two = new MqttTopicPermission("testtopic", ALLOWED_QOS.ZERO_TWO);
+        final MqttTopicPermission zero_two = new MqttTopicPermission("testtopic", TYPE.ALLOW, QOS.ZERO_TWO);
         assertTrue(zero_two.implies(zero_two));
 
         assertFalse(zero_two.implies(one));
@@ -118,22 +119,22 @@ public class MqttTopicPermissionTest {
     @Test
     public void testAllowedActivity() {
 
-        final MqttTopicPermission p1 = new MqttTopicPermission("testtopic", ALLOWED_ACTIVITY.ALL);
+        final MqttTopicPermission p1 = new MqttTopicPermission("testtopic", TYPE.ALLOW, ACTIVITY.ALL);
         assertTrue(p1.implies(p1));
 
-        final MqttTopicPermission p2 = new MqttTopicPermission("testtopic", ALLOWED_ACTIVITY.ALL);
+        final MqttTopicPermission p2 = new MqttTopicPermission("testtopic", TYPE.ALLOW, ACTIVITY.ALL);
         assertTrue(p2.implies(p2));
 
         assertTrue(p1.implies(p2));
         assertTrue(p2.implies(p1));
 
-        final MqttTopicPermission p3 = new MqttTopicPermission("testtopic", ALLOWED_ACTIVITY.PUBLISH);
+        final MqttTopicPermission p3 = new MqttTopicPermission("testtopic", TYPE.ALLOW, ACTIVITY.PUBLISH);
         assertTrue(p3.implies(p3));
 
         assertTrue(p1.implies(p3));
         assertFalse(p3.implies(p1));
 
-        final MqttTopicPermission p4 = new MqttTopicPermission("testtopic", ALLOWED_ACTIVITY.SUBSCRIBE);
+        final MqttTopicPermission p4 = new MqttTopicPermission("testtopic", TYPE.ALLOW, ACTIVITY.SUBSCRIBE);
         assertTrue(p4.implies(p4));
 
         assertTrue(p1.implies(p4));
@@ -146,11 +147,11 @@ public class MqttTopicPermissionTest {
 
     @Test
     public void testTopicImplicity() {
-        final MqttTopicPermission t1 = new MqttTopicPermission("testtopic");
+        final MqttTopicPermission t1 = new MqttTopicPermission("testtopic", TYPE.ALLOW);
         assertTrue(t1.implies(t1));
 
         //Has nothing to do with t1
-        final MqttTopicPermission t2 = new MqttTopicPermission("testtopic1");
+        final MqttTopicPermission t2 = new MqttTopicPermission("testtopic1", TYPE.ALLOW);
 
         assertTrue(t2.implies(t2));
 
@@ -159,7 +160,7 @@ public class MqttTopicPermissionTest {
 
 
         //test subtopic without wildcards
-        final MqttTopicPermission t3 = new MqttTopicPermission("testtopic/subtopic");
+        final MqttTopicPermission t3 = new MqttTopicPermission("testtopic/subtopic", TYPE.ALLOW);
 
         assertTrue(t3.implies(t3));
 
@@ -171,7 +172,7 @@ public class MqttTopicPermissionTest {
 
 
         //Test wildcard
-        final MqttTopicPermission t4 = new MqttTopicPermission("testtopic/#");
+        final MqttTopicPermission t4 = new MqttTopicPermission("testtopic/#", TYPE.ALLOW);
 
         assertTrue(t4.implies(t4));
 
@@ -181,7 +182,7 @@ public class MqttTopicPermissionTest {
         assertTrue(t4.implies(t3));
         assertFalse(t3.implies(t4));
 
-        final MqttTopicPermission t5 = new MqttTopicPermission("testtopic/+");
+        final MqttTopicPermission t5 = new MqttTopicPermission("testtopic/+", TYPE.ALLOW);
 
         assertTrue(t5.implies(t5));
 
@@ -191,7 +192,7 @@ public class MqttTopicPermissionTest {
         assertTrue(t5.implies(t3));
         assertFalse(t3.implies(t5));
 
-        final MqttTopicPermission t6 = new MqttTopicPermission("testtopic/subtopic/again");
+        final MqttTopicPermission t6 = new MqttTopicPermission("testtopic/subtopic/again", TYPE.ALLOW);
 
         assertFalse(t5.implies(t6));
         assertFalse(t6.implies(t5));
@@ -199,7 +200,7 @@ public class MqttTopicPermissionTest {
         assertTrue(t4.implies(t6));
         assertFalse(t6.implies(t4));
 
-        final MqttTopicPermission t7 = new MqttTopicPermission("#");
+        final MqttTopicPermission t7 = new MqttTopicPermission("#", TYPE.ALLOW);
 
         assertTrue(t7.implies(t7));
 
@@ -216,35 +217,35 @@ public class MqttTopicPermissionTest {
 
     @Test
     public void test_no_mqtt_topic_permission() throws Exception {
-        final MqttTopicPermission mqttTopicPermission = new MqttTopicPermission("test");
+        final MqttTopicPermission mqttTopicPermission = new MqttTopicPermission("test", TYPE.ALLOW);
         assertFalse(mqttTopicPermission.implies(null));
     }
 
 
     @Test
     public void test_allowed_qos_at_most_once() throws Exception {
-        assertEquals(MqttTopicPermission.ALLOWED_QOS.from(QoS.AT_MOST_ONCE), ALLOWED_QOS.ZERO);
+        assertEquals(QOS.from(QoS.AT_MOST_ONCE), QOS.ZERO);
     }
 
     @Test
     public void test_allowed_qos_exactly_once() throws Exception {
-        assertEquals(MqttTopicPermission.ALLOWED_QOS.from(QoS.EXACTLY_ONCE), ALLOWED_QOS.TWO);
+        assertEquals(QOS.from(QoS.EXACTLY_ONCE), QOS.TWO);
     }
 
     @Test
     public void test_allowed_qos_at_least_once() throws Exception {
-        assertEquals(MqttTopicPermission.ALLOWED_QOS.from(QoS.AT_LEAST_ONCE), ALLOWED_QOS.ONE);
+        assertEquals(QOS.from(QoS.AT_LEAST_ONCE), QOS.ONE);
     }
 
     @Test
     public void test_implies_params_null() throws Exception {
 
-        final MqttTopicPermission t1 = new MqttTopicPermission("#", ALLOWED_QOS.ALL, ALLOWED_ACTIVITY.ALL);
+        final MqttTopicPermission t1 = new MqttTopicPermission("#", TYPE.ALLOW, QOS.ALL, ACTIVITY.ALL);
 
-        assertFalse(t1.implies(null, QoS.AT_LEAST_ONCE, ALLOWED_ACTIVITY.PUBLISH));
+        assertFalse(t1.implies(null, QoS.AT_LEAST_ONCE, ACTIVITY.PUBLISH));
 
         //hack for Qos to be null
-        assertFalse(t1.implies("test", QoS.valueOf(4), ALLOWED_ACTIVITY.PUBLISH));
+        assertFalse(t1.implies("test", QoS.valueOf(4), ACTIVITY.PUBLISH));
 
         assertFalse(t1.implies("test", QoS.AT_LEAST_ONCE, null));
     }

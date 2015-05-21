@@ -17,6 +17,7 @@
 package com.hivemq.spi.callback.security;
 
 import com.hivemq.spi.callback.SynchronousCallback;
+import com.hivemq.spi.callback.security.authorization.AuthorizationBehaviour;
 import com.hivemq.spi.security.ClientData;
 import com.hivemq.spi.topic.MqttTopicPermission;
 
@@ -45,5 +46,14 @@ public interface OnAuthorizationCallback extends SynchronousCallback {
      * @param clientData information about the client
      * @return a list of {@link MqttTopicPermission}s for the given client
      */
-    public List<MqttTopicPermission> getPermissionsForClient(ClientData clientData);
+    List<MqttTopicPermission> getPermissionsForClient(ClientData clientData);
+
+    /**
+     * Declares the default behaviour to use if none of the {@link MqttTopicPermission}s returned by getPermissionForClient matches an activity.
+     * The default behaviour should be {@link AuthorizationBehaviour}.NEXT in most cases.
+     *
+     * @return the default behaviour to use if none of the {@link MqttTopicPermission}s matches an activity.
+     */
+    AuthorizationBehaviour getDefaultBehaviour();
+
 }

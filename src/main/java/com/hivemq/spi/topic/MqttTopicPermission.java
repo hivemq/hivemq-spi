@@ -32,61 +32,74 @@ import com.hivemq.spi.topic.exception.InvalidTopicException;
  *
  * @author Christian Goetz
  * @author Dominik Obermaier
+ * @author Christoph Schäbel
  * @since 1.4
  */
 public class MqttTopicPermission {
 
     private final String topic;
-    private final ALLOWED_QOS qos;
-    private final ALLOWED_ACTIVITY activity;
+    private final QOS qos;
+    private final ACTIVITY activity;
+    private final TYPE type;
     private TopicMatcher topicMatcher = new PermissionTopicMatcher();
 
-    /**
-     * Represents the allowed Quality of Service levels for a MqttTopicPermission
-     */
-    public enum ALLOWED_QOS {
+    public enum TYPE {
         /**
-         * Only QoS 0 is allowed
+         * If the permission allows the activity
+         */
+        ALLOW,
+        /**
+         * If the permission denies the activity
+         */
+        DENY;
+    }
+
+    /**
+     * Represents the allowed/denied Quality of Service levels for a MqttTopicPermission
+     */
+    public enum QOS {
+        /**
+         * Only QoS 0 is allowed/denied
          */
         ZERO,
         /**
-         * Only QoS 1 is allowed
+         * Only QoS 1 is allowed/denied
          */
         ONE,
         /**
-         * Only QoS 2 is allowed
+         * Only QoS 2 is allowed/denied
          */
         TWO,
         /**
-         * Only QoS 0 and 1 are allowed
+         * Only QoS 0 and 1 are allowed/denied
          */
         ZERO_ONE,
         /**
-         * Only QoS 0 and 2 are allowed
+         * Only QoS 0 and 2 are allowed/denied
          */
         ZERO_TWO,
         /**
-         * Only QoS 1 and 2 are allowed
+         * Only QoS 1 and 2 are allowed/denied
          */
         ONE_TWO,
         /**
-         * All QoS levels are allowed
+         * All QoS levels are allowed/denied
          */
         ALL;
 
-        private ALLOWED_QOS() {
+        private QOS() {
         }
 
 
-        public static ALLOWED_QOS from(final QoS from) {
+        public static QOS from(final QoS from) {
 
             switch (from) {
                 case AT_MOST_ONCE:
-                    return ALLOWED_QOS.ZERO;
+                    return QOS.ZERO;
                 case AT_LEAST_ONCE:
-                    return ALLOWED_QOS.ONE;
+                    return QOS.ONE;
                 case EXACTLY_ONCE:
-                    return ALLOWED_QOS.TWO;
+                    return QOS.TWO;
                 default:
                     //Should never happen
                     throw new RuntimeException("Invalid Qos");
@@ -96,20 +109,20 @@ public class MqttTopicPermission {
     }
 
     /**
-     * Represents the allowed activity on a topic
+     * Represents the allowed/denied activity on a topic
      */
-    public enum ALLOWED_ACTIVITY {
+    public enum ACTIVITY {
 
         /**
-         * Only publishing on this topic is allowed
+         * Only publishing on this topic is allowed/denied
          */
         PUBLISH,
         /**
-         * Only subscribing on this topic is allowed
+         * Only subscribing on this topic is allowed/denied
          */
         SUBSCRIBE,
         /**
-         * Publishing and subscribing is allowed on this topic
+         * Publishing and subscribing is allowed/denied on this topic
          */
         ALL
     }
@@ -119,8 +132,8 @@ public class MqttTopicPermission {
      *
      * @param topic the topic
      */
-    public MqttTopicPermission(final String topic) {
-        this(topic, ALLOWED_QOS.ALL, ALLOWED_ACTIVITY.ALL);
+    public MqttTopicPermission(final String topic, final TYPE type) {
+        this(topic, type, QOS.ALL, ACTIVITY.ALL);
     }
 
     /**
@@ -129,9 +142,9 @@ public class MqttTopicPermission {
      * @param topic    the topic
      * @param activity the activity
      */
-    public MqttTopicPermission(final String topic, final ALLOWED_ACTIVITY activity) {
+    public MqttTopicPermission(final String topic, final TYPE type, final ACTIVITY activity) {
 
-        this(topic, ALLOWED_QOS.ALL, activity);
+        this(topic, type, QOS.ALL, activity);
     }
 
     /**
@@ -140,8 +153,8 @@ public class MqttTopicPermission {
      * @param topic the topic
      * @param qos   the QoS level
      */
-    public MqttTopicPermission(final String topic, final ALLOWED_QOS qos) {
-        this(topic, qos, ALLOWED_ACTIVITY.ALL);
+    public MqttTopicPermission(final String topic, final TYPE type, final QOS qos) {
+        this(topic, type, qos, ACTIVITY.ALL);
     }
 
     /**
@@ -151,8 +164,9 @@ public class MqttTopicPermission {
      * @param qos      the QoS
      * @param activity the activity
      */
-    public MqttTopicPermission(final String topic, final ALLOWED_QOS qos, final ALLOWED_ACTIVITY activity) {
+    public MqttTopicPermission(final String topic, final TYPE type, final QOS qos, final ACTIVITY activity) {
         this.topic = topic;
+        this.type = type;
         this.qos = qos;
         this.activity = activity;
     }
@@ -181,13 +195,13 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
-    public boolean implies(final String topic, final QoS qoS, final ALLOWED_ACTIVITY activity) {
+    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity) {
 
         if (qoS == null) {
             return false;
         }
 
-        return implies(topic, ALLOWED_QOS.from(qoS), activity);
+        return implies(topic, QOS.from(qoS), activity);
     }
 
     /**
@@ -198,7 +212,7 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
-    public boolean implies(final String topic, final ALLOWED_QOS qoS, final ALLOWED_ACTIVITY activity) {
+    public boolean implies(final String topic, final QOS qoS, final ACTIVITY activity) {
 
         if (topic == null || qoS == null || activity == null) {
             return false;
@@ -241,19 +255,19 @@ public class MqttTopicPermission {
      * @param qos the activity to check
      * @return <code>true</code> if the QoS level implies the given QoS
      */
-    private boolean getQosImplicity(final ALLOWED_QOS qos) {
-        if (this.getQos() == ALLOWED_QOS.ALL) {
+    private boolean getQosImplicity(final QOS qos) {
+        if (this.getQos() == QOS.ALL) {
             return true;
         }
 
-        if (qos == ALLOWED_QOS.ALL) {
+        if (qos == QOS.ALL) {
             return false;
-        } else if (this.getQos() == ALLOWED_QOS.ZERO_ONE) {
-            return (qos == ALLOWED_QOS.ZERO) || (qos == ALLOWED_QOS.ONE) || (qos == ALLOWED_QOS.ZERO_ONE);
-        } else if (this.getQos() == ALLOWED_QOS.ONE_TWO) {
-            return (qos == ALLOWED_QOS.ONE) || (qos == ALLOWED_QOS.TWO) || (qos == ALLOWED_QOS.ONE_TWO);
-        } else if (this.getQos() == ALLOWED_QOS.ZERO_TWO) {
-            return (qos == ALLOWED_QOS.ZERO) || (qos == ALLOWED_QOS.TWO) || (qos == ALLOWED_QOS.ZERO_TWO);
+        } else if (this.getQos() == QOS.ZERO_ONE) {
+            return (qos == QOS.ZERO) || (qos == QOS.ONE) || (qos == QOS.ZERO_ONE);
+        } else if (this.getQos() == QOS.ONE_TWO) {
+            return (qos == QOS.ONE) || (qos == QOS.TWO) || (qos == QOS.ONE_TWO);
+        } else if (this.getQos() == QOS.ZERO_TWO) {
+            return (qos == QOS.ZERO) || (qos == QOS.TWO) || (qos == QOS.ZERO_TWO);
         }
         return this.getQos() == qos;
     }
@@ -264,16 +278,16 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the permission activity imply the other permission activity
      */
-    private boolean getActivityImplicity(final ALLOWED_ACTIVITY activity) {
-        if (this.activity == ALLOWED_ACTIVITY.ALL) {
+    private boolean getActivityImplicity(final ACTIVITY activity) {
+        if (this.activity == ACTIVITY.ALL) {
             return true;
         }
 
-        if ((activity == ALLOWED_ACTIVITY.SUBSCRIBE) && (this.activity == ALLOWED_ACTIVITY.PUBLISH)) {
+        if ((activity == ACTIVITY.SUBSCRIBE) && (this.activity == ACTIVITY.PUBLISH)) {
             return false;
-        } else if ((activity == ALLOWED_ACTIVITY.PUBLISH) && (this.activity == ALLOWED_ACTIVITY.SUBSCRIBE)) {
+        } else if ((activity == ACTIVITY.PUBLISH) && (this.activity == ACTIVITY.SUBSCRIBE)) {
             return false;
-        } else if (activity == ALLOWED_ACTIVITY.ALL && this.getActivity() != ALLOWED_ACTIVITY.ALL) {
+        } else if (activity == ACTIVITY.ALL && this.getActivity() != ACTIVITY.ALL) {
             return false;
         }
         return true;
@@ -283,11 +297,15 @@ public class MqttTopicPermission {
         return topic;
     }
 
-    public ALLOWED_QOS getQos() {
+    public TYPE getType() {
+        return type;
+    }
+
+    public QOS getQos() {
         return qos;
     }
 
-    public ALLOWED_ACTIVITY getActivity() {
+    public ACTIVITY getActivity() {
         return activity;
     }
 
