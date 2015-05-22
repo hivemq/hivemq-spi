@@ -20,15 +20,7 @@ import static com.hivemq.spi.topic.MqttTopicPermission.TYPE;
  */
 public class AuthorizationEvaluator {
 
-    public static AuthorizationBehaviour checkPublish(final String topic, final QoS qos, final AuthorizationResult authorizationResult) {
-        return getPermissionResult(topic, qos, authorizationResult, ACTIVITY.PUBLISH);
-    }
-
-    public static AuthorizationBehaviour checkSubscription(final String topic, final QoS qoS, final AuthorizationResult authorizationResult) {
-        return getPermissionResult(topic, qoS, authorizationResult, ACTIVITY.SUBSCRIBE);
-    }
-
-    private static AuthorizationBehaviour getPermissionResult(final String topic, final QoS qos, final AuthorizationResult authorizationResult, final ACTIVITY activity) {
+    public static AuthorizationBehaviour checkPublish(final String topic, final QoS qos, final boolean retained, final AuthorizationResult authorizationResult) {
 
         final List<MqttTopicPermission> mqttTopicPermissions = authorizationResult.getMqttTopicPermissions();
 
@@ -37,7 +29,24 @@ public class AuthorizationEvaluator {
         }
 
         for (MqttTopicPermission mqttTopicPermission : mqttTopicPermissions) {
-            if (mqttTopicPermission.implies(topic, qos, activity)) {
+            if (mqttTopicPermission.implies(topic, qos, ACTIVITY.PUBLISH, retained)) {
+                return mqttTopicPermission.getType() == TYPE.ALLOW ? ACCEPT : DENY;
+            }
+        }
+
+        return authorizationResult.getDefaultBehaviour();
+    }
+
+    public static AuthorizationBehaviour checkSubscription(final String topic, final QoS qoS, final AuthorizationResult authorizationResult) {
+
+        final List<MqttTopicPermission> mqttTopicPermissions = authorizationResult.getMqttTopicPermissions();
+
+        if (mqttTopicPermissions == null || mqttTopicPermissions.size() < 1) {
+            return authorizationResult.getDefaultBehaviour();
+        }
+
+        for (MqttTopicPermission mqttTopicPermission : mqttTopicPermissions) {
+            if (mqttTopicPermission.implies(topic, qoS, ACTIVITY.SUBSCRIBE)) {
                 return mqttTopicPermission.getType() == TYPE.ALLOW ? ACCEPT : DENY;
             }
         }

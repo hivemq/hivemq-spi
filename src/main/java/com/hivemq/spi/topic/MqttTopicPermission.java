@@ -41,6 +41,7 @@ public class MqttTopicPermission {
     private final QOS qos;
     private final ACTIVITY activity;
     private final TYPE type;
+    private final RETAIN publishRetain;
     private TopicMatcher topicMatcher = new PermissionTopicMatcher();
 
     public enum TYPE {
@@ -127,10 +128,27 @@ public class MqttTopicPermission {
         ALL
     }
 
+    public enum RETAIN {
+
+        /**
+         * Only publishing retained is allowed/denied
+         */
+        RETAINED,
+        /**
+         * Only publishing not retained is allowed/denied
+         */
+        NOT_RETAINED,
+        /**
+         * Both, retained and not retained are allowed/denied
+         */
+        ALL
+    }
+
     /**
      * Creates a topic permission where publishing and subscribing on all QoS level is allowed on a given topic
      *
      * @param topic the topic
+     * @param type  the type of this permission (allow / deny)
      */
     public MqttTopicPermission(final String topic, final TYPE type) {
         this(topic, type, QOS.ALL, ACTIVITY.ALL);
@@ -140,6 +158,7 @@ public class MqttTopicPermission {
      * Creates a topic where a given activity is allowed on all QoS levels on a given topic
      *
      * @param topic    the topic
+     * @param type     the type of this permission (allow / deny)
      * @param activity the activity
      */
     public MqttTopicPermission(final String topic, final TYPE type, final ACTIVITY activity) {
@@ -151,6 +170,7 @@ public class MqttTopicPermission {
      * Creates a topic where publishing and subscribing on a given QoS is allowed for a given topic
      *
      * @param topic the topic
+     * @param type  the type of this permission (allow / deny)
      * @param qos   the QoS level
      */
     public MqttTopicPermission(final String topic, final TYPE type, final QOS qos) {
@@ -161,14 +181,29 @@ public class MqttTopicPermission {
      * Creates a topic where a given activity is allowed on a given QoS for a given topic
      *
      * @param topic    the topic
+     * @param type     the type of this permission (allow / deny)
      * @param qos      the QoS
      * @param activity the activity
      */
     public MqttTopicPermission(final String topic, final TYPE type, final QOS qos, final ACTIVITY activity) {
+        this(topic, type, qos, activity, RETAIN.ALL);
+    }
+
+    /**
+     * Creates a topic where a given activity is allowed on a given QoS for a given topic
+     *
+     * @param topic           the topic
+     * @param type            the type of this permission (allow / deny)
+     * @param qos             the QoS
+     * @param activity        the activity
+     * @param publishRetain if the client is allowed/denied to publish retained messages to this topic
+     */
+    public MqttTopicPermission(final String topic, final TYPE type, final QOS qos, final ACTIVITY activity, final RETAIN publishRetain) {
         this.topic = topic;
         this.type = type;
         this.qos = qos;
         this.activity = activity;
+        this.publishRetain = publishRetain;
     }
 
     /**
@@ -186,6 +221,40 @@ public class MqttTopicPermission {
         return implies(other.getTopic(), other.getQos(), other.getActivity());
     }
 
+
+    /**
+     * Checks the MqttTopicPermission implies a given topic, qos and activity combination
+     *
+     * @param topic    the topic to check
+     * @param qoS      the QoS to check
+     * @param activity the activity to check
+     * @return <code>true</code> if the given topic, qos and activity combination is implied
+     */
+    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity, final boolean retained) {
+
+        return implies(topic, qoS, activity, retained ? RETAIN.RETAINED : RETAIN.NOT_RETAINED);
+    }
+
+    /**
+     * Checks the MqttTopicPermission implies a given topic, qos and activity combination
+     *
+     * @param topic    the topic to check
+     * @param qoS      the QoS to check
+     * @param activity the activity to check
+     * @return <code>true</code> if the given topic, qos and activity combination is implied
+     */
+    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity, final RETAIN RETAIN) {
+
+        if (RETAIN == null) {
+            return false;
+        }
+
+        if (this.publishRetain != RETAIN.ALL && this.publishRetain != RETAIN) {
+            return false;
+        }
+
+        return implies(topic, qoS, activity);
+    }
 
     /**
      * Checks the MqttTopicPermission implies a given topic, qos and activity combination
@@ -309,5 +378,8 @@ public class MqttTopicPermission {
         return activity;
     }
 
+    public RETAIN getPublishRetain() {
+        return publishRetain;
+    }
 }
 

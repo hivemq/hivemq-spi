@@ -33,7 +33,7 @@ public class AuthorizationEvaluatorTest {
             }
         };
 
-        assertEquals(NEXT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, authResult));
+        assertEquals(NEXT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, false, authResult));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class AuthorizationEvaluatorTest {
             }
         };
 
-        assertEquals(NEXT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, authResult));
+        assertEquals(NEXT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, false, authResult));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class AuthorizationEvaluatorTest {
             }
         };
 
-        assertEquals(ACCEPT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, authResult));
+        assertEquals(ACCEPT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, false, authResult));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class AuthorizationEvaluatorTest {
             }
         };
 
-        assertEquals(NEXT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, authResult));
+        assertEquals(NEXT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, false, authResult));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class AuthorizationEvaluatorTest {
             }
         };
 
-        assertEquals(ACCEPT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, authResult));
+        assertEquals(ACCEPT, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, false, authResult));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class AuthorizationEvaluatorTest {
             }
         };
 
-        assertEquals(DENY, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, authResult));
+        assertEquals(DENY, AuthorizationEvaluator.checkPublish("test/1/2/3", QoS.AT_LEAST_ONCE, false, authResult));
     }
 
 
