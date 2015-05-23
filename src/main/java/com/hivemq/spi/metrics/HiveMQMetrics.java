@@ -13,6 +13,7 @@ import com.hivemq.spi.services.PluginExecutorService;
 public class HiveMQMetrics {
 
     public static final String PLUGIN_EXECUTOR_PREFIX = "com.hivemq.plugin.executor";
+    public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
 
     /**
      * represents a {@link Counter}, which counts every incoming MQTT message
@@ -682,4 +683,13 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Timer> PLUGIN_TIMER_UNSUBSCRIBE =
             HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.unsubscribe.time", Timer.class);
+
+
+    /**
+     * represents a {@link Meter}, which measures the rate of unhandled Exceptions
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Meter> TOTAL_EXCEPTION_RATE =
+            HiveMQMetric.valueOf(EXCEPTION_PREFIX + ".total", Meter.class);
 }
