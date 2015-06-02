@@ -35,6 +35,4 @@ public interface ClientCredentialsData extends ClientData {
      * @return the password if present
      */
     public Optional<String> getPassword();
-
-    public Optional<InetAddress> getInetAddress();
 }

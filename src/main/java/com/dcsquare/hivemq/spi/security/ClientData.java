@@ -18,6 +18,7 @@ package com.dcsquare.hivemq.spi.security;
 
 import com.google.common.base.Optional;
 
+import java.net.InetAddress;
 import java.security.cert.Certificate;
 
 /**
@@ -60,5 +61,7 @@ public interface ClientData {
      * @since 2.0
      */
     public boolean isBridge();
+
+    public Optional<InetAddress> getInetAddress();
 
 }
