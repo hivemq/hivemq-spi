@@ -18,6 +18,8 @@ package com.dcsquare.hivemq.spi.security;
 
 import com.google.common.base.Optional;
 
+import java.net.InetAddress;
+
 /**
  * An extended version of {@link ClientData} which also contains
  * the password the client used in the {@link com.dcsquare.hivemq.spi.message.CONNECT}
@@ -33,4 +35,6 @@ public interface ClientCredentialsData extends ClientData {
      * @return the password if present
      */
     public Optional<String> getPassword();
+
+    public Optional<InetAddress> getInetAddress();
 }
