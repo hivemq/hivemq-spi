@@ -16,6 +16,7 @@
 
 package com.hivemq.spi.services;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.hivemq.spi.security.ClientData;
 import com.google.common.base.Optional;
 
@@ -38,7 +39,7 @@ public interface ClientService {
      *
      * @return client identifiers of all connected clients
      */
-    public Set<String> getConnectedClients();
+    public Set<String> getLocalConnectedClients();
 
     /**
      * Returns all disconnected clients which have a persistent MQTT session (MQTT cleanSession=false).
@@ -47,7 +48,7 @@ public interface ClientService {
      *
      * @return all disconnected clients with a persistent MQTT session
      */
-    public Set<String> getDisconnectedClients();
+    public Set<String> getLocalDisconnectedClients();
 
     /**
      * Checks if a client with a given identifier is currently connected to the HiveMQ broker.
@@ -55,7 +56,7 @@ public interface ClientService {
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
      */
-    public boolean isClientConnected(String clientId);
+    public boolean isClientConnectedLocal(String clientId);
 
     /**
      * Returns additional client information about a given client with a given client identifier.
@@ -65,6 +66,22 @@ public interface ClientService {
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
      */
-    public Optional<ClientData> getClientDataForClientId(String clientId);
+    public Optional<ClientData> getLocalClientDataForClientId(String clientId);
+
+    ListenableFuture<Set<String>> getConnectedClients();
+
+    ListenableFuture<Set<String>> getDisconnectedClients();
+
+    ListenableFuture<Boolean> isClientConnected(final String clientId);
+
+    ListenableFuture<Optional<ClientData>> getClientDataForClientId(final String clientId);
+
+    ListenableFuture<Set<String>> getConnectedClients(final long timeout);
+
+    ListenableFuture<Set<String>> getDisconnectedClients(final long timeout);
+
+    ListenableFuture<Boolean> isClientConnected(final String clientId, final long timeout) throws IllegalStateException;
+
+    ListenableFuture<Optional<ClientData>> getClientDataForClientId(final String clientId, final long timeout);
 
 }
