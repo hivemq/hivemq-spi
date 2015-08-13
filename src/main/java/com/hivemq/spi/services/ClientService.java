@@ -16,8 +16,9 @@
 
 package com.hivemq.spi.services;
 
-import com.hivemq.spi.security.ClientData;
 import com.google.common.base.Optional;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.hivemq.spi.security.ClientData;
 
 import java.util.Set;
 
@@ -34,37 +35,126 @@ public interface ClientService {
      * clients from other HiveMQ nodes if HiveMQ runs in a cluster.
      * <p/>
      * If you have many client connections, please not that calling this method frequently could have negative performance
-     * effects
+     * effects.
      *
      * @return client identifiers of all connected clients
      */
-    public Set<String> getConnectedClients();
+    public Set<String> getLocalConnectedClients();
 
     /**
-     * Returns all disconnected clients which have a persistent MQTT session (MQTT cleanSession=false).
+     * Returns all disconnected clients which have a persistent MQTT session on this instance of HiveMQ (MQTT clean session=false).
      * <p/>
-     * Disconnected MQTT clients which don't have a persistent Session won't be returned by this method
+     * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
      */
-    public Set<String> getDisconnectedClients();
+    public Set<String> getLocalDisconnectedClients();
 
     /**
-     * Checks if a client with a given identifier is currently connected to the HiveMQ broker.
+     * Check if a client with a given identifier is currently connected to this HiveMQ instance.
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
      */
-    public boolean isClientConnected(String clientId);
+    public boolean isClientConnectedLocal(String clientId);
 
     /**
-     * Returns additional client information about a given client with a given client identifier.
+     * Returns client information for clients that are connected to this broker instance.
      * <p/>
      * If the client isn't connected, you will receive an {@link Optional} with absent data.
      *
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
      */
-    public Optional<ClientData> getClientDataForClientId(String clientId);
+    public Optional<ClientData> getLocalClientDataForClientId(String clientId);
+
+    /**
+     * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
+     * <p/>
+     * Calling this method frequently in a clustered environment could have negative performance effects.
+     * A default timeout is used for the cluster request.
+     *
+     * @return client identifiers of all connected clients
+     */
+    ListenableFuture<Set<String>> getConnectedClients();
+
+    /**
+     * Returns all disconnected clients which have a persistent MQTT session on this broker or any other cluster node.
+     * <p/>
+     * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
+     * A default timeout is used for the cluster request.
+     *
+     * @return all disconnected clients with a persistent MQTT session
+     */
+    ListenableFuture<Set<String>> getDisconnectedClients();
+
+    /**
+     * Check if a client with a given identifier is currently connected to this HiveMQ broker instance or any other instance in the cluster.
+     * A default timeout is used for the cluster request.
+     *
+     * @param clientId client, which should be checked
+     * @return true, if a certain client is currently connected and false otherwise
+     */
+    ListenableFuture<Boolean> isClientConnected(final String clientId);
+
+    /**
+     * Returns additional client information about a given client with a given client identifier.
+     * <p/>
+     * This method will also get client information from other cluster nodes if needed.
+     * <p/>
+     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     * A default timeout is used for the cluster request.
+     *
+     * @param clientId the client identifier of the client
+     * @return {@link ClientData} for a specific client.
+     */
+    ListenableFuture<Optional<ClientData>> getClientDataForClientId(final String clientId);
+
+    /**
+     * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
+     * <p/>
+     * Calling this method frequently in a clustered environment could have negative performance effects.
+     * effects
+     *
+     * @param timeout The maximum time (in milliseconds) the broker will wait for the cluster response.
+     *                If the timeout is exceeded, the future will fail.
+     * @return client identifiers of all connected clients
+     */
+    ListenableFuture<Set<String>> getConnectedClients(final long timeout);
+
+    /**
+     * Returns all disconnected clients which have a persistent MQTT session on this broker or any other cluster node.
+     * <p/>
+     * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
+     *
+     * @param timeout The maximum time (in milliseconds) the broker will wait for the cluster response.
+     *                If the timeout is exceeded, the future will fail.
+     * @return all disconnected clients with a persistent MQTT session
+     */
+    ListenableFuture<Set<String>> getDisconnectedClients(final long timeout);
+
+    /**
+     * Check if a client with a given identifier is currently connected to this HiveMQ broker instance or any other instance in the cluster.
+     *
+     * @param clientId client, which should be checked
+     * @param timeout  The maximum time (in milliseconds) the broker will wait for the cluster response.
+     *                 If the timeout is exceeded, the future will fail.
+     * @return true, if a certain client is currently connected and false otherwise
+     */
+    ListenableFuture<Boolean> isClientConnected(final String clientId, final long timeout) throws IllegalStateException;
+
+    /**
+     * Returns additional client information about a given client with a given client identifier.
+     * <p/>
+     * This method will also get client information from other cluster nodes if needed.
+     * <p/>
+     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     *
+     * @param clientId the client identifier of the client
+     * @param timeout  The maximum time (in milliseconds) the broker will wait for the cluster response.
+     *                 If the timeout is exceeded, the future will fail.
+     * @return {@link ClientData} for a specific client.
+     */
+    ListenableFuture<Optional<ClientData>> getClientDataForClientId(final String clientId, final long timeout);
 
 }
