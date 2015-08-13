@@ -42,9 +42,9 @@ public interface ClientService {
     public Set<String> getLocalConnectedClients();
 
     /**
-     * Returns all disconnected clients which have a persistent MQTT session on this instance of HiveMQ (MQTT cleanSession=false).
+     * Returns all disconnected clients which have a persistent MQTT session on this instance of HiveMQ (MQTT clean session=false).
      * <p/>
-     * Disconnected MQTT clients which don't have a persistent Session won't be returned by this method
+     * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
      */
@@ -59,9 +59,7 @@ public interface ClientService {
     public boolean isClientConnectedLocal(String clientId);
 
     /**
-     * Returns additional client information about a given client with a given client identifier.
-     * Only returns client information for client that are connected to this broker,
-     * even if it is connected to a broker cluster.
+     * Returns client information for clients that are connected to this broker instance.
      * <p/>
      * If the client isn't connected, you will receive an {@link Optional} with absent data.
      *
@@ -71,9 +69,9 @@ public interface ClientService {
     public Optional<ClientData> getLocalClientDataForClientId(String clientId);
 
     /**
-     * Returns all identifiers of connected clients of this HiveMQ and all other nodes. If the broker is connected to a cluster.
+     * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
      * <p/>
-     * If you have many client connections, please not that calling this method frequently could have negative performance
+     * Calling this method frequently in a clustered environment could have negative performance effects.
      * effects
      * A default timeout is used for the cluster request.
      *
@@ -82,9 +80,9 @@ public interface ClientService {
     ListenableFuture<Set<String>> getConnectedClients();
 
     /**
-     * Returns all disconnected clients which have a persistent MQTT session (MQTT cleanSession=false).
+     * Returns all disconnected clients which have a persistent MQTT session on this broker or any other cluster node.
      * <p/>
-     * Disconnected MQTT clients which don't have a persistent Session won't be returned by this method
+     * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      * A default timeout is used for the cluster request.
      *
      * @return all disconnected clients with a persistent MQTT session
@@ -92,7 +90,7 @@ public interface ClientService {
     ListenableFuture<Set<String>> getDisconnectedClients();
 
     /**
-     * Check if a client with a given identifier is currently connected to the HiveMQ broker or the cluster.
+     * Check if a client with a given identifier is currently connected to this HiveMQ broker instance or any other instance in the cluster.
      * A default timeout is used for the cluster request.
      *
      * @param clientId client, which should be checked
@@ -103,6 +101,8 @@ public interface ClientService {
     /**
      * Returns additional client information about a given client with a given client identifier.
      * <p/>
+     * This method will also get client information from other cluster nodes if needed.
+     * <p/>
      * If the client isn't connected, you will receive an {@link Optional} with absent data.
      * A default timeout is used for the cluster request.
      *
@@ -112,10 +112,10 @@ public interface ClientService {
     ListenableFuture<Optional<ClientData>> getClientDataForClientId(final String clientId);
 
     /**
-     * Returns all identifiers of connected clients of this HiveMQ and all other nodes. If the broker is connected to a cluster.
+     * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
      * <p/>
-     * If you have many client connections, please not that calling this method frequently could have negative performance
-     * effects.
+     * Calling this method frequently in a clustered environment could have negative performance effects.
+     * effects
      *
      * @param timeout The maximum time (in milliseconds) the broker will wait for the cluster response.
      *                If the timeout is exceeded, the future will fail.
@@ -124,9 +124,9 @@ public interface ClientService {
     ListenableFuture<Set<String>> getConnectedClients(final long timeout);
 
     /**
-     * Returns all disconnected clients which have a persistent MQTT session (MQTT cleanSession=false).
+     * Returns all disconnected clients which have a persistent MQTT session on this broker or any other cluster node.
      * <p/>
-     * Disconnected MQTT clients which don't have a persistent Session won't be returned by this method
+     * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @param timeout The maximum time (in milliseconds) the broker will wait for the cluster response.
      *                If the timeout is exceeded, the future will fail.
@@ -135,7 +135,7 @@ public interface ClientService {
     ListenableFuture<Set<String>> getDisconnectedClients(final long timeout);
 
     /**
-     * Check if a client with a given identifier is currently connected to the HiveMQ broker or the cluster.
+     * Check if a client with a given identifier is currently connected to this HiveMQ broker instance or any other instance in the cluster.
      *
      * @param clientId client, which should be checked
      * @param timeout  The maximum time (in milliseconds) the broker will wait for the cluster response.
@@ -146,6 +146,8 @@ public interface ClientService {
 
     /**
      * Returns additional client information about a given client with a given client identifier.
+     * <p/>
+     * This method will also get client information from other cluster nodes if needed.
      * <p/>
      * If the client isn't connected, you will receive an {@link Optional} with absent data.
      *
