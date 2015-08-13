@@ -72,7 +72,6 @@ public interface ClientService {
      * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
      * <p/>
      * Calling this method frequently in a clustered environment could have negative performance effects.
-     * effects
      * A default timeout is used for the cluster request.
      *
      * @return client identifiers of all connected clients
