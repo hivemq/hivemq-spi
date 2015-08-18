@@ -3,6 +3,7 @@ package com.hivemq.spi.metrics;
 import com.codahale.metrics.*;
 import com.hivemq.spi.callback.events.*;
 import com.hivemq.spi.callback.security.*;
+import com.hivemq.spi.callback.lowlevel.*;
 import com.hivemq.spi.services.PluginExecutorService;
 
 /**
@@ -677,12 +678,125 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompSend} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBACK_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.puback-send.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompReceived} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBACK_RECEIVED =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.puback-received.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompSend} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_SUBACK_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.suback-send.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompReceived} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_UNSUBACK_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.unsuback-send.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompSend} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBCOMP_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.pubcomp-send.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompReceived} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBCOMP_RECEIVED =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.pubcomp-received.time", Timer.class);
+
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompSend} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBREC_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.pubrec-send.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompReceived} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBREC_RECEIVED =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.pubrec-received.time", Timer.class);
+
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompSend} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBREL_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.pubrel-send.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPubcompReceived} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PUBREL_RECEIVED =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.pubrel-received.time", Timer.class);
+
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnConnackSend} callback
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_CONNACK_SEND =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.connack-send.time", Timer.class);
+
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
      * of the {@link OnUnsubscribeCallback}
      *
      * @since 3.0
      */
     public static final HiveMQMetric<Timer> PLUGIN_TIMER_UNSUBSCRIBE =
             HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.unsubscribe.time", Timer.class);
+
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnPingCallback}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_PING =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.ping.time", Timer.class);
 
 
     /**
