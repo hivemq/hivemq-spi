@@ -16,10 +16,11 @@
 
 package com.hivemq.spi.services;
 
+import com.google.common.collect.Multimap;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.annotations.ReadOnly;
 import com.hivemq.spi.message.Topic;
-import com.google.common.collect.Multimap;
 
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public interface SubscriptionStore {
      * @return a {@link Multimap} of client identifiers and their topic subscriptions
      */
     @ReadOnly
-    Multimap<String, Topic> getSubscriptions();
+    Multimap<String, Topic> getLocalSubscriptions();
 
     /**
      * Returns all MQTT client subscriber identifiers for a given topic. MQTT Wildcards are allowed.
@@ -57,7 +58,7 @@ public interface SubscriptionStore {
      * @return client identifiers of all subscribers that subscribed to the topic
      */
     @ReadOnly
-    Set<String> getSubscribers(@NotNull String topic);
+    Set<String> getLocalSubscribers(@NotNull String topic);
 
     /**
      * Returns all topics a client is subscribed to.
@@ -73,7 +74,7 @@ public interface SubscriptionStore {
      * @return all topics the client subscribed to
      */
     @ReadOnly
-    Set<Topic> getTopics(@NotNull String clientID);
+    Set<Topic> getLocalTopics(@NotNull String clientID);
 
     /**
      * This method adds a subscription for a certain client to a certain topic.
@@ -84,7 +85,7 @@ public interface SubscriptionStore {
      * @param clientID client, which should be subscribed
      * @param topic    topic to which the client should be subscribed
      */
-    void addSubscription(@NotNull String clientID, @NotNull Topic topic);
+    ListenableFuture<Void> addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
     /**
      * This method removes a subscription for a certain client and a certain topic
@@ -92,6 +93,15 @@ public interface SubscriptionStore {
      * @param clientID client, which should get unsubscribed
      * @param topic    topic from which the client should get unsubscribed
      */
-    void removeSubscription(@NotNull String clientID, @NotNull String topic);
+    ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic);
 
+
+    @ReadOnly
+    ListenableFuture<Multimap<String, Topic>> getSubscriptions();
+
+    @ReadOnly
+    ListenableFuture<Set<String>> getSubscribers(@NotNull String topic);
+
+    @ReadOnly
+    ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);
 }
