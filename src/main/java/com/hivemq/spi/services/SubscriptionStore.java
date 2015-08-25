@@ -95,7 +95,6 @@ public interface SubscriptionStore {
      */
     ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic);
 
-
     @ReadOnly
     ListenableFuture<Multimap<String, Topic>> getSubscriptions();
 
@@ -104,4 +103,19 @@ public interface SubscriptionStore {
 
     @ReadOnly
     ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);
+
+
+    ListenableFuture<Void> addSubscription(@NotNull String clientID, @NotNull Topic topic, long timeout);
+
+    ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic, long timeout);
+
+    @ReadOnly
+    ListenableFuture<Multimap<String, Topic>> getSubscriptions(long timeout);
+
+    @ReadOnly
+    ListenableFuture<Set<String>> getSubscribers(@NotNull String topic, long timeout);
+
+    @ReadOnly
+    ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID, long timeout);
+
 }
