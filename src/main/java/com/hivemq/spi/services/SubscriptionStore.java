@@ -85,8 +85,6 @@ public interface SubscriptionStore {
      * <p/>
      * This method is lenient, so if the clientId or the topic
      * is <code>null</code>, nothing will happen.
-     * <p/>
-     * A default timeout is used for the cluster request.
      *
      * @param clientID client, which should be subscribed
      * @param topic    topic to which the client should be subscribed
@@ -98,8 +96,6 @@ public interface SubscriptionStore {
     /**
      * This method removes a subscription for a certain client and a certain topic.
      * If HiveMQ is connected to a cluster, the subscription will be removed by other Cluster Nodes as well.
-     * <p/>
-     * A default timeout is used for the cluster request.
      *
      * @param clientID client, which should get unsubscribed
      * @param topic    topic from which the client should get unsubscribed
@@ -116,8 +112,6 @@ public interface SubscriptionStore {
      * negative performance effects.
      * <p/>
      * The returned Multimap is read-only and must not be modified.
-     * <p/>
-     * A default timeout is used for the cluster request.
      *
      * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
      */
@@ -132,8 +126,6 @@ public interface SubscriptionStore {
      * it will just return an empty Set.
      * <p/>
      * The returned Set is read-only and must not be modified.
-     * <p/>
-     * A default timeout is used for the cluster request.
      *
      * @param topic the topic
      * @return client identifiers of all subscribers that subscribed to the topic
@@ -150,93 +142,11 @@ public interface SubscriptionStore {
      * it will just return an empty Set.
      * <p/>
      * The returned Set is read-only and must not be modified.
-     * <p/>
-     * A default timeout is used for the cluster request.
      *
      * @param clientID of the client
      * @return all topics the client subscribed to
      */
     @ReadOnly
     ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);
-
-    /**
-     * This method adds a subscription for a certain client to a certain topic.
-     * If HiveMQ is connected to a cluster, the subscription will be broadcast to all other Cluster Nodes.
-     * <p/>
-     * This method is lenient, so if the clientId or the topic
-     * is <code>null</code>, nothing will happen.
-     *
-     * @param clientID client, which should be subscribed
-     * @param topic    topic to which the client should be subscribed
-     * @param timeout  The maximum time (in milliseconds) the broker will wait for the cluster response.
-     *                 If the timeout is exceeded, the future will fail.
-     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
-     * as soon es the subscription was added by all Cluster Nodes.
-     */
-    ListenableFuture<Void> addSubscription(@NotNull String clientID, @NotNull Topic topic, long timeout);
-
-    /**
-     * This method removes a subscription for a certain client and a certain topic.
-     * If HiveMQ is connected to a cluster, the subscription will be removed by other Cluster Nodes as well.
-     * <p/>
-     * A default timeout is used for the cluster request.
-     *
-     * @param clientID client, which should get unsubscribed
-     * @param topic    topic from which the client should get unsubscribed
-     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
-     * as soon es the subscription was removed by all Cluster Nodes.
-     */
-    ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic, long timeout);
-
-    /**
-     * This method returns all subscriptions this HiveMQ instance and all other nodes in a HiveMQ cluster,
-     * as a {@link com.google.common.collect.Multimap} of client identifiers and topics.
-     * <p/>
-     * Please be aware that calling this method on HiveMQ instances with many subscriptions could have
-     * negative performance effects.
-     * <p/>
-     * The returned Multimap is read-only and must not be modified.
-     *
-     * @param timeout The maximum time (in milliseconds) the broker will wait for the cluster response.
-     *                If the timeout is exceeded, the future will fail.
-     * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
-     */
-    @ReadOnly
-    ListenableFuture<Multimap<String, Topic>> getSubscriptions(long timeout);
-
-    /**
-     * Returns all MQTT client subscriber identifiers for a given topic, this HiveMQ instance and all other nodes in a HiveMQ cluster.
-     * MQTT Wildcards are allowed.
-     * <p/>
-     * Don't pass <code>null</code> as topic. This method is lenient, so
-     * it will just return an empty Set.
-     * <p/>
-     * The returned Set is read-only and must not be modified.
-     *
-     * @param timeout The maximum time (in milliseconds) the broker will wait for the cluster response.
-     *                If the timeout is exceeded, the future will fail.
-     * @param topic   the topic
-     * @return client identifiers of all subscribers that subscribed to the topic
-     */
-    @ReadOnly
-    ListenableFuture<Set<String>> getSubscribers(@NotNull String topic, long timeout);
-
-    /**
-     * Returns all topics a client is subscribed to, on this HiveMQ instance and all other nodes in a HiveMQ cluster.
-     * <p/>
-     * If the client does not exist, an empty Set is returned.
-     * <p/>
-     * Don't pass <code>null</code> as clientId. This method is lenient, so
-     * it will just return an empty Set.
-     * <p/>
-     * The returned Set is read-only and must not be modified.
-     *
-     * @param timeout  The maximum time (in milliseconds) the broker will wait for the cluster response.
-     *                 If the timeout is exceeded, the future will fail.
-     * @param clientID of the client
-     * @return all topics the client subscribed to
-     */
-    @ReadOnly
-    ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID, long timeout);
 
 }
