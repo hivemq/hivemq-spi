@@ -16,10 +16,11 @@
 
 package com.hivemq.spi.services;
 
+import com.google.common.collect.Multimap;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.annotations.ReadOnly;
 import com.hivemq.spi.message.Topic;
-import com.google.common.collect.Multimap;
 
 import java.util.Set;
 
@@ -33,20 +34,23 @@ import java.util.Set;
 public interface SubscriptionStore {
 
     /**
-     * This method returns all subscriptions on HiveMQ as a {@link Multimap} of client identifiers and topics.
+     * This method returns all subscriptions on this HiveMQ Node as a {@link com.google.common.collect.Multimap} of client identifiers and topics.
+     * You won't receive subscriptions of connected
+     * clients from other HiveMQ nodes if HiveMQ runs in a cluster.
      * <p/>
      * Please be aware that calling this method on HiveMQ instances with many subscriptions could have
      * negative performance effects.
      * <p/>
      * The returned Multimap is read-only and must not be modified.
      *
-     * @return a {@link Multimap} of client identifiers and their topic subscriptions
+     * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
      */
     @ReadOnly
-    Multimap<String, Topic> getSubscriptions();
+    Multimap<String, Topic> getLocalSubscriptions();
 
     /**
-     * Returns all MQTT client subscriber identifiers for a given topic. MQTT Wildcards are allowed.
+     * Returns all MQTT client subscriber identifiers for a given topic, for this HiveMQ instance.
+     * MQTT Wildcards are allowed.
      * <p/>
      * Don't pass <code>null</code> as topic. This method is lenient, so
      * it will just return an empty Set.
@@ -57,10 +61,10 @@ public interface SubscriptionStore {
      * @return client identifiers of all subscribers that subscribed to the topic
      */
     @ReadOnly
-    Set<String> getSubscribers(@NotNull String topic);
+    Set<String> getLocalSubscribers(@NotNull String topic);
 
     /**
-     * Returns all topics a client is subscribed to.
+     * Returns all topics a client is subscribed to, on this HiveMQ instance.
      * <p/>
      * If the client does not exist, an empty Set is returned.
      * <p/>
@@ -73,25 +77,76 @@ public interface SubscriptionStore {
      * @return all topics the client subscribed to
      */
     @ReadOnly
-    Set<Topic> getTopics(@NotNull String clientID);
+    Set<Topic> getLocalTopics(@NotNull String clientID);
 
     /**
      * This method adds a subscription for a certain client to a certain topic.
+     * If HiveMQ is connected to a cluster, the subscription will be broadcast to all other Cluster Nodes.
      * <p/>
      * This method is lenient, so if the clientId or the topic
      * is <code>null</code>, nothing will happen.
      *
      * @param clientID client, which should be subscribed
      * @param topic    topic to which the client should be subscribed
+     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
+     * as soon es the subscription was added by all Cluster Nodes.
      */
-    void addSubscription(@NotNull String clientID, @NotNull Topic topic);
+    ListenableFuture<Void> addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
     /**
-     * This method removes a subscription for a certain client and a certain topic
+     * This method removes a subscription for a certain client and a certain topic.
+     * If HiveMQ is connected to a cluster, the subscription will be removed by other Cluster Nodes as well.
      *
      * @param clientID client, which should get unsubscribed
      * @param topic    topic from which the client should get unsubscribed
+     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
+     * as soon es the subscription was removed by all Cluster Nodes.
      */
-    void removeSubscription(@NotNull String clientID, @NotNull String topic);
+    ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic);
+
+    /**
+     * This method returns all subscriptions this HiveMQ instance and all other nodes in a HiveMQ cluster,
+     * as a {@link com.google.common.collect.Multimap} of client identifiers and topics.
+     * <p/>
+     * Please be aware that calling this method on HiveMQ instances with many subscriptions could have
+     * negative performance effects.
+     * <p/>
+     * The returned Multimap is read-only and must not be modified.
+     *
+     * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     */
+    @ReadOnly
+    ListenableFuture<Multimap<String, Topic>> getSubscriptions();
+
+    /**
+     * Returns all MQTT client subscriber identifiers for a given topic, this HiveMQ instance and all other nodes in a HiveMQ cluster.
+     * MQTT Wildcards are allowed.
+     * <p/>
+     * Don't pass <code>null</code> as topic. This method is lenient, so
+     * it will just return an empty Set.
+     * <p/>
+     * The returned Set is read-only and must not be modified.
+     *
+     * @param topic the topic
+     * @return client identifiers of all subscribers that subscribed to the topic
+     */
+    @ReadOnly
+    ListenableFuture<Set<String>> getSubscribers(@NotNull String topic);
+
+    /**
+     * Returns all topics a client is subscribed to, on this HiveMQ instance and all other nodes in a HiveMQ cluster.
+     * <p/>
+     * If the client does not exist, an empty Set is returned.
+     * <p/>
+     * Don't pass <code>null</code> as clientId. This method is lenient, so
+     * it will just return an empty Set.
+     * <p/>
+     * The returned Set is read-only and must not be modified.
+     *
+     * @param clientID of the client
+     * @return all topics the client subscribed to
+     */
+    @ReadOnly
+    ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);
 
 }
