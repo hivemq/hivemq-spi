@@ -23,7 +23,7 @@ import java.util.List;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class SUBSCRIBE extends Message {
+public class SUBSCRIBE implements Message {
 
     private int messageId;
 

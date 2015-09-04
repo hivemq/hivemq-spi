@@ -20,7 +20,7 @@ package com.hivemq.spi.message;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class CONNACK extends Message {
+public class CONNACK implements Message {
 
 
     private final ReturnCode returnCode;

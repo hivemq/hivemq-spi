@@ -20,6 +20,6 @@ package com.hivemq.spi.message;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class PINGRESP extends Message {
+public class PINGRESP implements Message {
 
 }
