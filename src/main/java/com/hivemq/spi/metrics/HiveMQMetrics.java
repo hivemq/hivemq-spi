@@ -383,6 +383,23 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf("com.hivemq.messages.incoming.unsubscribe.count", Counter.class);
 
     /**
+     * represents a {@link Meter},which measures the current rate of dropped PUBLISH messages
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Meter> DROPPED_MESSAGE_RATE =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.rate", Meter.class);
+
+    /**
+     * represents a {@link Counter}, which counts every dropped PUBLISH messages
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.count", Counter.class);
+
+
+    /**
      * represents a {@link Meter}, which measures the current rate of outgoing MQTT UNSUBACK messages
      *
      * @since 3.0
