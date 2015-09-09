@@ -20,7 +20,7 @@ package com.hivemq.spi.message;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class UNSUBACK extends Message {
+public class UNSUBACK implements Message {
 
     private int messageId;
 

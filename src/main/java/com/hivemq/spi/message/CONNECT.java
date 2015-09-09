@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class CONNECT extends Message {
+public class CONNECT implements Message {
 
     private boolean cleanSession;
 

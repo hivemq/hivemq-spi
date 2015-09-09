@@ -20,7 +20,7 @@ package com.hivemq.spi.message;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class MessageWithID extends Message {
+public class MessageWithID implements Message {
 
     protected int messageId;
 

@@ -24,8 +24,6 @@ public class PUBREL extends MessageWithID {
 
 
     public PUBREL(final int messageId) {
-
         super(messageId);
-        setQoS(QoS.AT_LEAST_ONCE);
     }
 }

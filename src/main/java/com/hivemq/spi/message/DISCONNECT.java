@@ -20,6 +20,6 @@ package com.hivemq.spi.message;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class DISCONNECT extends Message {
+public class DISCONNECT implements Message {
 
 }

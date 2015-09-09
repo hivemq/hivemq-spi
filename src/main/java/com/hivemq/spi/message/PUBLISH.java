@@ -31,6 +31,21 @@ public class PUBLISH extends MessageWithID {
 
     private String topic;
 
+    private boolean duplicateDelivery;
+
+    private boolean retain;
+
+    private QoS qoS;
+
+    public PUBLISH() {
+    }
+
+    public PUBLISH(final byte[] payload, final String topic, final QoS qoS) {
+        this.payload = payload;
+        this.topic = topic;
+        this.qoS = qoS;
+    }
+
     public byte[] getPayload() {
         return payload;
     }
@@ -47,6 +62,29 @@ public class PUBLISH extends MessageWithID {
         this.topic = topic;
     }
 
+    public boolean isDuplicateDelivery() {
+        return duplicateDelivery;
+    }
+
+    public void setDuplicateDelivery(final boolean duplicateDelivery) {
+        this.duplicateDelivery = duplicateDelivery;
+    }
+
+    public boolean isRetain() {
+        return retain;
+    }
+
+    public void setRetain(final boolean retain) {
+        this.retain = retain;
+    }
+
+    public QoS getQoS() {
+        return qoS;
+    }
+
+    public void setQoS(final QoS qoS) {
+        this.qoS = qoS;
+    }
 
     /**
      * Makes a deep copy of a {@link PUBLISH} object.

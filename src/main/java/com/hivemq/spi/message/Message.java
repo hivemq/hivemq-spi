@@ -22,36 +22,6 @@ import java.io.Serializable;
  * @author Dominik Obermaier
  * @since 1.4
  */
-public abstract class Message implements Serializable {
+public interface Message extends Serializable {
 
-    private boolean duplicateDelivery;
-
-    private boolean retain;
-
-    private QoS qoS;
-
-
-    public boolean isDuplicateDelivery() {
-        return duplicateDelivery;
-    }
-
-    public void setDuplicateDelivery(final boolean duplicateDelivery) {
-        this.duplicateDelivery = duplicateDelivery;
-    }
-
-    public boolean isRetain() {
-        return retain;
-    }
-
-    public void setRetain(final boolean retain) {
-        this.retain = retain;
-    }
-
-    public QoS getQoS() {
-        return qoS;
-    }
-
-    public void setQoS(final QoS qoS) {
-        this.qoS = qoS;
-    }
 }
