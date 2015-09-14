@@ -388,7 +388,7 @@ public class HiveMQMetrics {
      * @since 3.0
      */
     public static final HiveMQMetric<Counter> HALF_FULL_QUEUE_COUNT =
-            HiveMQMetric.valueOf("com.hivemq.clients.half.full.queue.count", Counter.class);
+            HiveMQMetric.valueOf("com.hivemq.clients.half-full-queue.count", Counter.class);
 
     /**
      * represents a {@link Meter},which measures the current rate of dropped PUBLISH messages
