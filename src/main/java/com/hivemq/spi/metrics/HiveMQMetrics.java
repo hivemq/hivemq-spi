@@ -383,6 +383,14 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf("com.hivemq.messages.incoming.unsubscribe.count", Counter.class);
 
     /**
+     * represents a {@link Counter}, which counts the amount of clients with a message queue, that is at least half-full.
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Counter> HALF_FULL_QUEUE_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.clients.half-full-queue.count", Counter.class);
+
+    /**
      * represents a {@link Meter},which measures the current rate of dropped PUBLISH messages
      *
      * @since 3.0
