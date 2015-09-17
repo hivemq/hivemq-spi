@@ -46,5 +46,5 @@ public interface RestrictionsAfterLoginCallback extends AsynchronousCallback {
      * @param clientData information about the client
      * @return a set of restrictions for the client
      */
-    public Set<Restriction> getRestrictions(ClientData clientData);
+    Set<Restriction> getRestrictions(ClientData clientData);
 }

@@ -34,6 +34,7 @@ import java.util.List;
  * called every time HiveMQ asks for the client permissions.
  *
  * @author Christian Goetz
+ * @author Christoph Schäbel
  * @since 1.4
  */
 public interface OnAuthorizationCallback extends SynchronousCallback {
