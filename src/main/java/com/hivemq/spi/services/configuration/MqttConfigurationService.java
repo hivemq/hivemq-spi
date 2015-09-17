@@ -21,16 +21,32 @@ import com.hivemq.spi.services.configuration.validation.validators.MaxClientIdVa
 import com.hivemq.spi.services.configuration.validation.validators.ZeroablePositiveNumber;
 
 /**
+ * A Configuration service which allows to get information about the current MQTT configuration
+ * and allows to change the global MQTT configuration of HiveMQ at runtime.
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 public interface MqttConfigurationService {
 
+    /**
+     * @return the global maximum allowed client identifier length
+     */
     int maxClientIdLength();
 
+    /**
+     * @return the global retry interval in seconds for resending unacknowledged MQTT packets
+     */
     int retryInterval();
 
+    /**
+     * @return the global maximum in-flight queued messages per client
+     */
     long maxQueuedMessages();
 
+    /**
+     * @return the global maximum timeout for idle TCP connections of clients which didn't send a CONNECT message.
+     */
     long noConnectIdleTimeoutMillis();
 
     @Validate(MaxClientIdValidator.class)

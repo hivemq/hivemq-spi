@@ -21,7 +21,10 @@ import com.hivemq.spi.annotations.Immutable;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * A listener which allows to listen to MQTT traffic via TCP
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 @Immutable
 public class TcpListener implements Listener {
@@ -31,6 +34,12 @@ public class TcpListener implements Listener {
 
     private String bindAddress;
 
+    /**
+     * Creates a new TCP listener which listens to a specific port and bind address
+     *
+     * @param port        the port
+     * @param bindAddress the bind address
+     */
     public TcpListener(final int port, final String bindAddress) {
         checkNotNull(bindAddress);
         this.port = port;
@@ -38,16 +47,25 @@ public class TcpListener implements Listener {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getPort() {
         return port;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getBindAddress() {
         return bindAddress;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String readableName() {
         return "TCP Listener";

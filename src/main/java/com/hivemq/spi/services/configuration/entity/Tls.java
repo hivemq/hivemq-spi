@@ -17,22 +17,39 @@
 package com.hivemq.spi.services.configuration.entity;
 
 import com.hivemq.spi.annotations.Immutable;
+import com.hivemq.spi.annotations.NotNull;
+import com.hivemq.spi.annotations.Nullable;
 
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * The TLS configuration
+ *
  * @author Dominik Obermaier
  * @author Christoph Schäbel
+ * @since 3.0
  */
 @Immutable
 public class Tls {
 
 
+    /**
+     * The X509 client certificate authentication mode.
+     */
     public enum ClientAuthMode {
+        /**
+         * Clients are not allowed to send X509 client certificates
+         */
         NONE("none"),
+        /**
+         * Clients can send X509 client certificates but they're not required to do so
+         */
         OPTIONAL("optional"),
+        /**
+         * Clients must send X509 client certificates
+         */
         REQUIRED("required");
         private final String clientAuthMode;
 
@@ -41,6 +58,9 @@ public class Tls {
             this.clientAuthMode = clientAuthMode;
         }
 
+        /**
+         * @return the client authentication mode
+         */
         public String getClientAuthMode() {
             return clientAuthMode;
         }
@@ -66,10 +86,28 @@ public class Tls {
 
     private final List<String> cipherSuites;
 
-    public Tls(final String keystorePath,
-               final String keystorePassword, final String keystoreType, final String privateKeyPassword, final String truststorePath,
-               final String truststorePassword, String truststoreType, final int handshakeTimeout, final ClientAuthMode clientAuthMode,
-               final List<String> protocols, final List<String> cipherSuites) {
+    /**
+     * Creates a new TLS configuration
+     *
+     * @param keystorePath       the path to the keystore
+     * @param keystorePassword   the password for the keystore
+     * @param keystoreType       the keystore type. When in doubt, use <b>JKS</b>
+     * @param privateKeyPassword the password to the private key
+     * @param truststorePath     the path to the truststore
+     * @param truststorePassword the password for the truststore
+     * @param truststoreType     the truststore type. When in doubt, use <b>JKS</b>
+     * @param handshakeTimeout   the TLS handshake timeout
+     * @param clientAuthMode     the client authentication mode
+     * @param protocols          the supported protocols. <code>null</code> means that all enabled protocols by the JVM are enabled
+     * @param cipherSuites       the supported cipher suites. <code>null</code> means that all enabled cipher suites by the JVM are enabled
+     */
+    public Tls(@NotNull final String keystorePath,
+               @NotNull final String keystorePassword, @NotNull final String keystoreType,
+               final String privateKeyPassword,
+               @Nullable final String truststorePath,
+               @Nullable final String truststorePassword,
+               @Nullable final String truststoreType, final int handshakeTimeout, @NotNull final ClientAuthMode clientAuthMode,
+               @Nullable final List<String> protocols, @Nullable final List<String> cipherSuites) {
 
         checkNotNull(clientAuthMode, "clientAuthMode must not be null");
         checkNotNull(protocols, "protocols must not be null");
@@ -87,46 +125,82 @@ public class Tls {
         this.cipherSuites = cipherSuites;
     }
 
+    /**
+     * @return the keystore path
+     */
     public String getKeystorePath() {
         return keystorePath;
     }
 
+    /**
+     * @return the keystore password
+     */
     public String getKeystorePassword() {
         return keystorePassword;
     }
 
+    /**
+     * @return the keystore type
+     */
     public String getKeystoreType() {
         return keystoreType;
     }
 
+    /**
+     * @return the password of the private key
+     */
     public String getPrivateKeyPassword() {
         return privateKeyPassword;
     }
 
+    /**
+     * @return the truststore path
+     */
+    @Nullable
     public String getTruststorePath() {
         return truststorePath;
     }
 
+    /**
+     * @return the truststore password
+     */
+    @Nullable
     public String getTruststorePassword() {
         return truststorePassword;
     }
 
+    /**
+     * @return the truststore type
+     */
+    @Nullable
     public String getTruststoreType() {
         return truststoreType;
     }
 
+    /**
+     * @return the TLS handshake timeout
+     */
     public int getHandshakeTimeout() {
         return handshakeTimeout;
     }
 
+    /**
+     * @return the client authentication mode
+     */
     public ClientAuthMode getClientAuthMode() {
         return clientAuthMode;
     }
 
+    /**
+     * @return the enabled TLS protocols
+     */
     public List<String> getProtocols() {
         return protocols;
     }
 
+    /**
+     * @return the enabled cipher suites
+     */
     public List<String> getCipherSuites() {
         return cipherSuites;
     }

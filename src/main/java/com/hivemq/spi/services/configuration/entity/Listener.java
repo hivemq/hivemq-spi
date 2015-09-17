@@ -28,9 +28,18 @@ package com.hivemq.spi.services.configuration.entity;
  */
 public interface Listener {
 
+    /**
+     * @return the port of the listener
+     */
     int getPort();
 
+    /**
+     * @return the bind address of a listener
+     */
     String getBindAddress();
 
+    /**
+     * @return the human readable, name of the listener
+     */
     String readableName();
 }

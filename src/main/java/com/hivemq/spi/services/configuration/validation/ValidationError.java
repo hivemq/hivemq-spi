@@ -19,6 +19,8 @@ package com.hivemq.spi.services.configuration.validation;
 import com.hivemq.spi.annotations.Immutable;
 
 /**
+ * A concrete validation erro
+ *
  * @author Dominik Obermaier
  */
 @Immutable

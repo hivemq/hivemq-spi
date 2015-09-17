@@ -19,7 +19,10 @@ package com.hivemq.spi.services.configuration.validation;
 import java.util.List;
 
 /**
+ * The configuration validator
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 public interface Validator<T> {
 

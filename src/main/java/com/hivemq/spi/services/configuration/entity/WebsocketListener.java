@@ -16,8 +16,8 @@
 
 package com.hivemq.spi.services.configuration.entity;
 
-import com.hivemq.spi.annotations.Immutable;
 import com.google.common.collect.ImmutableList;
+import com.hivemq.spi.annotations.Immutable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,12 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * A listener which allows to listen to MQTT traffic over websockets.
+ * <p/>
+ * Use the builder if you want to create a new websocket listener.
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 @Immutable
 public class WebsocketListener implements Listener {
@@ -52,33 +57,54 @@ public class WebsocketListener implements Listener {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getPort() {
         return port;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getBindAddress() {
         return bindAddress;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String readableName() {
         return "Websocket Listener";
     }
 
+    /**
+     * @return the path of the websocket
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * @return if websocket extensions are allowed or not
+     */
     public Boolean getAllowExtensions() {
         return allowExtensions;
     }
 
+    /**
+     * @return a list of all supported subprotocols
+     */
     public List<String> getSubprotocols() {
         return subprotocols;
     }
 
+    /**
+     * A builder which allows to conveniently build a listener object with a fluent API
+     */
     public static class Builder {
         protected Integer port;
         protected String bindAddress;
@@ -92,34 +118,71 @@ public class WebsocketListener implements Listener {
             subprotocols.add("mqtt");
         }
 
+        /**
+         * Sets the port of the websocket listener
+         *
+         * @param port the port
+         * @return the Builder
+         */
         public Builder port(final int port) {
             this.port = port;
             return this;
         }
 
+        /**
+         * Sets the bind address of the websocket listener
+         *
+         * @param bindAddress the bind address
+         * @return the Builder
+         */
         public Builder bindAddress(final String bindAddress) {
             checkNotNull(bindAddress);
             this.bindAddress = bindAddress;
             return this;
         }
 
+        /**
+         * Sets the websocket path of the websocket listener
+         *
+         * @param path the path
+         * @return the Builder
+         */
         public Builder path(final String path) {
             checkNotNull(path);
             this.path = path;
             return this;
         }
 
+        /**
+         * Sets if websocket extensions should be allowed or not
+         *
+         * @param allowExtensions if websocket extensions should be allowed or not
+         * @return the Builder
+         */
         public Builder allowExtensions(final boolean allowExtensions) {
             this.allowExtensions = allowExtensions;
             return this;
         }
 
+        /**
+         * Sets a list of subprotocols the websocket listener should support.
+         * <p/>
+         * Typically you should use 'mqtt' and/or 'mqttv3.1
+         *
+         * @param subprotocols a list of websocket subprotocols
+         * @return the Builder
+         */
         public Builder setSubprotocols(final List<String> subprotocols) {
             checkNotNull(subprotocols);
             this.subprotocols = ImmutableList.copyOf(subprotocols);
             return this;
         }
 
+        /**
+         * Creates the Websocket Listener
+         *
+         * @return the Websocket Listener
+         */
         public WebsocketListener build() throws IllegalStateException {
             if (port == null) {
                 throw new IllegalStateException("The port for a Websocket listener was not set.");

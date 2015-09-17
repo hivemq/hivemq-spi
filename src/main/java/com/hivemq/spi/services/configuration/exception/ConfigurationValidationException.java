@@ -16,13 +16,16 @@
 
 package com.hivemq.spi.services.configuration.exception;
 
-import com.hivemq.spi.services.configuration.validation.ValidationError;
 import com.google.common.collect.ImmutableList;
+import com.hivemq.spi.services.configuration.validation.ValidationError;
 
 import java.util.List;
 
 /**
+ * This exception indicates that a configuration was no successful
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 public class ConfigurationValidationException extends RuntimeException {
 
@@ -32,6 +35,9 @@ public class ConfigurationValidationException extends RuntimeException {
         this.validationErrors = ImmutableList.copyOf(validationErrors);
     }
 
+    /**
+     * @return a list of all Validation errors
+     */
     public List<ValidationError> getValidationErrors() {
         return validationErrors;
     }

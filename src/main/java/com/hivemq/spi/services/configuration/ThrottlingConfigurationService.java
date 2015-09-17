@@ -17,7 +17,7 @@
 package com.hivemq.spi.services.configuration;
 
 /**
- * A Configuration service which allows to get information about the current configuration
+ * A Configuration service which allows to get information about the current throttling configuration
  * and allows to change the global throttling configuration of HiveMQ at runtime.
  *
  * @author Dominik Obermaier
