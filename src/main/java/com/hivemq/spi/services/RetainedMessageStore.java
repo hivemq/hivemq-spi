@@ -27,7 +27,7 @@ import java.util.Set;
  * @author Lukas Brandl
  * @since 1.5
  */
-interface RetainedMessageStore {
+public interface RetainedMessageStore {
 
     /**
      * @return all retained messages which are currently stored
