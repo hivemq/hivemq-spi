@@ -22,10 +22,22 @@ import com.hivemq.spi.message.CONNACK;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * The OnConnackSend Callback gets called when the broker sent
+ * a CONNACK message to a client
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnConnackSend extends AsynchronousCallback, LowlevelCallback {
 
+    /**
+     * This method gets called after a CONNACK message was sent to the client.
+     * <p/>
+     * This method does not allow to interfere with the CONNACK message and is just
+     * for information that this CONNACK message was sent.
+     *
+     * @param connack    the CONNACK message
+     * @param clientData the clientData
+     */
     void onConnackSend(CONNACK connack, ClientData clientData);
 }

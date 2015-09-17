@@ -22,10 +22,19 @@ import com.hivemq.spi.message.PUBACK;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * This callback gets called after a PUBACK message was received from a client
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnPubackReceived extends AsynchronousCallback, LowlevelCallback {
 
+    /**
+     * This method gets called every time a client sent a PUBACK message. This callback does not allow
+     * to interfere with HiveMQ and is for information purposes only
+     *
+     * @param puback     the PUBACK message which was received by HiveMQ
+     * @param clientData the ClientData of the client which sent the PUBACK message
+     */
     void onPubackReceived(PUBACK puback, ClientData clientData);
 }
