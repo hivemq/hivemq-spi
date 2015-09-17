@@ -6,6 +6,7 @@ import java.io.File;
  * Useful information about HiveMQ and the underlying system
  *
  * @author Christoph Schäbel
+ * @since 3.0
  */
 public interface SystemInformation {
 

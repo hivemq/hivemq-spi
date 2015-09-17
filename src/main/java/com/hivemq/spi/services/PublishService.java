@@ -16,10 +16,11 @@
 
 package com.hivemq.spi.services;
 
+import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.message.PUBLISH;
 
 /**
- * This service allows plugins to publish new MQTT messages
+ * This service allows plugins to publish new MQTT messages programmatically
  *
  * @author Lukas Brandl
  * @since 1.5
@@ -36,13 +37,13 @@ public interface PublishService {
      * @throws NullPointerException if the given object is <code>null</code> or any relevant information like topic, qos
      *                              or message is <code>null</code>
      */
-    public void publish(final PUBLISH publish);
+    void publish(@NotNull PUBLISH publish);
 
 
     /**
      * Publishes a new MQTT {@link PUBLISH} message.
      * The PUBLISH will only be delivered to the client with the specified client identifier.
-     * Also the client needs to be subscribed on the topic of the PUBLISH to receive it.
+     * Also the client needs to be subscribed on the topic of the PUBLISH in order to receive it.
      * <p/>
      * If the given {@link PUBLISH} or any of its information (topic,qos,message) is null, a {@link NullPointerException}
      * will be thrown
@@ -51,5 +52,5 @@ public interface PublishService {
      * @throws NullPointerException if the given object is <code>null</code> or any relevant information like topic, qos
      *                              or message is <code>null</code>
      */
-    public void publishtoClient(final PUBLISH publish, final String clientId);
+    void publishtoClient(@NotNull PUBLISH publish, @NotNull String clientId);
 }

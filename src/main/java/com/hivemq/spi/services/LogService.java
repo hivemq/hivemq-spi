@@ -21,9 +21,10 @@ import com.hivemq.spi.annotations.NotNull;
 
 /**
  * The logservice which allows to change the internal logger
- * of HiveMQ at runtime
+ * of HiveMQ at runtime programmatically
  *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 public interface LogService {
 
@@ -32,10 +33,25 @@ public interface LogService {
      */
     enum LogLevel {
 
+        /**
+         * The TRACE log level for finest HiveMQ logging
+         */
         TRACE,
+        /**
+         * The DEBUG log level for fine HiveMQ logging
+         */
         DEBUG,
+        /**
+         * The INFO log level. INFO logging is the default HiveMQ log behaviour
+         */
         INFO,
+        /**
+         * The WARN log level which only logs warnings
+         */
         WARN,
+        /**
+         * The ERROR log level which only logs severe HiveMQ errors
+         */
         ERROR
 
     }
@@ -44,16 +60,16 @@ public interface LogService {
      * Changes the log level of the internal HiveMQ logger
      * <p/>
      * This does not support <code>null</code> parameters. If you pass
-     * <code>null</code>, this method is lenient and will ignore it
+     * <code>null</code>, this method is lenient and will ignore the parameter
      *
      * @param logLevel the new loglevel
      */
     void setLogLevel(@NotNull LogLevel logLevel);
 
     /**
-     * Returns the current loglevel of the internal HiveMQ logger
+     * Returns the current log level of the internal HiveMQ logger
      *
-     * @return the current loglevel of the internal HiveMQ logger
+     * @return the current log level of the internal HiveMQ logger
      */
     LogLevel getLogLevel();
 }
