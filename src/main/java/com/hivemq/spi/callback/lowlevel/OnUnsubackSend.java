@@ -22,10 +22,20 @@ import com.hivemq.spi.message.UNSUBACK;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * The OnUnsubackSend callback gets called after HiveMQ sends a UNSUBACK message to a client. It's not possible to interfere
+ * with HiveMQ in this callback and this callback is for information purposes only
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnUnsubackSend extends AsynchronousCallback, LowlevelCallback {
 
-    void onUnsubackSend(UNSUBACK suback, ClientData clientData);
+    /**
+     * This method is called after HiveMQ sends a UNSUBACK message to a client. It's not possible to interfere with HiveMQ
+     * in this callback and this callback is for information purposes only
+     *
+     * @param unsuback   the UNSUBACK message HiveMQ sends to the client
+     * @param clientData the ClientData of the client HiveMQ sends the message to
+     */
+    void onUnsubackSend(UNSUBACK unsuback, ClientData clientData);
 }

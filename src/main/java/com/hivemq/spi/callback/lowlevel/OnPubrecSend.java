@@ -22,10 +22,20 @@ import com.hivemq.spi.message.PUBREC;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * The OnPubrecSend callback gets executed after a PUBREC message was sent by HiveMQ
+ * to a client.
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnPubrecSend extends AsynchronousCallback, LowlevelCallback {
 
+    /**
+     * This method gets called when HiveMQ sends a PUBREC message to a client. It's not possible to interfere
+     * with HiveMQ in this callback and this callback is for information purposes only
+     *
+     * @param pubrec     the PUBREC message HiveMQ sends to a client
+     * @param clientData the ClientData for the client HiveMQ sends the PUBREC message to
+     */
     void onPubrecSend(PUBREC pubrec, ClientData clientData);
 }

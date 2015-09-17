@@ -22,10 +22,20 @@ import com.hivemq.spi.message.PUBCOMP;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * The OnPubcompSend callback gets executed after a PUBCOMP message was sent by HiveMQ
+ * to a client.
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnPubcompSend extends AsynchronousCallback, LowlevelCallback {
 
+    /**
+     * This method gets called when HiveMQ sends a PUBCOMP message to a client. It's not possible to interfere
+     * with HiveMQ in this callback and this callback is for information purposes only
+     *
+     * @param pubcomp    the PUBCOMP message HiveMQ sends to a client
+     * @param clientData the ClientData for the client HiveMQ sends the PUBCOMP message to
+     */
     void onPubcompSend(PUBCOMP pubcomp, ClientData clientData);
 }
