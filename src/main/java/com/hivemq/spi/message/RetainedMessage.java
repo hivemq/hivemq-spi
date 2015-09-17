@@ -17,6 +17,8 @@
 package com.hivemq.spi.message;
 
 /**
+ * A retained message
+ *
  * @author Lukas Brandl
  */
 public class RetainedMessage {
@@ -24,7 +26,7 @@ public class RetainedMessage {
     private byte[] message;
     private QoS qoS;
 
-    public RetainedMessage(String topic, byte[] message, QoS qoS){
+    public RetainedMessage(String topic, byte[] message, QoS qoS) {
         this.topic = topic;
         this.message = message;
         this.qoS = qoS;

@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * The MQTT SUBACK message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */

@@ -17,26 +17,17 @@
 package com.hivemq.spi.message;
 
 /**
+ * The MQTT UNSUBACK message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
-public class UNSUBACK implements Message {
+public class UNSUBACK extends MessageWithID {
 
-    private int messageId;
-
-    public UNSUBACK() {
-    }
 
     public UNSUBACK(final int messageId) {
 
-        this.messageId = messageId;
+        super(messageId);
     }
 
-    public int getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(final int messageId) {
-        this.messageId = messageId;
-    }
 }

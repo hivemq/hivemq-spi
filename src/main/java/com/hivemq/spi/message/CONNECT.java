@@ -19,6 +19,8 @@ package com.hivemq.spi.message;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * The MQTT CONNECT message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
@@ -53,6 +55,9 @@ public class CONNECT implements Message {
     //Default version is 3.1 until 3.1.1 gained enough traction
     private ProtocolVersion protocolVersion = ProtocolVersion.MQTTv3_1;
 
+    /**
+     * @return if the message uses a clean (= non persistent) session
+     */
     public boolean isCleanSession() {
         return cleanSession;
     }
@@ -61,6 +66,9 @@ public class CONNECT implements Message {
         this.cleanSession = cleanSession;
     }
 
+    /**
+     * @return if the CONNECT message contains a LWT message
+     */
     public boolean isWill() {
         return will;
     }
@@ -69,6 +77,9 @@ public class CONNECT implements Message {
         this.will = will;
     }
 
+    /**
+     * @return the QoS level of the LWT message
+     */
     public QoS getWillQos() {
         return willQos;
     }
@@ -77,6 +88,9 @@ public class CONNECT implements Message {
         this.willQos = willQos;
     }
 
+    /**
+     * @return if the LWT message should be retained
+     */
     public boolean isWillRetain() {
         return willRetain;
     }
@@ -85,6 +99,9 @@ public class CONNECT implements Message {
         this.willRetain = willRetain;
     }
 
+    /**
+     * @return <code>true</code> if the message contains a password
+     */
     public boolean isPasswordRequired() {
         return passwordRequired;
     }
@@ -93,6 +110,9 @@ public class CONNECT implements Message {
         this.passwordRequired = passwordRequired;
     }
 
+    /**
+     * @return <code>true</code> if the message contains a username
+     */
     public boolean isUsernameRequired() {
         return usernameRequired;
     }
@@ -101,6 +121,9 @@ public class CONNECT implements Message {
         this.usernameRequired = usernameRequired;
     }
 
+    /**
+     * @return the the keep alive value of the CONNECT message
+     */
     public int getKeepAliveTimer() {
         return keepAliveTimer;
     }
@@ -109,6 +132,9 @@ public class CONNECT implements Message {
         this.keepAliveTimer = keepAliveTimer;
     }
 
+    /**
+     * @return the client identifier of the client which issued the CONNECT message
+     */
     public String getClientIdentifier() {
         return clientIdentifier;
     }
@@ -117,6 +143,9 @@ public class CONNECT implements Message {
         this.clientIdentifier = clientIdentifier;
     }
 
+    /**
+     * @return the topic of the LWT message
+     */
     public String getWillTopic() {
         return willTopic;
     }
@@ -125,6 +154,9 @@ public class CONNECT implements Message {
         this.willTopic = willTopic;
     }
 
+    /**
+     * @return the payload of the LWT message
+     */
     public byte[] getWillMessage() {
         return willMessage;
     }
@@ -133,6 +165,9 @@ public class CONNECT implements Message {
         this.willMessage = willMessage;
     }
 
+    /**
+     * @return the username or null
+     */
     public String getUsername() {
         return username;
     }
@@ -141,10 +176,18 @@ public class CONNECT implements Message {
         this.username = username;
     }
 
+    /**
+     * @return The password as byte array or null
+     */
     public byte[] getPassword() {
         return password;
     }
 
+    /**
+     * @return the password as UTF8 encoded String. This method is a convenient
+     * method but you should consider using getPassword() instead since MQTT passwords
+     * can contain raw bytes
+     */
     public String getPasswordAsUTF8String() {
         if (password == null) {
             return "";
@@ -168,6 +211,9 @@ public class CONNECT implements Message {
         this.bridge = bridge;
     }
 
+    /**
+     * @return the protocol version used in the CONNECT message
+     */
     public ProtocolVersion getProtocolVersion() {
         return protocolVersion;
     }

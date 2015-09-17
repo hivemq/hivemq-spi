@@ -17,7 +17,7 @@
 package com.hivemq.spi.message;
 
 /**
- * A MQTT Publish
+ * A MQTT PUBLISH message
  * <p/>
  * <p/>
  * Note that a PUBLISH message is considered equal if the topic Strings are equal
@@ -46,6 +46,9 @@ public class PUBLISH extends MessageWithID {
         this.qoS = qoS;
     }
 
+    /**
+     * @return the payload of the PUBLISH message
+     */
     public byte[] getPayload() {
         return payload;
     }
@@ -54,6 +57,9 @@ public class PUBLISH extends MessageWithID {
         this.payload = payload;
     }
 
+    /**
+     * @return the topic of the PUBLISH message
+     */
     public String getTopic() {
         return topic;
     }
@@ -62,6 +68,9 @@ public class PUBLISH extends MessageWithID {
         this.topic = topic;
     }
 
+    /**
+     * @return <code>true</code> if the message is a duplicate message
+     */
     public boolean isDuplicateDelivery() {
         return duplicateDelivery;
     }
@@ -70,6 +79,9 @@ public class PUBLISH extends MessageWithID {
         this.duplicateDelivery = duplicateDelivery;
     }
 
+    /**
+     * @return if the PUBLISH message should be retained
+     */
     public boolean isRetain() {
         return retain;
     }
@@ -78,6 +90,9 @@ public class PUBLISH extends MessageWithID {
         this.retain = retain;
     }
 
+    /**
+     * @return the QoS level of the PUBLISH message
+     */
     public QoS getQoS() {
         return qoS;
     }
@@ -87,7 +102,9 @@ public class PUBLISH extends MessageWithID {
     }
 
     /**
-     * Makes a deep copy of a {@link PUBLISH} object.
+     * Crates a deep copy of a {@link PUBLISH} object.
+     * <p/>
+     * Use this method if you want to reuse a publish received by a callback to prevent side effects.
      *
      * @param original the original PUBLISH message
      * @return a deep copy of the original PUBLISH message

@@ -17,6 +17,8 @@
 package com.hivemq.spi.message;
 
 /**
+ * The MQTT CONNACK message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
@@ -30,7 +32,7 @@ public class CONNACK implements Message {
      * is ignored in MQTT 3.1 environments.
      *
      * @see <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html#_Toc385349255">
-     *      MQTT Session Present Flag</a>
+     * MQTT Session Present Flag</a>
      */
     private boolean sessionPresent;
 
@@ -47,6 +49,9 @@ public class CONNACK implements Message {
         this.sessionPresent = sessionPresent;
     }
 
+    /**
+     * @return the {@link ReturnCode} of the CONNACK message
+     */
     public ReturnCode getReturnCode() {
         return returnCode;
     }
