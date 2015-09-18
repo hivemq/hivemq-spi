@@ -1,5 +1,6 @@
 package com.hivemq.spi.metrics;
 
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -24,6 +25,12 @@ public class HiveMQMetric<T extends Metric> {
         checkNotNull(name, "Name cannot be null");
 
         return new HiveMQMetric<>(name, metricClass);
+    }
+
+    public static HiveMQMetric<Gauge<Number>> gaugeValue(String name) {
+        checkNotNull(name, "Name cannot be null");
+
+        return new HiveMQMetric<>(name, Gauge.class);
     }
 
     public String name() {

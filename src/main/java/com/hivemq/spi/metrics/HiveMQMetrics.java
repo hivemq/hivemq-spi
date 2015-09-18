@@ -420,8 +420,8 @@ public class HiveMQMetrics {
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Gauge> RETAINED_MESSAGES_CURRENT =
-            HiveMQMetric.valueOf("com.hivemq.messages.retained.current", Gauge.class);
+    public static final HiveMQMetric<Gauge<Number>> RETAINED_MESSAGES_CURRENT =
+            HiveMQMetric.gaugeValue("com.hivemq.messages.retained.current");
 
     /**
      * represents a {@link Histogram}, which holds the current amount of retained messages
@@ -445,8 +445,8 @@ public class HiveMQMetrics {
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Gauge> BYTES_READ_CURRENT =
-            HiveMQMetric.valueOf("com.hivemq.networking.bytes.read.current", Gauge.class);
+    public static final HiveMQMetric<Gauge<Number>> BYTES_READ_CURRENT =
+            HiveMQMetric.gaugeValue("com.hivemq.networking.bytes.read.current");
 
 
     /**
@@ -454,8 +454,8 @@ public class HiveMQMetrics {
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Gauge> BYTES_WRITE_CURRENT =
-            HiveMQMetric.valueOf("com.hivemq.networking.bytes.write.current", Gauge.class);
+    public static final HiveMQMetric<Gauge<Number>> BYTES_WRITE_CURRENT =
+            HiveMQMetric.gaugeValue("com.hivemq.networking.bytes.write.current");
 
 
     /**
@@ -463,8 +463,8 @@ public class HiveMQMetrics {
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Gauge> BYTES_READ_TOTAL =
-            HiveMQMetric.valueOf("com.hivemq.networking.bytes.read.total", Gauge.class);
+    public static final HiveMQMetric<Gauge<Number>> BYTES_READ_TOTAL =
+            HiveMQMetric.gaugeValue("com.hivemq.networking.bytes.read.total");
 
 
     /**
@@ -472,8 +472,8 @@ public class HiveMQMetrics {
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Gauge> BYTES_WRITE_TOTAL =
-            HiveMQMetric.valueOf("com.hivemq.networking.bytes.write.total", Gauge.class);
+    public static final HiveMQMetric<Gauge<Number>> BYTES_WRITE_TOTAL =
+            HiveMQMetric.gaugeValue("com.hivemq.networking.bytes.write.total");
 
 
     /**
@@ -481,8 +481,8 @@ public class HiveMQMetrics {
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Gauge> CONNECTIONS_OVERALL_CURRENT =
-            HiveMQMetric.valueOf("com.hivemq.networking.connections.current", Gauge.class);
+    public static final HiveMQMetric<Gauge<Number>> CONNECTIONS_OVERALL_CURRENT =
+            HiveMQMetric.gaugeValue("com.hivemq.networking.connections.current");
 
     /**
      * represents a {@link Gauge}, which holds the mean total number of connections
@@ -515,8 +515,8 @@ public class HiveMQMetrics {
      *
      * @since 3.0
      */
-    public static final HiveMQMetric<Gauge> CLIENT_SESSIONS_CURRENT =
-            HiveMQMetric.valueOf("com.hivemq.sessions.overall.current", Gauge.class);
+    public static final HiveMQMetric<Gauge<Number>> CLIENT_SESSIONS_CURRENT =
+            HiveMQMetric.gaugeValue("com.hivemq.sessions.overall.current");
 
 
     /**
