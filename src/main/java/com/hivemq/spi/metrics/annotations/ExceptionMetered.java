@@ -6,6 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Methods annotated with this annotation are added to the HiveMQ {@link com.codahale.metrics.MetricRegistry}
+ * automatically as Meters. The exceptions thrown by the annotated method are counted
+ *
  * @author Christoph Schäbel
  */
 @Retention(RetentionPolicy.RUNTIME)

@@ -47,6 +47,6 @@ public interface OnAuthenticationCallback extends SynchronousCallback {
      * @return <code>true</code> when the authentication was successful
      * @throws AuthenticationException when you want the client to disconnect immediately with a given return code
      */
-    public Boolean checkCredentials(ClientCredentialsData clientData) throws AuthenticationException;
+    Boolean checkCredentials(ClientCredentialsData clientData) throws AuthenticationException;
 
 }

@@ -22,10 +22,20 @@ import com.hivemq.spi.message.SUBACK;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * The OnSubackSend callback gets called after HiveMQ sends a SUBACK message to a client. It's not possible to interfere
+ * with HiveMQ in this callback and this callback is for information purposes only
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnSubackSend extends AsynchronousCallback, LowlevelCallback {
 
+    /**
+     * This method is called after HiveMQ sends a SUBACK message to a client. It's not possible to interfere with HiveMQ
+     * in this callback and this callback is for information purposes only
+     *
+     * @param suback     the SUBACK message HiveMQ sends to the client
+     * @param clientData the ClientData of the client HiveMQ sends the message to
+     */
     void onSubackSend(SUBACK suback, ClientData clientData);
 }

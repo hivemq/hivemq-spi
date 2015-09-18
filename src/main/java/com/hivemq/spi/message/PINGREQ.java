@@ -17,6 +17,8 @@
 package com.hivemq.spi.message;
 
 /**
+ * The MQTT PINGREQ message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */

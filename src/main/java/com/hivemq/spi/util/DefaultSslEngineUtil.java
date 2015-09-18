@@ -16,8 +16,8 @@
 
 package com.hivemq.spi.util;
 
-import com.hivemq.spi.annotations.ReadOnly;
 import com.google.common.collect.ImmutableList;
+import com.hivemq.spi.annotations.ReadOnly;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -34,6 +34,12 @@ import java.util.List;
  */
 public class DefaultSslEngineUtil {
 
+    /**
+     * Returns a list of all supported Cipher Suites of the JVM.
+     *
+     * @return a list of all supported cipher suites of the JVM
+     * @throws SslException
+     */
     @ReadOnly
     public List<String> getSupportedCipherSuites() throws SslException {
 
@@ -47,6 +53,12 @@ public class DefaultSslEngineUtil {
         }
     }
 
+    /**
+     * Returns a list of all supported protocols by the JVM.
+     *
+     * @return a list of all supported protocols by the JVM
+     * @throws SslException
+     */
     @ReadOnly
     public List<String> getSupportedProtocols() throws SslException {
 
@@ -60,6 +72,12 @@ public class DefaultSslEngineUtil {
         }
     }
 
+    /**
+     * Returns a list of all enabled protocols of the JVM
+     *
+     * @return a list of all enabled protocls of the JVM
+     * @throws SslException
+     */
     @ReadOnly
     public List<String> getEnabledProtocols() throws SslException {
         try {
@@ -72,6 +90,12 @@ public class DefaultSslEngineUtil {
         }
     }
 
+    /**
+     * Returns a list of all enabled cipher suites of the JVM
+     *
+     * @return a list of all enabled cipher suites of the JVM
+     * @throws SslException
+     */
     @ReadOnly
     public List<String> getEnabledCipherSuites() throws SslException {
         try {

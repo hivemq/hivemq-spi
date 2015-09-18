@@ -16,9 +16,9 @@
 
 package com.hivemq.spi.message;
 
+import com.google.common.base.Preconditions;
 import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.annotations.Nullable;
-import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
 
@@ -52,11 +52,17 @@ public class Topic implements Serializable, Comparable<Topic> {
         return new Topic(s, null);
     }
 
+    /**
+     * @return the topic as String representation
+     */
     @NotNull
     public String getTopic() {
         return topic;
     }
 
+    /**
+     * @return the QoS of a Topic
+     */
     @Nullable
     public QoS getQoS() {
         return qoS;

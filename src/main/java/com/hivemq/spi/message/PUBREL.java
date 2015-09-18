@@ -17,6 +17,7 @@
 package com.hivemq.spi.message;
 
 /**
+ * The MQTT PUBREL message
  * @author Dominik Obermaier
  * @since 1.4
  */

@@ -32,41 +32,41 @@ public interface ClientData {
     /**
      * @return the client identifier which was provided in the MQTT CONNECT message
      */
-    public String getClientId();
+    String getClientId();
 
     /**
      * @return an {@link Optional} with the username which was provided in the MQTT CONNECT message.
      */
-    public Optional<String> getUsername();
+    Optional<String> getUsername();
 
     /**
      * @return <code>true</code> if the client is authenticated, <code>false</code> otherwise
      */
-    public boolean isAuthenticated();
+    boolean isAuthenticated();
 
     /**
      * @return an {@link Optional} of a {@link SslClientCertificate} which was provided at transport level
      * client certificate authentication.
      * @since 3.0
      */
-    public Optional<SslClientCertificate> getCertificate();
+    Optional<SslClientCertificate> getCertificate();
 
     /**
      * @return <code>true</code> if the client is anonymous. That means the client is <b>not</b> authenticated
      */
-    public boolean isAnonymous();
+    boolean isAnonymous();
 
     /**
      * @return <code>true</code> if this client is a bridge.
      * @since 2.0
      */
-    public boolean isBridge();
+    boolean isBridge();
 
 
     /**
      * @return an {@link Optional} of the clients IP address as {@link InetAddress}
      * @since 3.0
      */
-    public Optional<InetAddress> getInetAddress();
+    Optional<InetAddress> getInetAddress();
 
 }

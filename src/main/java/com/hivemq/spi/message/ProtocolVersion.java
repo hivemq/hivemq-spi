@@ -21,6 +21,12 @@ package com.hivemq.spi.message;
  */
 public enum ProtocolVersion {
 
+    /**
+     * The protocol version which indicates a MQTT 3.1 connection
+     */
     MQTTv3_1,
+    /**
+     * The protocol version which indicates a MQTT 3.1.1 connection
+     */
     MQTTv3_1_1
 }

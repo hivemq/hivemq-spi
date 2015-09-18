@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * The MQTT UNSUBSCRIBE message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
@@ -30,9 +32,12 @@ public class UNSUBSCRIBE extends MessageWithID {
 
     public UNSUBSCRIBE() {
         super(0);
-        topics = new ArrayList<String>();
+        topics = new ArrayList<>();
     }
 
+    /**
+     * @return a list of topic the client wants to unsubscribe to
+     */
     public List<String> getTopics() {
         return topics;
     }

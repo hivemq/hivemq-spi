@@ -23,25 +23,53 @@ import com.hivemq.spi.services.configuration.exception.ConfigurationValidationEx
 import java.util.List;
 
 /**
+ * The service which allows to inspect Listener configuration at runtime.
+ * <p/>
+ * It's also possible to add new listeners at runtime.
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 public interface ListenerConfigurationService {
 
 
+    /**
+     * Adds a new Listener at runtime
+     *
+     * @param listener the listener
+     * @param <T>      the concrete listener subclass
+     * @throws ConfigurationValidationException if the validation of the listener wasn't successful
+     * @throws IllegalArgumentException
+     */
     <T extends Listener> void addListener(final T listener) throws ConfigurationValidationException, IllegalArgumentException;
 
+    /**
+     * @return a unmodifiable list of all active listeners
+     */
     @ReadOnly
     List<Listener> getListeners();
 
+    /**
+     * @return a unmodifiable list of all active TCP listeners
+     */
     @ReadOnly
     List<TcpListener> getTcpListeners();
 
+    /**
+     * @return a unmodifiable list of all active TLS listeners
+     */
     @ReadOnly
     List<TlsTcpListener> getTlsTcpListeners();
 
+    /**
+     * @return a unmodifiable list of all active Websocket listeners
+     */
     @ReadOnly
     List<WebsocketListener> getWebsocketListeners();
 
+    /**
+     * @return a unmodifiable list of all active TLS Websocket listeners
+     */
     @ReadOnly
     List<TlsWebsocketListener> getTlsWebsocketListeners();
 

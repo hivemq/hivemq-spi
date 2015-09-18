@@ -16,14 +16,17 @@
 
 package com.hivemq.spi.services.configuration.validation.validators;
 
+import com.google.common.collect.ImmutableList;
 import com.hivemq.spi.services.configuration.validation.ValidationError;
 import com.hivemq.spi.services.configuration.validation.Validator;
-import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
 /**
+ * A validator which validates that a parameter is higher or equal to 0
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 public class ZeroablePositiveNumber implements Validator<Number> {
 

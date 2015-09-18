@@ -22,10 +22,20 @@ import com.hivemq.spi.message.PUBCOMP;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * The OnPubcompReceived Callback gets called after HiveMQ receives a PUBCOMP
+ * message from a client.
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnPubcompReceived extends AsynchronousCallback, LowlevelCallback {
 
+    /**
+     * This method gets called when a PUBCOMP message is received from a client. It's not possible
+     * to interfere with HiveMQ and this callback is for information purposes
+     *
+     * @param pubcomp    the PUBCOMP message which was received by HiveMQ
+     * @param clientData the ClientData for the client which sent the PUBCOMP message
+     */
     void onPubcompReceived(PUBCOMP pubcomp, ClientData clientData);
 }

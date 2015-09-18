@@ -17,14 +17,12 @@
 package com.hivemq.spi.message;
 
 /**
+ * The MQTT PUBACK message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
 public class PUBACK extends MessageWithID {
-
-    public PUBACK() {
-        this(0);
-    }
 
     public PUBACK(final int messageId) {
         super(messageId);

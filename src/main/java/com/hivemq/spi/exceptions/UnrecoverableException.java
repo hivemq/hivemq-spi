@@ -17,6 +17,10 @@
 package com.hivemq.spi.exceptions;
 
 /**
+ * An exception which indicates an unrecoverable state.
+ * <p/>
+ * <b>HiveMQ will shut down gracefully when this exception is thrown</b>
+ *
  * @author Dominik Obermaier
  */
 public class UnrecoverableException extends RuntimeException {

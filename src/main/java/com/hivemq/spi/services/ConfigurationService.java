@@ -22,17 +22,43 @@ import com.hivemq.spi.services.configuration.ThrottlingConfigurationService;
 import com.hivemq.spi.services.configuration.listener.ListenerConfigurationService;
 
 /**
+ * The Configuration Service interface which allows to change HiveMQ configuration
+ * programmatically.
+ * <p/>
+ * Runtime configuration changes via plugins are possible for most of the configuration subsystem services.
+ *
  * @author Dominik Obermaier
+ * @since 3.0
  */
 
 public interface ConfigurationService {
 
+    /**
+     * Returns the configuration service for general HiveMQ configuration
+     *
+     * @return the general HiveMQ configuration service
+     */
     GeneralConfigurationService generalConfiguration();
 
+    /**
+     * Returns the configuration service which allows to add and inspect listeners add runtime.
+     *
+     * @return the listener configuration service
+     */
     ListenerConfigurationService listenerConfiguration();
 
+    /**
+     * Returns the configuration service for MQTT configuration
+     *
+     * @return the mqtt configuration service
+     */
     MqttConfigurationService mqttConfiguration();
 
+    /**
+     * Returns the throttling configuration service for global throttling
+     *
+     * @return the global throttling service
+     */
     ThrottlingConfigurationService throttlingConfiguration();
 
 }

@@ -17,6 +17,8 @@
 package com.hivemq.spi.message;
 
 /**
+ * A publish object received from the cluster
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */

@@ -6,6 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Methods annotated with this annotation are added to the HiveMQ {@link com.codahale.metrics.MetricRegistry}
+ * automatically as Meters. The methods annotated with this Annotation get instrumented as Meters.
+ *
  * @author Christoph Schäbel
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -13,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface Metered {
 
     /**
-     * @return The name of this metric. When left emtpy the canonical name of the class and method will be used.
+     * @return The name of this metric. When left empty the canonical name of the class and method will be used.
      */
     String name() default "";
 }

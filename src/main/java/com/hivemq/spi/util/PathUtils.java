@@ -29,6 +29,7 @@ import java.io.File;
  * @author Dominik Obermaier
  * @author Christoph Schäbel
  * @since 1.4
+ * @deprecated Use  {@link SystemInformation} instead
  */
 public class PathUtils {
 

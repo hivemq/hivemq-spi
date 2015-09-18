@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * The MQTT SUBSCRIBE message
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
@@ -29,10 +31,16 @@ public class SUBSCRIBE implements Message {
 
     private List<Topic> topics;
 
+    /**
+     * Creates a new MQTT SUBSCRIBE message
+     */
     public SUBSCRIBE() {
-        topics = new ArrayList<Topic>();
+        topics = new ArrayList<>();
     }
 
+    /**
+     * @return the message id of the SUBSCRIBE message
+     */
     public int getMessageId() {
         return messageId;
     }
@@ -41,6 +49,9 @@ public class SUBSCRIBE implements Message {
         this.messageId = messageId;
     }
 
+    /**
+     * @return a List of topics and their corresponding QoS the SUBSCRIBE message contains
+     */
     public List<Topic> getTopics() {
         return topics;
     }

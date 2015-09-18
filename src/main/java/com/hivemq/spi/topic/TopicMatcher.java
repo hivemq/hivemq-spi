@@ -19,10 +19,21 @@ package com.hivemq.spi.topic;
 import com.hivemq.spi.topic.exception.InvalidTopicException;
 
 /**
+ * A topic matcher which is useful if you want to match topics manually if they match to specific wildcard topics
+ *
  * @author Dominik Obermaier
  * @since 1.4
  */
 public interface TopicMatcher {
 
+    /**
+     * Evaluates if a topic matches a specific topic which also can contain wildcards. All MQTT topic matching rules
+     * apply
+     *
+     * @param topicSubscription the subscription. May contain wildcards
+     * @param actualTopic       the actual topic. <b>Must not contain wildcards</b>
+     * @return <code>true</code> if a topic matches a specific subscription, <code>false</code> otherwise
+     * @throws InvalidTopicException if the topic was invalid
+     */
     boolean matches(final String topicSubscription, final String actualTopic) throws InvalidTopicException;
 }

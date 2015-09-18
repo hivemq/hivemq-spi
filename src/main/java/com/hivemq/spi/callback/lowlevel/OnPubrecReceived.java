@@ -22,10 +22,20 @@ import com.hivemq.spi.message.PUBREC;
 import com.hivemq.spi.security.ClientData;
 
 /**
+ * The OnPubrecReceived Callback gets called after HiveMQ receives a PUBREC
+ * message from a client.
+ *
  * @author Christian Goetz
  * @since 1.4
  */
 public interface OnPubrecReceived extends AsynchronousCallback, LowlevelCallback {
 
+    /**
+     * This method gets called when a PUBREC message is received from a client. It's not possible
+     * to interfere with HiveMQ and this callback is for information purposes
+     *
+     * @param pubrec     the PUBREC message which was received by HiveMQ
+     * @param clientData the ClientData for the client which sent the PUBREC message
+     */
     void onPubrecReceived(PUBREC pubrec, ClientData clientData);
 }

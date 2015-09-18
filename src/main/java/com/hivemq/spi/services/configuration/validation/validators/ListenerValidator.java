@@ -16,6 +16,7 @@
 
 package com.hivemq.spi.services.configuration.validation.validators;
 
+import com.google.common.collect.ImmutableList;
 import com.hivemq.spi.services.configuration.entity.Listener;
 import com.hivemq.spi.services.configuration.entity.Tls;
 import com.hivemq.spi.services.configuration.entity.TlsTcpListener;
@@ -24,7 +25,6 @@ import com.hivemq.spi.services.configuration.validation.ValidationError;
 import com.hivemq.spi.services.configuration.validation.Validator;
 import com.hivemq.spi.util.DefaultSslEngineUtil;
 import com.hivemq.spi.util.SslException;
-import com.google.common.collect.ImmutableList;
 
 import java.io.File;
 import java.nio.file.FileSystems;
@@ -33,8 +33,11 @@ import java.security.Security;
 import java.util.List;
 
 /**
+ * The validator for listener configuration
+ *
  * @author Dominik Obermaier
  * @author Christoph Schäbel
+ * @since 3.0
  */
 public class ListenerValidator implements Validator<Listener> {
     @Override
