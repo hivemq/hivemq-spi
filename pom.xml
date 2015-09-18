@@ -23,7 +23,7 @@
 
     <groupId>com.hivemq</groupId>
     <artifactId>hivemq-spi</artifactId>
-    <version>2.3.2-SNAPSHOT</version>
+    <version>3.0.0</version>
 
     <name>HiveMQ SPI</name>
 
@@ -63,10 +63,17 @@
             <organization>dc-square GmbH</organization>
             <organizationUrl>http://www.dc-square.de</organizationUrl>
         </developer>
+        <developer>
+            <id>cschaebe</id>
+            <name>Christoph Schäbel</name>
+            <email>christoph.schaebel@dc-square.de</email>
+            <organization>dc-square GmbH</organization>
+            <organizationUrl>http://www.dc-square.de</organizationUrl>
+        </developer>
     </developers>
 
     <properties>
-        <guice.version>3.0</guice.version>
+        <guice.version>4.0</guice.version>
     </properties>
 
     <dependencies>
@@ -74,60 +81,63 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>${guice.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-multibindings</artifactId>
-            <version>${guice.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>17.0</version>
+            <version>18.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
+            <version>1.7.12</version>
         </dependency>
 
         <dependency>
-            <groupId>com.netflix.archaius</groupId>
-            <artifactId>archaius-core</artifactId>
-            <version>0.6.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>annotations</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>3.1.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+        <!-- REST Service -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
 
         <!-- Test dependencies -->
         <dependency>
-            <groupId>com.netflix.governator</groupId>
-            <artifactId>governator</artifactId>
-            <version>1.2.7</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>1.9.5</version>
+            <version>1.10.16</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -140,8 +150,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
