@@ -178,6 +178,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
+                            <additionalparam>${javadoc.opts}</additionalparam>
                             <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
                         </configuration>
                     </execution>
@@ -219,5 +220,17 @@
         <developerConnection>scm:git:git@github.com:hivemq/hivemq-spi.git</developerConnection>
         <url>git@github.com:hivemq/hivemq-spi.git</url>
     </scm>
+
+    <profiles>
+        <profile>
+            <id>doclint-java8-disable</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
