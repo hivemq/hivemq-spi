@@ -8,18 +8,17 @@ import java.util.Set;
 public interface ClusterService {
 
     /**
-     * Returns the cluster id of this HiveMQ instance. If HiveMQ is not connected to a cluster, this method will return
-     * <code>null</code>.
-     *
      * @return The cluster id of this HiveMQ instance.
      */
     String getClusterId();
 
     /**
-     * Returns the cluster id of all HiveMQ instance in the cluster. If HiveMQ is not connected to a cluster, this method will return
-     * <code>null</code>.
-     *
      * @return The cluster id of all HiveMQ instance in the cluster.
      */
     Set<String> getAllClusterIds();
+
+    /**
+     * @return <code>true</code> if the cluster enabled config is set to <code>true</code>.
+     */
+    boolean isClusterEnabled();
 }
