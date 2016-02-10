@@ -55,5 +55,5 @@ public interface RetainedMessageStoreLocal {
     /**
      * @return the number of all retained messages
      */
-    int size();
+    long size();
 }
