@@ -2,6 +2,7 @@ package com.hivemq.spi.services;
 
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.metrics.HiveMQMetric;
 
@@ -38,7 +39,7 @@ public interface MetricServiceCluster {
      * @return the metric (if available) or <code>null</code>
      */
     @Nullable
-    <T extends Metric> Map<String, T> getClusterMetric(HiveMQMetric<T> metric);
+    <T extends Metric> ListenableFuture<Map<String, T>> getClusterMetric(HiveMQMetric<T> metric);
 
     /**
      * Returns the metric registry of HiveMQ.
