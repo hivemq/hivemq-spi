@@ -5,6 +5,8 @@ import com.codahale.metrics.MetricRegistry;
 import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.metrics.HiveMQMetric;
 
+import java.util.Map;
+
 /**
  * This service allows plugins to get or add global HiveMQ metrics.
  *
@@ -36,7 +38,7 @@ public interface MetricServiceCluster {
      * @return the metric (if available) or <code>null</code>
      */
     @Nullable
-    <T extends Metric> T getClusterMetric(HiveMQMetric<T> metric);
+    <T extends Metric> Map<String, T> getClusterMetric(HiveMQMetric<T> metric);
 
     /**
      * Returns the metric registry of HiveMQ.
