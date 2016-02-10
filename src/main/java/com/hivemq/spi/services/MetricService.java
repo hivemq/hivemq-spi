@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Christoph Schäbel
  * @since 3.0
- * @deprecated MetricService will be replaced by
+ * @deprecated Use MetricServiceLocal or MetricServiceCluster instead.
  */
 public interface MetricService {
 
