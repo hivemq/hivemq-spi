@@ -45,13 +45,12 @@ public interface RetainedMessageStoreCluster {
     ListenableFuture<Void> addOrReplace(RetainedMessage retainedMessage);
 
     /**
-     * Checks if the retained message is present in the retained message store.
-     * Only the topic is of a retained message is considered for this check, QoS and message are ignored.
+     * Checks if a retained message is present in the retained message store.
      *
-     * @param retainedMessage to check if it's already in the message store
-     * @return true if there's already a message on the topic of the given retained message
+     * @param topic the topic associated with the retained message
+     * @return true if there's a message for the given topic
      */
-    ListenableFuture<Boolean> contains(RetainedMessage retainedMessage);
+    ListenableFuture<Boolean> contains(String topic);
 
     /**
      * @return the number of all retained messages
