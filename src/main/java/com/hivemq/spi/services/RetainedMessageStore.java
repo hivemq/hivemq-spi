@@ -98,5 +98,5 @@ public interface RetainedMessageStore {
      * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
      */
     @Deprecated
-    int size();
+    long size();
 }

@@ -55,6 +55,6 @@ public interface RetainedMessageStoreCluster {
     /**
      * @return the number of all retained messages
      */
-    ListenableFuture<Integer> size();
+    ListenableFuture<Long> size();
 
 }
