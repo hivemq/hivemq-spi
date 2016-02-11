@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Lukas Brandl
  * @since 3.1
  */
-public interface ClusterServiceLocal {
+public interface ClientServiceLocal {
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ Node. You won't receive client identifiers of connected
