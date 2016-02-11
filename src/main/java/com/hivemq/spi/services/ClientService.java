@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @author Lukas Brandl
  * @since 3.0
- * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+ * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
  */
 @Deprecated
 public interface ClientService {
@@ -40,7 +40,7 @@ public interface ClientService {
      * effects.
      *
      * @return client identifiers of all connected clients
-     * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     Set<String> getLocalConnectedClients();
@@ -51,6 +51,7 @@ public interface ClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     Set<String> getLocalDisconnectedClients();
@@ -60,7 +61,7 @@ public interface ClientService {
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
-     * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     boolean isClientConnectedLocal(String clientId);
@@ -72,7 +73,7 @@ public interface ClientService {
      *
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
-     * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     Optional<ClientData> getLocalClientDataForClientId(String clientId);
@@ -83,7 +84,7 @@ public interface ClientService {
      * Calling this method frequently in a clustered environment could have negative performance effects.
      *
      * @return client identifiers of all connected clients
-     * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     ListenableFuture<Set<String>> getConnectedClients();
@@ -94,7 +95,7 @@ public interface ClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
-     * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     ListenableFuture<Set<String>> getDisconnectedClients();
@@ -104,7 +105,7 @@ public interface ClientService {
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
-     * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     ListenableFuture<Boolean> isClientConnected(String clientId);
@@ -118,7 +119,7 @@ public interface ClientService {
      *
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
-     * @deprecated Use ClientServiceLocal or ClientServiceCluster instead.
+     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
     @Deprecated
     ListenableFuture<Optional<ClientData>> getClientDataForClientId(String clientId);

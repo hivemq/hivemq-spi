@@ -11,7 +11,7 @@ import com.hivemq.spi.metrics.HiveMQMetric;
  *
  * @author Christoph Schäbel
  * @since 3.0
- * @deprecated Use MetricServiceLocal or MetricServiceCluster instead.
+ * @deprecated Use {@link BlockingMetricService} or {@link AsyncMetricService} instead.
  */
 @Deprecated
 public interface MetricService {
@@ -25,7 +25,7 @@ public interface MetricService {
      * @param metric the metric
      * @param <T>    the metric type
      * @return the metric (if available) or <code>null</code>
-     * @deprecated Use MetricServiceLocal or MetricServiceCluster instead.
+     * @deprecated Use {@link BlockingMetricService} or {@link AsyncMetricService} instead.
      */
     @Nullable
     @Deprecated
@@ -35,7 +35,7 @@ public interface MetricService {
      * Returns the metric registry of HiveMQ.
      *
      * @return the metric registry
-     * @deprecated Use MetricServiceLocal or MetricServiceCluster instead.
+     * @deprecated Use {@link BlockingMetricService} or {@link AsyncMetricService} instead.
      */
     @Deprecated
     MetricRegistry getMetricRegistry();
