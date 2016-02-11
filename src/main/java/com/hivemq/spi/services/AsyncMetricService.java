@@ -25,7 +25,6 @@ public interface AsyncMetricService {
      * @param <T>    the metric type
      * @return the metric (if available) or <code>null</code>
      */
-    @Nullable
     <T extends Metric> ListenableFuture<T> getHiveMQMetric(HiveMQMetric<T> metric);
 
     /**
@@ -38,7 +37,6 @@ public interface AsyncMetricService {
      * @param <T>    the metric type
      * @return the metric (if available) or <code>null</code>
      */
-    @Nullable
     <T extends Metric> ListenableFuture<Map<String, T>> getClusterMetric(HiveMQMetric<T> metric);
 
     /**
