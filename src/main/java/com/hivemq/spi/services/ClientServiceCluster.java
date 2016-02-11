@@ -43,6 +43,16 @@ public interface ClientServiceCluster {
     ListenableFuture<Boolean> isClientConnectedLocal(String clientId);
 
     /**
+     * Returns client information for clients that are connected to this broker instance.
+     * <p/>
+     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     *
+     * @param clientId the client identifier of the client
+     * @return {@link ClientData} for a specific client.
+     */
+    ListenableFuture<ClientData> getLocalClientData(String clientId);
+
+    /**
      * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
      * <p/>
      * Calling this method frequently in a clustered environment could have negative performance effects.
@@ -78,5 +88,5 @@ public interface ClientServiceCluster {
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
      */
-    ListenableFuture<ClientData> getClientDataForClientId(String clientId);
+    ListenableFuture<ClientData> getClientData(String clientId);
 }
