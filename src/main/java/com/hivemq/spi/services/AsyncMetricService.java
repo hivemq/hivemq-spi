@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Lukas Brandl
  */
-public interface MetricServiceCluster {
+public interface AsyncMetricService {
 
     /**
      * Returns a specific HiveMQ metric. If the metric does not exist, this method will return

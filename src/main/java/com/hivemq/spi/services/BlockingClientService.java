@@ -1,7 +1,6 @@
 package com.hivemq.spi.services;
 
 import com.google.common.base.Optional;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.hivemq.spi.security.ClientData;
 
 import java.util.Set;
@@ -12,7 +11,7 @@ import java.util.Set;
  * @author Lukas Brandl
  * @since 3.1
  */
-public interface ClientServiceCluster {
+public interface BlockingClientService {
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ Node. You won't receive client identifiers of connected
@@ -23,7 +22,7 @@ public interface ClientServiceCluster {
      *
      * @return client identifiers of all connected clients
      */
-    ListenableFuture<Set<String>> getLocalConnectedClients();
+    Set<String> getLocalConnectedClients();
 
     /**
      * Returns all disconnected clients which have a persistent MQTT session on this instance of HiveMQ (MQTT clean session=false).
@@ -32,7 +31,7 @@ public interface ClientServiceCluster {
      *
      * @return all disconnected clients with a persistent MQTT session
      */
-    ListenableFuture<Set<String>> getLocalDisconnectedClients();
+    Set<String> getLocalDisconnectedClients();
 
     /**
      * Check if a client with a given identifier is currently connected to this HiveMQ instance.
@@ -40,7 +39,7 @@ public interface ClientServiceCluster {
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
      */
-    ListenableFuture<Boolean> isClientConnectedLocal(String clientId);
+    boolean isClientConnectedLocal(String clientId);
 
     /**
      * Returns client information for clients that are connected to this broker instance.
@@ -50,7 +49,7 @@ public interface ClientServiceCluster {
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
      */
-    ListenableFuture<ClientData> getLocalClientData(String clientId);
+    ClientData getLocalClientData(String clientId);
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
@@ -59,7 +58,7 @@ public interface ClientServiceCluster {
      *
      * @return client identifiers of all connected clients
      */
-    ListenableFuture<Set<String>> getConnectedClients();
+    Set<String> getConnectedClients();
 
     /**
      * Returns all disconnected clients which have a persistent MQTT session on this broker or any other cluster node.
@@ -68,7 +67,7 @@ public interface ClientServiceCluster {
      *
      * @return all disconnected clients with a persistent MQTT session
      */
-    ListenableFuture<Set<String>> getDisconnectedClients();
+    Set<String> getDisconnectedClients();
 
     /**
      * Check if a client with a given identifier is currently connected to this HiveMQ broker instance or any other instance in the cluster.
@@ -76,7 +75,7 @@ public interface ClientServiceCluster {
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
      */
-    ListenableFuture<Boolean> isClientConnected(String clientId);
+    boolean isClientConnected(String clientId);
 
     /**
      * Returns additional client information about a given client with a given client identifier.
@@ -88,5 +87,5 @@ public interface ClientServiceCluster {
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
      */
-    ListenableFuture<ClientData> getClientData(String clientId);
+    ClientData getClientData(String clientId);
 }
