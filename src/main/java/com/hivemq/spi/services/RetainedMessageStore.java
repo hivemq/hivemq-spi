@@ -89,6 +89,7 @@ public interface RetainedMessageStore {
      *
      * @param retainedMessage to check if it's already in the message store
      * @return true if there's already a message on the topic of the given retained message
+     * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
      */
     @Deprecated
     boolean contains(RetainedMessage retainedMessage);
