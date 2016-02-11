@@ -1,19 +1,3 @@
-/*
- * Copyright 2014 dc-square GmbH
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.hivemq.spi.services;
 
 import com.google.common.base.Optional;
@@ -26,9 +10,9 @@ import java.util.Set;
  * Through this client service a plugin can query details about connected or disconnected clients (with a persistent session) from the HiveMQ core.
  *
  * @author Lukas Brandl
- * @since 3.0
+ * @since 3.1
  */
-public interface ClientService {
+public interface ClusterServiceCluster {
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ Node. You won't receive client identifiers of connected
@@ -39,7 +23,7 @@ public interface ClientService {
      *
      * @return client identifiers of all connected clients
      */
-    Set<String> getLocalConnectedClients();
+    ListenableFuture<Set<String>> getLocalConnectedClients();
 
     /**
      * Returns all disconnected clients which have a persistent MQTT session on this instance of HiveMQ (MQTT clean session=false).
@@ -48,7 +32,7 @@ public interface ClientService {
      *
      * @return all disconnected clients with a persistent MQTT session
      */
-    Set<String> getLocalDisconnectedClients();
+    ListenableFuture<Set<String>> getLocalDisconnectedClients();
 
     /**
      * Check if a client with a given identifier is currently connected to this HiveMQ instance.
@@ -56,17 +40,7 @@ public interface ClientService {
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
      */
-    boolean isClientConnectedLocal(String clientId);
-
-    /**
-     * Returns client information for clients that are connected to this broker instance.
-     * <p/>
-     * If the client isn't connected, you will receive an {@link Optional} with absent data.
-     *
-     * @param clientId the client identifier of the client
-     * @return {@link ClientData} for a specific client.
-     */
-    Optional<ClientData> getLocalClientDataForClientId(String clientId);
+    ListenableFuture<Boolean> isClientConnectedLocal(String clientId);
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
@@ -104,6 +78,5 @@ public interface ClientService {
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
      */
-    ListenableFuture<Optional<ClientData>> getClientDataForClientId(String clientId);
-
+    ListenableFuture<ClientData> getClientDataForClientId(String clientId);
 }
