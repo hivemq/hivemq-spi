@@ -26,7 +26,7 @@ public interface AsyncMetricService {
      * @return the metric (if available) or <code>null</code>
      */
     @Nullable
-    <T extends Metric> T getHiveMQMetric(HiveMQMetric<T> metric);
+    <T extends Metric> ListenableFuture<T> getHiveMQMetric(HiveMQMetric<T> metric);
 
     /**
      * Returns a specific HiveMQ metric. If the metric does not exist, this method will return
