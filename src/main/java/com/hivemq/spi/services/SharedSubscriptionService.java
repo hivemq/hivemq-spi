@@ -44,6 +44,9 @@ public interface SharedSubscriptionService {
      * If <code>null</code> values are passed, these values are ignored.
      *
      * @param sharedSubscriptions the shared subscriptions to add
+     * @deprecated Since 3.1 Shared subscriptions are created by using a specific marker in the topic.
+     * Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} to create such subscriptions.
+     * See the HiveMQ documentation for more detailed information.
      */
     @Deprecated
     void addSharedSubscriptions(@NotNull final String... sharedSubscriptions);
