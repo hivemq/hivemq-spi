@@ -17,7 +17,6 @@
 package com.hivemq.spi.services;
 
 import com.google.common.collect.Multimap;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.annotations.ReadOnly;
 import com.hivemq.spi.message.Topic;
@@ -28,11 +27,9 @@ import java.util.Set;
  * The subscription store allows the management of all client subscriptions from within a plugin
  *
  * @author Lukas Brandl
- * @author Dominik Obermaier
- * @since 1.5
- * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
+ * @since 3.1
  */
-public interface SubscriptionStore {
+public interface BlockingSubscriptionStore {
 
     /**
      * This method returns all subscriptions on this HiveMQ Node as a {@link com.google.common.collect.Multimap} of client identifiers and topics.
@@ -89,10 +86,8 @@ public interface SubscriptionStore {
      *
      * @param clientID client, which should be subscribed
      * @param topic    topic to which the client should be subscribed
-     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
-     * as soon es the subscription was added by all Cluster Nodes.
      */
-    ListenableFuture<Void> addSubscription(@NotNull String clientID, @NotNull Topic topic);
+    void addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
     /**
      * This method removes a subscription for a certain client and a certain topic.
@@ -100,10 +95,8 @@ public interface SubscriptionStore {
      *
      * @param clientID client, which should get unsubscribed
      * @param topic    topic from which the client should get unsubscribed
-     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
-     * as soon es the subscription was removed by all Cluster Nodes.
      */
-    ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic);
+    void removeSubscription(@NotNull String clientID, @NotNull String topic);
 
     /**
      * This method returns all subscriptions this HiveMQ instance and all other nodes in a HiveMQ cluster,
@@ -117,7 +110,7 @@ public interface SubscriptionStore {
      * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
      */
     @ReadOnly
-    ListenableFuture<Multimap<String, Topic>> getSubscriptions();
+    Multimap<String, Topic> getSubscriptions();
 
     /**
      * Returns all MQTT client subscriber identifiers for a given topic, this HiveMQ instance and all other nodes in a HiveMQ cluster.
@@ -132,7 +125,7 @@ public interface SubscriptionStore {
      * @return client identifiers of all subscribers that subscribed to the topic
      */
     @ReadOnly
-    ListenableFuture<Set<String>> getSubscribers(@NotNull String topic);
+    Set<String> getSubscribers(@NotNull String topic);
 
     /**
      * Returns all topics a client is subscribed to, on this HiveMQ instance and all other nodes in a HiveMQ cluster.
@@ -148,6 +141,5 @@ public interface SubscriptionStore {
      * @return all topics the client subscribed to
      */
     @ReadOnly
-    ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);
-
+    Set<Topic> getTopics(@NotNull String clientID);
 }

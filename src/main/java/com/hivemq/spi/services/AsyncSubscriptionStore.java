@@ -28,11 +28,9 @@ import java.util.Set;
  * The subscription store allows the management of all client subscriptions from within a plugin
  *
  * @author Lukas Brandl
- * @author Dominik Obermaier
- * @since 1.5
- * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
+ * @since 3.1
  */
-public interface SubscriptionStore {
+public interface AsyncSubscriptionStore {
 
     /**
      * This method returns all subscriptions on this HiveMQ Node as a {@link com.google.common.collect.Multimap} of client identifiers and topics.
@@ -47,7 +45,7 @@ public interface SubscriptionStore {
      * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
      */
     @ReadOnly
-    Multimap<String, Topic> getLocalSubscriptions();
+    ListenableFuture<Multimap<String, Topic>> getLocalSubscriptions();
 
     /**
      * Returns all MQTT client subscriber identifiers for a given topic, for this HiveMQ instance.
@@ -62,7 +60,7 @@ public interface SubscriptionStore {
      * @return client identifiers of all subscribers that subscribed to the topic
      */
     @ReadOnly
-    Set<String> getLocalSubscribers(@NotNull String topic);
+    ListenableFuture<Set<String>> getLocalSubscribers(@NotNull String topic);
 
     /**
      * Returns all topics a client is subscribed to, on this HiveMQ instance.
@@ -78,7 +76,7 @@ public interface SubscriptionStore {
      * @return all topics the client subscribed to
      */
     @ReadOnly
-    Set<Topic> getLocalTopics(@NotNull String clientID);
+    ListenableFuture<Set<Topic>> getLocalTopics(@NotNull String clientID);
 
     /**
      * This method adds a subscription for a certain client to a certain topic.
@@ -149,5 +147,4 @@ public interface SubscriptionStore {
      */
     @ReadOnly
     ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);
-
 }
