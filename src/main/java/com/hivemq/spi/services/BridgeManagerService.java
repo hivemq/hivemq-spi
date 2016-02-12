@@ -32,11 +32,12 @@ import java.util.List;
  * it is entirely possible to write an own bridge configuration mechanism with that
  * manager in your plugin.
  * <p/>
- * IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
  *
  * @author Dominik Obermaier
  * @since 2.0
+ * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
  */
+@Deprecated
 public interface BridgeManagerService {
 
     /**
@@ -44,7 +45,9 @@ public interface BridgeManagerService {
      * but can be listed.
      *
      * @param bridge the bridge to add to the bridge manager.
+     * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
      */
+    @Deprecated
     void addBridge(final Bridge bridge);
 
     /**
@@ -57,7 +60,9 @@ public interface BridgeManagerService {
      * If the passed bridge to remove doesn't exist, nothing will happen.
      *
      * @param bridge the bridge to stop (if running) and remove
+     * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
      */
+    @Deprecated
     void removeBridge(final Bridge bridge);
 
     /**
@@ -75,7 +80,9 @@ public interface BridgeManagerService {
      * @param bridge the bridge to start
      * @return a {@link ListenableFuture} which you can use to block or use to react
      * when the bridge started
+     * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
      */
+    @Deprecated
     ListenableFuture<Void> startBridge(final Bridge bridge);
 
     /**
@@ -90,14 +97,18 @@ public interface BridgeManagerService {
      * @param bridge the bridge to stop
      * @return a {@link ListenableFuture} which you can use to block or use to react
      * when the bridge stopped
+     * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
      */
+    @Deprecated
     ListenableFuture<Void> stopBridge(final Bridge bridge);
 
     /**
      * Returns a {@link Collection} of all bridges registered to this bridge manager.
      *
      * @return a {@link Collection} of all bridges registered to this bridge manager
+     * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
      */
+    @Deprecated
     Collection<Bridge> listBridges();
 
     /**
@@ -109,7 +120,9 @@ public interface BridgeManagerService {
      *
      * @return a {@link ListenableFuture} which you can use to block or use to react
      * when all bridges are stopped
+     * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
      */
+    @Deprecated
     ListenableFuture<List<Void>> stopAllBridges();
 
     /**
@@ -118,6 +131,8 @@ public interface BridgeManagerService {
      *
      * @param bridge the bridge to check the state for.
      * @return a {@link Optional} with the state for a bridge.
+     * @deprecated IMPORTANT: HiveMQ 3.0 does not support Bridging, so this service only works for HiveMQ 2.x
      */
+    @Deprecated
     Optional<State> getBridgeState(final Bridge bridge);
 }
