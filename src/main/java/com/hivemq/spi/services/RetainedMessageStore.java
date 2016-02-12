@@ -26,7 +26,7 @@ import java.util.Set;
  *
  * @author Lukas Brandl
  * @since 1.5
- * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
+ * @deprecated Use {@link BlockingRetainedMessageStore} or {@link AsyncRetainedMessageStore} instead.
  */
 @Deprecated
 public interface RetainedMessageStore {
@@ -51,7 +51,7 @@ public interface RetainedMessageStore {
      * If there isn't any retained message on the topic yet, nothing will happen.
      *
      * @param topic from which the message should be removed
-     * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
+     * @deprecated Use {@link BlockingRetainedMessageStore} or {@link AsyncRetainedMessageStore} instead.
      */
     @Deprecated
     void remove(String topic);
@@ -61,7 +61,7 @@ public interface RetainedMessageStore {
      * If the given retained message doesn't exist, nothing will happen.
      *
      * @param retainedMessage which should be removed
-     * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
+     * @deprecated Use {@link BlockingRetainedMessageStore} or {@link AsyncRetainedMessageStore} instead.
      */
     @Deprecated
     void remove(RetainedMessage retainedMessage);
@@ -69,7 +69,7 @@ public interface RetainedMessageStore {
     /**
      * Removes all retained messages from the message store.
      *
-     * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
+     * @deprecated Use {@link BlockingRetainedMessageStore} or {@link AsyncRetainedMessageStore} instead.
      */
     @Deprecated
     void clear();
@@ -78,7 +78,7 @@ public interface RetainedMessageStore {
      * This method adds or replaces a retained message
      *
      * @param retainedMessage which should be added or replaced
-     * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
+     * @deprecated Use {@link BlockingRetainedMessageStore} or {@link AsyncRetainedMessageStore} instead.
      */
     @Deprecated
     void addOrReplace(RetainedMessage retainedMessage);
@@ -89,14 +89,14 @@ public interface RetainedMessageStore {
      *
      * @param retainedMessage to check if it's already in the message store
      * @return true if there's already a message on the topic of the given retained message
-     * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
+     * @deprecated Use {@link BlockingRetainedMessageStore} or {@link AsyncRetainedMessageStore} instead.
      */
     @Deprecated
     boolean contains(RetainedMessage retainedMessage);
 
     /**
      * @return the number of all retained messages
-     * @deprecated Use RetainedMessageStoreLocal or RetainedMessageStoreCluster instead.
+     * @deprecated Use {@link BlockingRetainedMessageStore} or {@link AsyncRetainedMessageStore} instead.
      */
     @Deprecated
     int size();

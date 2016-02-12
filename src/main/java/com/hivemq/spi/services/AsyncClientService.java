@@ -26,11 +26,9 @@ import java.util.Set;
  * Through this client service a plugin can query details about connected or disconnected clients (with a persistent session) from the HiveMQ core.
  *
  * @author Lukas Brandl
- * @since 3.0
- * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
+ * @since 3.1
  */
-@Deprecated
-public interface ClientService {
+public interface AsyncClientService {
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ Node. You won't receive client identifiers of connected
@@ -40,10 +38,8 @@ public interface ClientService {
      * effects.
      *
      * @return client identifiers of all connected clients
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    Set<String> getLocalConnectedClients();
+    ListenableFuture<Set<String>> getLocalConnectedClients();
 
     /**
      * Returns all disconnected clients which have a persistent MQTT session on this instance of HiveMQ (MQTT clean session=false).
@@ -51,20 +47,16 @@ public interface ClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    Set<String> getLocalDisconnectedClients();
+    ListenableFuture<Set<String>> getLocalDisconnectedClients();
 
     /**
      * Check if a client with a given identifier is currently connected to this HiveMQ instance.
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    boolean isClientConnectedLocal(String clientId);
+    ListenableFuture<Boolean> isClientConnectedLocal(String clientId);
 
     /**
      * Returns client information for clients that are connected to this broker instance.
@@ -73,10 +65,8 @@ public interface ClientService {
      *
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    Optional<ClientData> getLocalClientDataForClientId(String clientId);
+    ListenableFuture<ClientData> getLocalClientData(String clientId);
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
@@ -84,9 +74,7 @@ public interface ClientService {
      * Calling this method frequently in a clustered environment could have negative performance effects.
      *
      * @return client identifiers of all connected clients
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
     ListenableFuture<Set<String>> getConnectedClients();
 
     /**
@@ -95,9 +83,7 @@ public interface ClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
     ListenableFuture<Set<String>> getDisconnectedClients();
 
     /**
@@ -105,9 +91,7 @@ public interface ClientService {
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
     ListenableFuture<Boolean> isClientConnected(String clientId);
 
     /**
@@ -119,9 +103,6 @@ public interface ClientService {
      *
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client.
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    ListenableFuture<Optional<ClientData>> getClientDataForClientId(String clientId);
-
+    ListenableFuture<ClientData> getClientData(String clientId);
 }
