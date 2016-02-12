@@ -32,6 +32,7 @@ import java.util.Set;
  * @since 1.5
  * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
  */
+@Deprecated
 public interface SubscriptionStore {
 
     /**
@@ -45,8 +46,10 @@ public interface SubscriptionStore {
      * The returned Multimap is read-only and must not be modified.
      *
      * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
     @ReadOnly
+    @Deprecated
     Multimap<String, Topic> getLocalSubscriptions();
 
     /**
@@ -60,8 +63,10 @@ public interface SubscriptionStore {
      *
      * @param topic the topic
      * @return client identifiers of all subscribers that subscribed to the topic
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
     @ReadOnly
+    @Deprecated
     Set<String> getLocalSubscribers(@NotNull String topic);
 
     /**
@@ -76,8 +81,10 @@ public interface SubscriptionStore {
      *
      * @param clientID of the client
      * @return all topics the client subscribed to
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
     @ReadOnly
+    @Deprecated
     Set<Topic> getLocalTopics(@NotNull String clientID);
 
     /**
@@ -91,7 +98,9 @@ public interface SubscriptionStore {
      * @param topic    topic to which the client should be subscribed
      * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
      * as soon es the subscription was added by all Cluster Nodes.
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
+    @Deprecated
     ListenableFuture<Void> addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
     /**
@@ -102,7 +111,9 @@ public interface SubscriptionStore {
      * @param topic    topic from which the client should get unsubscribed
      * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
      * as soon es the subscription was removed by all Cluster Nodes.
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
+    @Deprecated
     ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic);
 
     /**
@@ -115,8 +126,10 @@ public interface SubscriptionStore {
      * The returned Multimap is read-only and must not be modified.
      *
      * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
     @ReadOnly
+    @Deprecated
     ListenableFuture<Multimap<String, Topic>> getSubscriptions();
 
     /**
@@ -130,8 +143,10 @@ public interface SubscriptionStore {
      *
      * @param topic the topic
      * @return client identifiers of all subscribers that subscribed to the topic
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
     @ReadOnly
+    @Deprecated
     ListenableFuture<Set<String>> getSubscribers(@NotNull String topic);
 
     /**
@@ -146,8 +161,10 @@ public interface SubscriptionStore {
      *
      * @param clientID of the client
      * @return all topics the client subscribed to
+     * @deprecated Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} instead.
      */
     @ReadOnly
+    @Deprecated
     ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);
 
 }
