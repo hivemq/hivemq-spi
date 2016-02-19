@@ -17,6 +17,7 @@ import com.hivemq.spi.services.PluginExecutorService;
 public class HiveMQMetrics {
 
     public static final String PLUGIN_EXECUTOR_PREFIX = "com.hivemq.plugin.executor";
+    public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
     public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
 
     /**
