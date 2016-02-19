@@ -17,6 +17,7 @@ import com.hivemq.spi.services.PluginExecutorService;
 public class HiveMQMetrics {
 
     public static final String PLUGIN_EXECUTOR_PREFIX = "com.hivemq.plugin.executor";
+    public static final String CALLBACK_EXECUTOR_PREFIX = "com.hivemq.callback.executor";
     public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
     public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
 
@@ -844,4 +845,25 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Meter> TOTAL_EXCEPTION_RATE =
             HiveMQMetric.valueOf(EXCEPTION_PREFIX + ".total", Meter.class);
+
+
+    /**
+     * represents a {@link Counter}, which measures the current count of messages in the publish queue
+     * {@link PluginExecutorService}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Counter> PUBLISH_QUEUE_SIZE =
+            HiveMQMetric.valueOf("com.hivemq.queues.publish.size", Counter.class);
+
+
+    /**
+     * represents a {@link Meter}, which measures the rate of messages put into the publish queue
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Meter> PUBLISH_QUEUE_RATE =
+            HiveMQMetric.valueOf("com.hivemq.queues.publish.rate", Meter.class);
+
 }
+
