@@ -16,8 +16,7 @@
 
 package com.hivemq.spi.services;
 
-import com.google.common.base.Optional;
-import com.google.common.util.concurrent.ListenableFuture;
+import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.security.ClientData;
 
 import java.util.Set;
@@ -26,23 +25,19 @@ import java.util.Set;
  * Through this client service a plugin can query details about connected or disconnected clients (with a persistent session) from the HiveMQ core.
  *
  * @author Lukas Brandl
- * @since 3.0
- * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
+ * @since 3.1
  */
-@Deprecated
-public interface ClientService {
+public interface BlockingClientService {
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ Node. You won't receive client identifiers of connected
      * clients from other HiveMQ nodes if HiveMQ runs in a cluster.
      * <p/>
-     * If you have many client connections, please not that calling this method frequently could have negative performance
+     * If you have many client connections, please note that calling this method frequently could have negative performance
      * effects.
      *
      * @return client identifiers of all connected clients
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
     Set<String> getLocalConnectedClients();
 
     /**
@@ -51,9 +46,7 @@ public interface ClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
     Set<String> getLocalDisconnectedClients();
 
     /**
@@ -61,22 +54,19 @@ public interface ClientService {
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
     boolean isClientConnectedLocal(String clientId);
 
     /**
      * Returns client information for clients that are connected to this broker instance.
      * <p/>
-     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     * If the client isn't connected, <code>null</code> will be returned.
      *
      * @param clientId the client identifier of the client
-     * @return {@link ClientData} for a specific client.
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
+     * @return {@link ClientData} for a specific client or <code>null</code> if the client is not connected
      */
-    @Deprecated
-    Optional<ClientData> getLocalClientDataForClientId(String clientId);
+    @Nullable
+    ClientData getLocalClientData(String clientId);
 
     /**
      * Returns all identifiers of connected clients of this HiveMQ instance and all other nodes in a HiveMQ cluster
@@ -84,10 +74,8 @@ public interface ClientService {
      * Calling this method frequently in a clustered environment could have negative performance effects.
      *
      * @return client identifiers of all connected clients
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    ListenableFuture<Set<String>> getConnectedClients();
+    Set<String> getConnectedClients();
 
     /**
      * Returns all disconnected clients which have a persistent MQTT session on this broker or any other cluster node.
@@ -95,33 +83,27 @@ public interface ClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    ListenableFuture<Set<String>> getDisconnectedClients();
+    Set<String> getDisconnectedClients();
 
     /**
      * Check if a client with a given identifier is currently connected to this HiveMQ broker instance or any other instance in the cluster.
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
      */
-    @Deprecated
-    ListenableFuture<Boolean> isClientConnected(String clientId);
+    boolean isClientConnected(String clientId);
 
     /**
      * Returns additional client information about a given client with a given client identifier.
      * <p/>
      * This method will also get client information from other cluster nodes if needed.
      * <p/>
-     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     * If the client isn't connected, <code>null</code> will be returned.
      *
      * @param clientId the client identifier of the client
-     * @return {@link ClientData} for a specific client.
-     * @deprecated Use {@link BlockingClientService} or {@link AsyncClientService} instead.
+     * @return {@link ClientData} for a specific client or <code>null</code> if the client is not connected
      */
-    @Deprecated
-    ListenableFuture<Optional<ClientData>> getClientDataForClientId(String clientId);
-
+    @Nullable
+    ClientData getClientData(String clientId);
 }

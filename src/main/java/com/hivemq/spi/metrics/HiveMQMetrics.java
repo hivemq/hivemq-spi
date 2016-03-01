@@ -2,8 +2,11 @@ package com.hivemq.spi.metrics;
 
 import com.codahale.metrics.*;
 import com.hivemq.spi.callback.events.*;
+import com.hivemq.spi.callback.lowlevel.OnConnackSend;
+import com.hivemq.spi.callback.lowlevel.OnPingCallback;
+import com.hivemq.spi.callback.lowlevel.OnPubcompReceived;
+import com.hivemq.spi.callback.lowlevel.OnPubcompSend;
 import com.hivemq.spi.callback.security.*;
-import com.hivemq.spi.callback.lowlevel.*;
 import com.hivemq.spi.services.PluginExecutorService;
 
 /**
@@ -14,6 +17,8 @@ import com.hivemq.spi.services.PluginExecutorService;
 public class HiveMQMetrics {
 
     public static final String PLUGIN_EXECUTOR_PREFIX = "com.hivemq.plugin.executor";
+    public static final String CALLBACK_EXECUTOR_PREFIX = "com.hivemq.callback.executor";
+    public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
     public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
 
     /**
@@ -424,12 +429,21 @@ public class HiveMQMetrics {
             HiveMQMetric.gaugeValue("com.hivemq.messages.retained.current");
 
     /**
-     * represents a {@link Histogram}, which holds the current amount of retained messages
+     * represents a {@link Histogram}, which holds metrics about the mean payload-size of retained messages in bytes
      *
      * @since 3.0
      */
     public static final HiveMQMetric<Histogram> RETAINED_MESSAGES_MEAN =
             HiveMQMetric.valueOf("com.hivemq.messages.retained.mean", Histogram.class);
+
+    /**
+     * represents a {@link Histogram}, which holds the current rate of retained messages
+     *
+     * @since 3.1
+     */
+    public static final HiveMQMetric<Meter> RETAINED_MESSAGES_RATE =
+            HiveMQMetric.valueOf("com.hivemq.messages.retained.rate", Meter.class);
+
 
     /**
      * represents a {@link Counter}, which counts every outgoing MQTT UNSUBACK messages
@@ -831,4 +845,25 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Meter> TOTAL_EXCEPTION_RATE =
             HiveMQMetric.valueOf(EXCEPTION_PREFIX + ".total", Meter.class);
+
+
+    /**
+     * represents a {@link Counter}, which measures the current count of messages in the publish queue
+     * {@link PluginExecutorService}
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Counter> PUBLISH_QUEUE_SIZE =
+            HiveMQMetric.valueOf("com.hivemq.queues.publish.size", Counter.class);
+
+
+    /**
+     * represents a {@link Meter}, which measures the rate of messages put into the publish queue
+     *
+     * @since 3.0
+     */
+    public static final HiveMQMetric<Meter> PUBLISH_QUEUE_RATE =
+            HiveMQMetric.valueOf("com.hivemq.queues.publish.rate", Meter.class);
+
 }
+

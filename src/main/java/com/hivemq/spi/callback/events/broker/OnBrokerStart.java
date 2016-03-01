@@ -21,7 +21,7 @@ import com.hivemq.spi.callback.exception.BrokerUnableToStartException;
 
 /**
  * This callback gets called when the broker starts but before network interfaces are bound
- * and before other bootstrapping actions takes place.
+ * and before other bootstrapping actions take place.
  * <p/>
  * To prevent HiveMQ from starting, throw a {@link BrokerUnableToStartException}
  *

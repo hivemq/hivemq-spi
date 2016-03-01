@@ -29,8 +29,12 @@ import java.util.List;
  *
  * @author Dominik Obermaier
  * @since 3.0
+ * @deprecated Since 3.1 Shared subscriptions are created by using a specific marker in the topic.
+ * Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} to create such subscriptions.
+ * See the HiveMQ documentation about shared subscriptions for more detailed information.
  */
 @ThreadSafe
+@Deprecated
 public interface SharedSubscriptionService {
 
     /**
@@ -40,14 +44,22 @@ public interface SharedSubscriptionService {
      * If <code>null</code> values are passed, these values are ignored.
      *
      * @param sharedSubscriptions the shared subscriptions to add
+     * @deprecated Since 3.1 Shared subscriptions are created by using a specific marker in the topic.
+     * Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} to create such subscriptions.
+     * See the HiveMQ documentation about shared subscriptions for more detailed information.
      */
+    @Deprecated
     void addSharedSubscriptions(@NotNull final String... sharedSubscriptions);
 
     /**
      * Returns <code>true</code> if shared subscriptions are available, <code>false</code> otherwise
      *
      * @return <code>true</code> if shared subscriptions are available, <code>false</code> otherwise
+     * @deprecated Since 3.1 Shared subscriptions are created by using a specific marker in the topic.
+     * Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} to create such subscriptions.
+     * See the HiveMQ documentation about shared subscriptions for more detailed information.
      */
+    @Deprecated
     boolean sharedSubscriptionsAvailable();
 
 
@@ -58,7 +70,11 @@ public interface SharedSubscriptionService {
      * If a <code>null</code> value is passed, the value is ignored.
      *
      * @param sharedSubscription the shared subscription to remove
+     * @deprecated Since 3.1 Shared subscriptions are created by using a specific marker in the topic.
+     * Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} to create such subscriptions.
+     * See the HiveMQ documentation about shared subscriptions for more detailed information.
      */
+    @Deprecated
     void removeSharedSubscription(@NotNull final String sharedSubscription);
 
     /**
@@ -66,14 +82,22 @@ public interface SharedSubscriptionService {
      * of all shared subscriptions
      *
      * @return a read-only List of all shared subscriptions
+     * @deprecated Since 3.1 Shared subscriptions are created by using a specific marker in the topic.
+     * Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} to create such subscriptions.
+     * See the HiveMQ documentation about shared subscriptions for more detailed information.
      */
     @ReadOnly
+    @Deprecated
     List<String> getSharedSubscriptions();
 
     /**
      * Returns the number of all shared subscriptions.
      *
      * @return the number of all shared subscriptions
+     * @deprecated Since 3.1 Shared subscriptions are created by using a specific marker in the topic.
+     * Use {@link BlockingSubscriptionStore} or {@link AsyncSubscriptionStore} to create such subscriptions.
+     * See the HiveMQ documentation about shared subscriptions for more detailed information.
      */
+    @Deprecated
     long getSharedSubscriptionsSize();
 }
