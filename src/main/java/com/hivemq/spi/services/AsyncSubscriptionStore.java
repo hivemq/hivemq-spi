@@ -42,7 +42,7 @@ public interface AsyncSubscriptionStore {
      * <p/>
      * The returned Multimap is read-only and must not be modified.
      *
-     * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
      */
     @ReadOnly
     ListenableFuture<Multimap<String, Topic>> getLocalSubscriptions();
@@ -57,7 +57,7 @@ public interface AsyncSubscriptionStore {
      * The returned Set is read-only and must not be modified.
      *
      * @param topic the topic
-     * @return client identifiers of all subscribers that subscribed to the topic
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all subscribers that subscribed to the topic
      */
     @ReadOnly
     ListenableFuture<Set<String>> getLocalSubscribers(@NotNull String topic);
@@ -73,7 +73,7 @@ public interface AsyncSubscriptionStore {
      * The returned Set is read-only and must not be modified.
      *
      * @param clientID of the client
-     * @return all topics the client subscribed to
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains all topics the client subscribed to
      */
     @ReadOnly
     ListenableFuture<Set<Topic>> getLocalTopics(@NotNull String clientID);
@@ -112,7 +112,7 @@ public interface AsyncSubscriptionStore {
      * <p/>
      * The returned Multimap is read-only and must not be modified.
      *
-     * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
      */
     @ReadOnly
     ListenableFuture<Multimap<String, Topic>> getSubscriptions();
@@ -127,7 +127,7 @@ public interface AsyncSubscriptionStore {
      * The returned Set is read-only and must not be modified.
      *
      * @param topic the topic
-     * @return client identifiers of all subscribers that subscribed to the topic
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all subscribers that subscribed to the topic
      */
     @ReadOnly
     ListenableFuture<Set<String>> getSubscribers(@NotNull String topic);
@@ -143,7 +143,7 @@ public interface AsyncSubscriptionStore {
      * The returned Set is read-only and must not be modified.
      *
      * @param clientID of the client
-     * @return all topics the client subscribed to
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains which contains all topics the client subscribed to
      */
     @ReadOnly
     ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);

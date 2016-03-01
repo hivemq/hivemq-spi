@@ -16,7 +16,7 @@
 
 package com.hivemq.spi.services;
 
-import com.google.common.base.Optional;
+import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.security.ClientData;
 
 import java.util.Set;
@@ -33,7 +33,7 @@ public interface BlockingClientService {
      * Returns all identifiers of connected clients of this HiveMQ Node. You won't receive client identifiers of connected
      * clients from other HiveMQ nodes if HiveMQ runs in a cluster.
      * <p/>
-     * If you have many client connections, please not that calling this method frequently could have negative performance
+     * If you have many client connections, please note that calling this method frequently could have negative performance
      * effects.
      *
      * @return client identifiers of all connected clients
@@ -60,11 +60,12 @@ public interface BlockingClientService {
     /**
      * Returns client information for clients that are connected to this broker instance.
      * <p/>
-     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     * If the client isn't connected, <code>null</code> will be returned.
      *
      * @param clientId the client identifier of the client
-     * @return {@link ClientData} for a specific client.
+     * @return {@link ClientData} for a specific client or <code>null</code> if the client is not connected
      */
+    @Nullable
     ClientData getLocalClientData(String clientId);
 
     /**
@@ -98,10 +99,11 @@ public interface BlockingClientService {
      * <p/>
      * This method will also get client information from other cluster nodes if needed.
      * <p/>
-     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     * If the client isn't connected, <code>null</code> will be returned.
      *
      * @param clientId the client identifier of the client
-     * @return {@link ClientData} for a specific client.
+     * @return {@link ClientData} for a specific client or <code>null</code> if the client is not connected
      */
+    @Nullable
     ClientData getClientData(String clientId);
 }
