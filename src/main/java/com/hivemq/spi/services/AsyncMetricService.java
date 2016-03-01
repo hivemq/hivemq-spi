@@ -38,7 +38,7 @@ public interface AsyncMetricService {
      *
      * @param metric the metric
      * @param <T>    the metric type
-     * @return a {@link ListenableFuture} with the metric (if available) or a <code>null</code> result.
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} with the metric (if available) or a <code>null</code> result.
      */
     <T extends Metric> ListenableFuture<T> getHiveMQMetric(HiveMQMetric<T> metric);
 
@@ -50,7 +50,7 @@ public interface AsyncMetricService {
      *
      * @param metric the metric
      * @param <T>    the metric type
-     * @return a {@link ListenableFuture} with the metric (if available) or a <code>null</code> result.
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} with the metric (if available) or a <code>null</code> result.
      */
     <T extends Metric> ListenableFuture<Map<String, T>> getClusterMetric(HiveMQMetric<T> metric);
 

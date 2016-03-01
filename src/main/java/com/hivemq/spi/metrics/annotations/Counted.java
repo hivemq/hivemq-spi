@@ -22,9 +22,9 @@ public @interface Counted {
 
 
     /**
-     * @return If {@code false} (default), the counter is decremented when the annotated
+     * @return If {@code false} the counter is decremented when the annotated
      * method returns, counting current invocations of the annotated method.
-     * If {@code true}, the counter increases monotonically, counting total
+     * If {@code true} (default) the counter increases monotonically, counting total
      * invocations of the annotated method.
      */
     boolean monotonic() default true;

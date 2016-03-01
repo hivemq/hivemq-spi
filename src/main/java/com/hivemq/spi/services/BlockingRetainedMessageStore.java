@@ -15,6 +15,7 @@
  */
 package com.hivemq.spi.services;
 
+import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.message.RetainedMessage;
 
 import java.util.Set;
@@ -42,7 +43,7 @@ public interface BlockingRetainedMessageStore {
      * @param topic the topic associated with the retained message
      * @return true if there's a message for the given topic
      */
-    Boolean containsLocally(String topic);
+    boolean containsLocally(String topic);
 
     /**
      * @return all retained messages which are currently stored
@@ -54,6 +55,7 @@ public interface BlockingRetainedMessageStore {
      * @return retained message for the specific topic or <code>null</code>.
      * instance with an empty reference
      */
+    @Nullable
     RetainedMessage getRetainedMessage(String topic);
 
     /**

@@ -34,10 +34,10 @@ public interface AsyncClientService {
      * Returns all identifiers of connected clients of this HiveMQ Node. You won't receive client identifiers of connected
      * clients from other HiveMQ nodes if HiveMQ runs in a cluster.
      * <p/>
-     * If you have many client connections, please not that calling this method frequently could have negative performance
+     * If you have many client connections, please note that calling this method frequently could have negative performance
      * effects.
      *
-     * @return client identifiers of all connected clients
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains all client identifiers of all connected clients
      */
     ListenableFuture<Set<String>> getLocalConnectedClients();
 
@@ -46,7 +46,7 @@ public interface AsyncClientService {
      * <p/>
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
-     * @return all disconnected clients with a persistent MQTT session
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all disconnected clients with a persistent MQTT session
      */
     ListenableFuture<Set<String>> getLocalDisconnectedClients();
 
@@ -54,7 +54,7 @@ public interface AsyncClientService {
      * Check if a client with a given identifier is currently connected to this HiveMQ instance.
      *
      * @param clientId client, which should be checked
-     * @return true, if a certain client is currently connected and false otherwise
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains true, if a certain client is currently connected and false otherwise
      */
     ListenableFuture<Boolean> isClientConnectedLocal(String clientId);
 
@@ -64,7 +64,7 @@ public interface AsyncClientService {
      * If the client isn't connected, you will receive an {@link Optional} with absent data.
      *
      * @param clientId the client identifier of the client
-     * @return {@link ClientData} for a specific client.
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the {@link ClientData} for a specific client.
      */
     ListenableFuture<ClientData> getLocalClientData(String clientId);
 
@@ -73,7 +73,7 @@ public interface AsyncClientService {
      * <p/>
      * Calling this method frequently in a clustered environment could have negative performance effects.
      *
-     * @return client identifiers of all connected clients
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all connected clients
      */
     ListenableFuture<Set<String>> getConnectedClients();
 
@@ -82,7 +82,7 @@ public interface AsyncClientService {
      * <p/>
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
-     * @return all disconnected clients with a persistent MQTT session
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the of client identifiers of all disconnected clients with a persistent MQTT session
      */
     ListenableFuture<Set<String>> getDisconnectedClients();
 
@@ -90,7 +90,7 @@ public interface AsyncClientService {
      * Check if a client with a given identifier is currently connected to this HiveMQ broker instance or any other instance in the cluster.
      *
      * @param clientId client, which should be checked
-     * @return true, if a certain client is currently connected and false otherwise
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains true, if a certain client is currently connected and false otherwise
      */
     ListenableFuture<Boolean> isClientConnected(String clientId);
 
@@ -102,7 +102,7 @@ public interface AsyncClientService {
      * If the client isn't connected, you will receive an {@link Optional} with absent data.
      *
      * @param clientId the client identifier of the client
-     * @return {@link ClientData} for a specific client.
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the {@link ClientData} for a specific client.
      */
     ListenableFuture<ClientData> getClientData(String clientId);
 }
