@@ -30,6 +30,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use the builder if you want to create a new websocket listener.
  *
  * @author Dominik Obermaier
+ * @author Christoph Schaebel
+ *
  * @since 3.0
  */
 @Immutable
@@ -45,17 +47,19 @@ public class WebsocketListener implements Listener {
 
     private List<String> subprotocols;
 
+    private boolean proxyProtocolSupported;
 
     protected WebsocketListener(final int port,
                                 final String bindAddress, final String path,
-                                final boolean allowExtensions, final List<String> subprotocols) {
+                                final boolean allowExtensions, final List<String> subprotocols,
+                                final boolean proxyProtocolSupported) {
         this.port = port;
         this.bindAddress = bindAddress;
         this.path = path;
         this.allowExtensions = allowExtensions;
         this.subprotocols = subprotocols;
+        this.proxyProtocolSupported = proxyProtocolSupported;
     }
-
 
     /**
      * {@inheritDoc}
@@ -79,6 +83,14 @@ public class WebsocketListener implements Listener {
     @Override
     public String readableName() {
         return "Websocket Listener";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isProxyProtocolSupported() {
+        return proxyProtocolSupported;
     }
 
     /**
@@ -111,6 +123,7 @@ public class WebsocketListener implements Listener {
         protected String path = "";
         protected boolean allowExtensions = false;
         protected List<String> subprotocols = new ArrayList<>();
+        protected boolean proxyProtocolSupported = false;
 
 
         public Builder() {
@@ -179,6 +192,19 @@ public class WebsocketListener implements Listener {
         }
 
         /**
+         * Set this to true if you want this listener to support the PROXY protocol
+         *
+         * @param proxyProtocolSupported if this listener should be able to utilize the PROXY protocol
+         * @return the Builder
+         *
+         * @since 3.2
+         */
+        public Builder proxyProtocolSupported(final boolean proxyProtocolSupported) {
+            this.proxyProtocolSupported = proxyProtocolSupported;
+            return this;
+        }
+
+        /**
          * Creates the Websocket Listener
          *
          * @return the Websocket Listener
@@ -192,7 +218,7 @@ public class WebsocketListener implements Listener {
                 throw new IllegalStateException("The bind address for a Websocket listener was not set.");
             }
 
-            return new WebsocketListener(port, bindAddress, path, allowExtensions, subprotocols);
+            return new WebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, proxyProtocolSupported);
         }
     }
 }

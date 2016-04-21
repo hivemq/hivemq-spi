@@ -24,6 +24,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * A listener which allows to listen to MQTT traffic via TLS
  *
  * @author Dominik Obermaier
+ * @author Christoph Schaebel
+ *
  * @since 3.0
  */
 @Immutable
@@ -45,6 +47,19 @@ public class TlsTcpListener extends TcpListener {
     }
 
     /**
+     * Creates a new TLS Listener which listens to a specific port and bind address
+     *
+     * @param port        the port
+     * @param bindAddress the bind address
+     * @param tls         the TLS configuration
+     * @param proxyProtocolSupported if this listener should be able to utilize the PROXY protocol
+     */
+    public TlsTcpListener(final int port, final String bindAddress, final Tls tls, final boolean proxyProtocolSupported) {
+        super(port, bindAddress, proxyProtocolSupported);
+        this.tls = tls;
+    }
+
+    /**
      * @return the TLS configuration
      */
     public Tls getTls() {
@@ -58,4 +73,5 @@ public class TlsTcpListener extends TcpListener {
     public String readableName() {
         return "TCP Listener with TLS";
     }
+
 }
