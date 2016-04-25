@@ -21,6 +21,8 @@ package com.hivemq.spi.services.configuration.entity;
  * implement this interface.
  *
  * @author Dominik Obermaier
+ * @author Christoph Schaebel
+ *
  * @see TcpListener
  * @see TlsTcpListener
  * @see WebsocketListener
@@ -42,4 +44,11 @@ public interface Listener {
      * @return the human readable, name of the listener
      */
     String readableName();
+
+    /**
+     * @return if the PROXY protocol is supported by this listener
+     *
+     * @since 3.2
+     */
+    boolean isProxyProtocolSupported();
 }

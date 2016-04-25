@@ -20,7 +20,7 @@ import java.util.Collection;
  * <p/>
  * The REST Service supports first-class dependency injection and even allows to use constructor injection.
  * <p/>
- * It's possible to annotate JAX-RS resources with {@link @javax.inject.Singleton} to bind a resource to a singleton
+ * It's possible to annotate JAX-RS resources with {@link javax.inject.Singleton} to bind a resource to a singleton
  * context instead of a per-request context.
  *
  * The REST Service implementation is guaranteed to be thread safe.
@@ -210,7 +210,7 @@ public interface RESTService {
      * Adds a {@link Application} to the RESTService.
      * <p/>
      * Please be aware that when using this method, only all properties, classes and singletons are
-     * added to the RESTService, the {@link Application} and all annotations on the {@link} Application
+     * added to the RESTService, the {@link Application} and all annotations on the {@link Application}
      * are ignored. So essentially this is a convenient method which allows you to add a lot of resources at once
      * <p/>
      * Important: {@link javax.ws.rs.ApplicationPath} annotations are ignored.
@@ -226,7 +226,7 @@ public interface RESTService {
      * Adds a {@link Application} to the RESTService.
      * <p/>
      * Please be aware that when using this method, only all properties, classes and singletons are
-     * added to the RESTService, the {@link Application} and all annotations on the {@link} Application
+     * added to the RESTService, the {@link Application} and all annotations on the {@link Application}
      * are ignored. So essentially this is a convenient method which allows you to add a lot of resources at once
      * <p/>
      * Important: {@link javax.ws.rs.ApplicationPath} annotations are ignored.
