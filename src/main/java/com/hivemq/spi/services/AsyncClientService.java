@@ -105,4 +105,25 @@ public interface AsyncClientService {
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the {@link ClientData} for a specific client.
      */
     ListenableFuture<ClientData> getClientData(String clientId);
+
+    /**
+     * Forcefully disconnect a client with the specified clientId.
+     *
+     * @param clientId the clientId to disconnect
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link Boolean} which is true when the client has been disconnected and false if no client with that id was found.
+     * @since 3.2
+     */
+    ListenableFuture<Boolean> disconnectClient(String clientId);
+
+    /**
+     * Forcefully disconnect a client with the specified clientId.
+     * <p>
+     * If the client specified a LWT message it will only be sent if the boolean parameter is set to false.
+     *
+     * @param clientId          the clientId to disconnect
+     * @param preventLwtMessage if true the LWT message for this client is not published when the client gets disconnected
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link Boolean} which is true when the client has been disconnected and false if no client with that id was found.
+     * @since 3.2
+     */
+    ListenableFuture<Boolean> disconnectClient(String clientId, boolean preventLwtMessage);
 }
