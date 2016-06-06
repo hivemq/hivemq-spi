@@ -108,6 +108,9 @@ public interface AsyncClientService {
 
     /**
      * Forcefully disconnect a client with the specified clientId.
+     * <p>
+     * If the client specified a LWT message, it will be sent.
+     * To prevent LWT messages use the {@link #disconnectClient(String, boolean)} method
      *
      * @param clientId the clientId to disconnect
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link Boolean} which is true when the client has been disconnected and false if no client with that id was found.

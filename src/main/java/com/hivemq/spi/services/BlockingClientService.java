@@ -111,7 +111,7 @@ public interface BlockingClientService {
      * Forcefully disconnect a client with the specified clientId.
      * <p>
      * If the client specified a LWT message, it will be sent.
-     * To prevent LWT messages use the other @{link #disconnectClient(String, boolean) disconnectClient} method
+     * To prevent LWT messages use the {@link #disconnectClient(String, boolean)} method
      *
      * @param clientId the clientId to disconnect
      * @return true if the client has been disconnected, false if no client with that id was found
