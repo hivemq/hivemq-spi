@@ -20,6 +20,9 @@ public class HiveMQMetrics {
     public static final String CALLBACK_EXECUTOR_PREFIX = "com.hivemq.callback.executor";
     public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
 
+    @Deprecated
+    public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
+
     /**
      * represents a {@link Counter}, which counts every incoming MQTT message
      *
