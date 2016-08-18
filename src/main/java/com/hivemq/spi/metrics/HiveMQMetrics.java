@@ -995,7 +995,7 @@ public class HiveMQMetrics {
      * @since 3.2
      */
     public static final HiveMQMetric<Gauge<Number>> DIRECT_MEMORY_USED =
-            HiveMQMetric.gaugeValue("com.hivemq.direc-memory.used");
+            HiveMQMetric.gaugeValue("com.hivemq.direct-memory.used");
 
 }
 
