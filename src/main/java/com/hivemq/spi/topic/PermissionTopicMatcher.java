@@ -17,6 +17,7 @@
 package com.hivemq.spi.topic;
 
 import com.hivemq.spi.topic.exception.InvalidTopicException;
+import org.apache.commons.lang3.StringUtils;
 
 import static java.lang.Math.min;
 
@@ -27,10 +28,23 @@ import static java.lang.Math.min;
  * @since 1.4
  */
 
-public class PermissionTopicMatcher {
+public class PermissionTopicMatcher implements TopicMatcher {
 
     PermissionTopicMatcher() {
         //decrease visibility
+    }
+
+    @Override
+    public boolean matches(String permissionTopic, String actualTopic) throws InvalidTopicException {
+        final String stripedPermissionTopic = StringUtils.stripEnd(permissionTopic, "/");
+        final String[] splitPermissionTopic = StringUtils.splitPreserveAllTokens(stripedPermissionTopic, "/");
+        final boolean nonWildCard = StringUtils.containsNone(stripedPermissionTopic, "#+");
+        final boolean rootWildCard = stripedPermissionTopic.contains("#");
+        final boolean endsWithWildCard = StringUtils.endsWith(stripedPermissionTopic, "/#");
+
+        final String stripedActualTopic = StringUtils.stripEnd(actualTopic, "/");
+        final String[] splitActualTopic = StringUtils.splitPreserveAllTokens(stripedActualTopic, "/");
+        return matches(stripedPermissionTopic, splitPermissionTopic, nonWildCard, endsWithWildCard, rootWildCard, stripedActualTopic, splitActualTopic);
     }
 
     public boolean matches(final String permissionTopic, final String[] splitPermissionTopic, boolean nonWildCard, boolean endsWithWildCard, boolean rootWildCard, final String actualTopic, final String[] splitActualTopic) throws InvalidTopicException {

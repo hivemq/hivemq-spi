@@ -19,6 +19,7 @@ package com.hivemq.spi.topic;
 import com.hivemq.spi.message.QoS;
 import com.hivemq.spi.topic.MqttTopicPermission.ACTIVITY;
 import com.hivemq.spi.topic.MqttTopicPermission.QOS;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import static com.hivemq.spi.topic.MqttTopicPermission.RETAIN;
@@ -216,53 +217,53 @@ public class MqttTopicPermissionTest {
 
     }
 
-//    @Test
-//    public void test_implies_retained() throws Exception {
-//
-//        final MqttTopicPermission test1 = new MqttTopicPermission("test1", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED);
-//        final MqttTopicPermission test2 = new MqttTopicPermission("test2", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.RETAINED);
-//        final MqttTopicPermission test3 = new MqttTopicPermission("test3", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.ALL);
-//        final MqttTopicPermission test4 = new MqttTopicPermission("test4", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, null);
-//
-//        assertTrue(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-//        assertFalse(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
-//
-//        assertFalse(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-//        assertTrue(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
-//
-//        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-//        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
-//
-//        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-//        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
-//
-//        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
-//        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
-//    }
+    @Test
+    public void test_implies_retained() throws Exception {
 
-//    @Test
-//    public void test_implies_retained_bool() throws Exception {
-//
-//        final MqttTopicPermission test1 = new MqttTopicPermission("test1", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED);
-//        final MqttTopicPermission test2 = new MqttTopicPermission("test2", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.RETAINED);
-//        final MqttTopicPermission test3 = new MqttTopicPermission("test3", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.ALL);
-//        final MqttTopicPermission test4 = new MqttTopicPermission("test4", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, null);
-//
-//        assertTrue(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-//        assertFalse(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
-//
-//        assertFalse(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-//        assertTrue(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
-//
-//        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-//        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
-//
-//        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-//        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
-//
-//        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
-//        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
-//    }
+        final MqttTopicPermission test1 = new MqttTopicPermission("test1", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED);
+        final MqttTopicPermission test2 = new MqttTopicPermission("test2", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.RETAINED);
+        final MqttTopicPermission test3 = new MqttTopicPermission("test3", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.ALL);
+        final MqttTopicPermission test4 = new MqttTopicPermission("test4", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, null);
+
+        assertTrue(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertFalse(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+
+        assertFalse(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertTrue(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+
+        assertTrue(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertTrue(test3.implies("test3", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+    }
+
+    @Test
+    public void test_implies_retained_bool() throws Exception {
+
+        final MqttTopicPermission test1 = new MqttTopicPermission("test1", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED);
+        final MqttTopicPermission test2 = new MqttTopicPermission("test2", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.RETAINED);
+        final MqttTopicPermission test3 = new MqttTopicPermission("test3", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.ALL);
+        final MqttTopicPermission test4 = new MqttTopicPermission("test4", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, null);
+
+        assertTrue(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertFalse(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+
+        assertFalse(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertTrue(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+
+        assertTrue(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertTrue(test3.implies("test3", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+    }
 
     @Test
     public void test_no_mqtt_topic_permission() throws Exception {
@@ -285,18 +286,18 @@ public class MqttTopicPermissionTest {
         assertEquals(QOS.from(QoS.AT_LEAST_ONCE), QOS.ONE);
     }
 
-//    @Test
-//    public void test_implies_params_null() throws Exception {
-//
-//        final MqttTopicPermission t1 = new MqttTopicPermission("#", TYPE.ALLOW, QOS.ALL, ACTIVITY.ALL);
-//
-//        assertFalse(t1.implies(null, QoS.AT_LEAST_ONCE, ACTIVITY.PUBLISH));
-//
-//        //hack for Qos to be null
-//        assertFalse(t1.implies("test", QoS.valueOf(4), ACTIVITY.PUBLISH));
-//
-//        assertFalse(t1.implies("test", QoS.AT_LEAST_ONCE, null));
-//    }
+    @Test
+    public void test_implies_params_null() throws Exception {
+
+        final MqttTopicPermission t1 = new MqttTopicPermission("#", TYPE.ALLOW, QOS.ALL, ACTIVITY.ALL);
+
+        assertFalse(t1.implies(null, new String[1], QoS.AT_LEAST_ONCE, ACTIVITY.PUBLISH));
+
+        //hack for Qos to be null
+        assertFalse(t1.implies("test", new String[1], QoS.valueOf(4), ACTIVITY.PUBLISH));
+
+        assertFalse(t1.implies("test", new String[1], QoS.AT_LEAST_ONCE, null));
+    }
 
     @Test
     public void test_constructors() throws Exception {
@@ -330,5 +331,7 @@ public class MqttTopicPermissionTest {
         assertEquals(RETAIN.RETAINED, test4.getPublishRetain());
     }
 
-
+    private String[] split(final String topic) {
+        return StringUtils.splitPreserveAllTokens(topic, "/");
+    }
 }
