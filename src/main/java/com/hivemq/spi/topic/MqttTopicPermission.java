@@ -255,6 +255,19 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
+    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity, final boolean retained) {
+
+        return implies(topic, StringUtils.splitPreserveAllTokens(topic, "/"), qoS, activity, retained ? RETAIN.RETAINED : RETAIN.NOT_RETAINED);
+    }
+
+    /**
+     * Checks the MqttTopicPermission implies a given topic, qos and activity combination
+     *
+     * @param topic    the topic to check
+     * @param qoS      the QoS to check
+     * @param activity the activity to check
+     * @return <code>true</code> if the given topic, qos and activity combination is implied
+     */
     public boolean implies(final String topic, final String[] splitTopic, final QoS qoS, final ACTIVITY activity, final RETAIN RETAIN) {
 
         if (RETAIN == null) {
@@ -276,6 +289,19 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
+    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity, final RETAIN RETAIN) {
+
+        return implies(topic, StringUtils.splitPreserveAllTokens(topic, "/"), qoS, activity, RETAIN);
+    }
+
+    /**
+     * Checks the MqttTopicPermission implies a given topic, qos and activity combination
+     *
+     * @param topic    the topic to check
+     * @param qoS      the QoS to check
+     * @param activity the activity to check
+     * @return <code>true</code> if the given topic, qos and activity combination is implied
+     */
     public boolean implies(final String topic, final String[] splitTopic, final QoS qoS, final ACTIVITY activity) {
 
         if (qoS == null) {
@@ -283,6 +309,19 @@ public class MqttTopicPermission {
         }
 
         return implies(topic, splitTopic, QOS.from(qoS), activity);
+    }
+
+    /**
+     * Checks the MqttTopicPermission implies a given topic, qos and activity combination
+     *
+     * @param topic    the topic to check
+     * @param qoS      the QoS to check
+     * @param activity the activity to check
+     * @return <code>true</code> if the given topic, qos and activity combination is implied
+     */
+    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity) {
+
+        return implies(topic, StringUtils.splitPreserveAllTokens(topic, "/"), qoS, activity);
     }
 
     /**
@@ -313,6 +352,11 @@ public class MqttTopicPermission {
 
         return topicImplicity(topic, splitTopic);
 
+    }
+
+    public boolean implies(final String topic, final QOS qoS, final ACTIVITY activity) {
+
+        return implies(topic, StringUtils.splitPreserveAllTokens(topic, "/"), qoS, activity);
     }
 
     /**
