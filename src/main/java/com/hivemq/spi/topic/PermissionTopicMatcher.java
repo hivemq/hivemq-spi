@@ -17,7 +17,6 @@
 package com.hivemq.spi.topic;
 
 import com.hivemq.spi.topic.exception.InvalidTopicException;
-import org.apache.commons.lang3.StringUtils;
 
 import static java.lang.Math.min;
 
@@ -28,45 +27,33 @@ import static java.lang.Math.min;
  * @since 1.4
  */
 
-public class PermissionTopicMatcher implements TopicMatcher {
+public class PermissionTopicMatcher {
 
     PermissionTopicMatcher() {
         //decrease visibility
     }
 
-    public boolean matches(final String topicSubscription, final String actualTopic) throws InvalidTopicException {
+    public boolean matches(final String permissionTopic, final String[] splitPermissionTopic, boolean nonWildCard, boolean endsWithWildCard, boolean rootWildCard, final String actualTopic, final String[] splitActualTopic) throws InvalidTopicException {
+        if (nonWildCard) {
 
-        final String subscription = StringUtils.stripEnd(topicSubscription, "/");
-
-        String topic = actualTopic;
-
-        if (actualTopic.length() > 1) {
-            topic = StringUtils.stripEnd(actualTopic, "/");
-
+            return permissionTopic.equals(actualTopic);
         }
-        if (StringUtils.containsNone(topicSubscription, "#+")) {
-
-            return subscription.equals(topic);
-        }
-        return matchesWildcards(subscription, topic);
+        return matchesWildcards(permissionTopic, splitPermissionTopic, endsWithWildCard, rootWildCard, splitActualTopic);
     }
 
-    private static boolean matchesWildcards(final String topicSubscription, final String actualTopic) {
+    private static boolean matchesWildcards(final String permissionTopic, final String[] splitPermissionTopic, boolean endsWithWildCard, boolean rootWildCard, final String[] splitActualTopic) {
 
-        if (topicSubscription.contains("#")) {
-            if (!StringUtils.endsWith(topicSubscription, "/#") && topicSubscription.length() > 1) {
+        if (rootWildCard) {
+            if (!endsWithWildCard && permissionTopic.length() > 1) {
                 return false;
             }
         }
 
-        final String[] subscription = StringUtils.splitPreserveAllTokens(topicSubscription, "/");
-        final String[] topic = StringUtils.splitPreserveAllTokens(actualTopic, "/");
-
-        final int smallest = min(subscription.length, topic.length);
+        final int smallest = min(splitPermissionTopic.length, splitActualTopic.length);
 
         for (int i = 0; i < smallest; i++) {
-            final String sub = subscription[i];
-            final String t = topic[i];
+            final String sub = splitPermissionTopic[i];
+            final String t = splitActualTopic[i];
 
             if (!sub.equals(t)) {
                 if (sub.equals("#")) {
@@ -82,7 +69,7 @@ public class PermissionTopicMatcher implements TopicMatcher {
         }
         //If the length is equal or the subscription token with the number x+1 (where x is the topic length) is a wildcard,
         //everything is alright.
-        return subscription.length == topic.length ||
-                (subscription.length - topic.length == 1 && (subscription[subscription.length - 1].equals("#")));
+        return splitPermissionTopic.length == splitActualTopic.length ||
+                (splitPermissionTopic.length - splitActualTopic.length == 1 && (splitPermissionTopic[splitPermissionTopic.length - 1].equals("#")));
     }
 }

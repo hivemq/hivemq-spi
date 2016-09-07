@@ -20,6 +20,7 @@ package com.hivemq.spi.topic;
 
 import com.hivemq.spi.message.QoS;
 import com.hivemq.spi.topic.exception.InvalidTopicException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A Permission which represents the concept of a topic which can be restricted in the following parts:
@@ -42,7 +43,12 @@ public class MqttTopicPermission {
     private final ACTIVITY activity;
     private final TYPE type;
     private final RETAIN publishRetain;
-    private TopicMatcher topicMatcher = new PermissionTopicMatcher();
+    private final String stripedTopic;
+    private final String[] splitTopic;
+    private final boolean nonWildCard;
+    private final boolean rootWildCard;
+    private final boolean endsWithWildCard;
+    private PermissionTopicMatcher topicMatcher = new PermissionTopicMatcher();
 
     public enum TYPE {
         /**
@@ -192,10 +198,10 @@ public class MqttTopicPermission {
     /**
      * Creates a topic where a given activity is allowed on a given QoS for a given topic
      *
-     * @param topic           the topic
-     * @param type            the type of this permission (allow / deny)
-     * @param qos             the QoS
-     * @param activity        the activity
+     * @param topic         the topic
+     * @param type          the type of this permission (allow / deny)
+     * @param qos           the QoS
+     * @param activity      the activity
      * @param publishRetain if the client is allowed/denied to publish retained messages to this topic
      */
     public MqttTopicPermission(final String topic, final TYPE type, final QOS qos, final ACTIVITY activity, final RETAIN publishRetain) {
@@ -204,6 +210,12 @@ public class MqttTopicPermission {
         this.qos = qos;
         this.activity = activity;
         this.publishRetain = publishRetain;
+        stripedTopic = StringUtils.stripEnd(topic, "/");
+        splitTopic = StringUtils.splitPreserveAllTokens(topic, "/");
+        nonWildCard = StringUtils.containsNone(stripedTopic, "#+");
+        rootWildCard = stripedTopic.contains("#");
+        endsWithWildCard = StringUtils.endsWith(stripedTopic, "/#");
+
     }
 
     /**
@@ -218,7 +230,7 @@ public class MqttTopicPermission {
             return false;
         }
 
-        return implies(other.getTopic(), other.getQos(), other.getActivity());
+        return implies(other.getTopic(), other.splitTopic, other.getQos(), other.getActivity());
     }
 
 
@@ -230,9 +242,9 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
-    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity, final boolean retained) {
+    public boolean implies(final String topic, final String[] splitTopic, final QoS qoS, final ACTIVITY activity, final boolean retained) {
 
-        return implies(topic, qoS, activity, retained ? RETAIN.RETAINED : RETAIN.NOT_RETAINED);
+        return implies(topic, splitTopic, qoS, activity, retained ? RETAIN.RETAINED : RETAIN.NOT_RETAINED);
     }
 
     /**
@@ -243,7 +255,7 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
-    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity, final RETAIN RETAIN) {
+    public boolean implies(final String topic, final String[] splitTopic, final QoS qoS, final ACTIVITY activity, final RETAIN RETAIN) {
 
         if (RETAIN == null) {
             return false;
@@ -253,7 +265,7 @@ public class MqttTopicPermission {
             return false;
         }
 
-        return implies(topic, qoS, activity);
+        return implies(topic, splitTopic, qoS, activity);
     }
 
     /**
@@ -264,13 +276,13 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
-    public boolean implies(final String topic, final QoS qoS, final ACTIVITY activity) {
+    public boolean implies(final String topic, final String[] splitTopic, final QoS qoS, final ACTIVITY activity) {
 
         if (qoS == null) {
             return false;
         }
 
-        return implies(topic, QOS.from(qoS), activity);
+        return implies(topic, splitTopic, QOS.from(qoS), activity);
     }
 
     /**
@@ -281,7 +293,7 @@ public class MqttTopicPermission {
      * @param activity the activity to check
      * @return <code>true</code> if the given topic, qos and activity combination is implied
      */
-    public boolean implies(final String topic, final QOS qoS, final ACTIVITY activity) {
+    public boolean implies(final String topic, final String[] splitTopic, final QOS qoS, final ACTIVITY activity) {
 
         if (topic == null || qoS == null || activity == null) {
             return false;
@@ -299,7 +311,7 @@ public class MqttTopicPermission {
             return false;
         }
 
-        return topicImplicity(topic);
+        return topicImplicity(topic, splitTopic);
 
     }
 
@@ -309,10 +321,10 @@ public class MqttTopicPermission {
      * @param topic the topic to check
      * @return <code>true</code> if the given MqttTopicPermissions topic is implied by the current one
      */
-    private boolean topicImplicity(final String topic) {
+    private boolean topicImplicity(final String topic, final String[] splitTopic) {
 
         try {
-            return topicMatcher.matches(this.getTopic(), topic);
+            return topicMatcher.matches(stripedTopic, this.splitTopic, nonWildCard, endsWithWildCard, rootWildCard, topic, splitTopic);
         } catch (InvalidTopicException e) {
             return false;
         }

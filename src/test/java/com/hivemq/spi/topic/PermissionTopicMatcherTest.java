@@ -16,6 +16,7 @@
 
 package com.hivemq.spi.topic;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,74 +53,68 @@ public class PermissionTopicMatcherTest {
     @Test
     public void testMatchesWithoutWildcards() throws Exception {
 
-        assertTrue(topicMatcher.matches(actual, actual));
-        assertTrue(topicMatcher.matches(actual + "/", actual));
-        assertTrue(topicMatcher.matches(actual, actual + "/"));
-        assertTrue(topicMatcher.matches(actual + "/", actual + "/"));
+        assertTrue(topicMatcher.matches(actual, StringUtils.splitPreserveAllTokens(actual, "/"), true, false, false, actual, StringUtils.splitPreserveAllTokens(actual, "/")));
 
-        assertFalse(topicMatcher.matches(actual + "/getCacheImpl", actual));
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit", actual));
+        assertFalse(topicMatcher.matches(actual + "/getCacheImpl", split(actual + "/getCacheImpl"), true, false, false, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit", split("my/test/topic/for/the/unit"), true, false, false, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches(actual.toUpperCase(), actual));
+        assertFalse(topicMatcher.matches(actual.toUpperCase(), split(actual.toUpperCase()), true, false, false, actual, split(actual)));
 
     }
 
     @Test
     public void testMatchesWithLevelWildcards() throws Exception {
 
-        assertTrue(topicMatcher.matches("my/test/topic/for/the/+/test", actual));
-        assertTrue(topicMatcher.matches("my/+/topic/+/the/+/test", actual));
-        assertTrue(topicMatcher.matches("+/+/+/+/+/+/test", actual));
-        assertTrue(topicMatcher.matches("my/test/topic/for/the/unit/+", actual));
-        assertTrue(topicMatcher.matches("my/test/topic/for/the/unit/+/", actual));
+        assertTrue(topicMatcher.matches("my/test/topic/for/the/+/test", split("my/test/topic/for/the/+/test"), false, false, false, actual, split(actual)));
+        assertTrue(topicMatcher.matches("my/+/topic/+/the/+/test", split("my/+/topic/+/the/+/test"), false, false, false, actual, split(actual)));
+        assertTrue(topicMatcher.matches("+/+/+/+/+/+/test", split("+/+/+/+/+/+/test"), false, false, false, actual, split(actual)));
+        assertTrue(topicMatcher.matches("my/test/topic/for/the/unit/+", split("my/test/topic/for/the/unit/+"), false, false, false, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/+/nottest", actual));
-        assertFalse(topicMatcher.matches("my/test/topic/for/a/+/test", actual));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/+/nottest", split("my/test/topic/for/the/+/nottest"), false, false, false, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/a/+/test", split("my/test/topic/for/a/+/test"), false, false, false, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/+/test/toolong", split("my/test/topic/for/the/+/test/toolong"), false, false, false, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/+/unit", split("my/test/topic/for/+/unit"), false, false, false, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/+/test/toolong", actual));
-        assertFalse(topicMatcher.matches("my/test/topic/for/+/unit", actual));
+        assertFalse(topicMatcher.matches(actual + "/+", split(actual + "/+"), false, false, false, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches(actual + "/+", actual));
-
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/t+", actual));
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/+t", actual));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/t+", split("my/test/topic/for/the/unit/t+"), false, false, false, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/+t", split("my/test/topic/for/the/unit/+t"), false, false, false, actual, split(actual)));
 
     }
 
     @Test
     public void testMatchesWithWildcard() throws Exception {
 
-        assertTrue(topicMatcher.matches("my/test/topic/for/the/#", actual));
-        assertTrue(topicMatcher.matches("my/test/topic/#", actual));
-        assertTrue(topicMatcher.matches("#", actual));
-        assertTrue(topicMatcher.matches("#/", actual));
-        assertTrue(topicMatcher.matches("+/#", actual));
-        assertTrue(topicMatcher.matches(actual + "/#", actual));
+        assertTrue(topicMatcher.matches("my/test/topic/for/the/#", split("my/test/topic/for/the/#"), false, true, true, actual, split(actual)));
+        assertTrue(topicMatcher.matches("my/test/topic/#", split("my/test/topic/#"), false, true, true, actual, split(actual)));
+        assertTrue(topicMatcher.matches("#", split("#"), false, false, true, actual, split(actual)));
+        assertTrue(topicMatcher.matches("+/#", split("+/#"), false, true, true, actual, split(actual)));
+        assertTrue(topicMatcher.matches(actual + "/#", split(actual + "/#"), false, true, true, actual, split(actual)));
 
-        assertTrue(topicMatcher.matches("my/+/topic/for/the/#", actual));
-        assertTrue(topicMatcher.matches("+/+/topic/for/the/#", actual));
-        assertTrue(topicMatcher.matches("+/+/topic/+/+/#", actual));
+        assertTrue(topicMatcher.matches("my/+/topic/for/the/#", split("my/+/topic/for/the/#"), false, true, true, actual, split(actual)));
+        assertTrue(topicMatcher.matches("+/+/topic/for/the/#", split("+/+/topic/for/the/#"), false, true, true, actual, split(actual)));
+        assertTrue(topicMatcher.matches("+/+/topic/+/+/#", split("+/+/topic/+/+/#"), false, true, true, actual, split(actual)));
 
 
-        assertFalse(topicMatcher.matches("a/test/topic/#", actual));
-        assertFalse(topicMatcher.matches("a/#", actual));
-        assertFalse(topicMatcher.matches("+/+/topic/+/a/#", actual));
+        assertFalse(topicMatcher.matches("a/test/topic/#", split("a/test/topic/#"), false, true, true, actual, split(actual)));
+        assertFalse(topicMatcher.matches("a/#", split("a/#"), false, true, true, actual, split(actual)));
+        assertFalse(topicMatcher.matches("+/+/topic/+/a/#", split("+/+/topic/+/a/#"), false, true, true, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches("my/test/topic/for/the#", actual));
-        assertFalse(topicMatcher.matches("my/test/topic/for/#the", actual));
-        assertFalse(topicMatcher.matches(actual + "#", actual));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the#", split("my/test/topic/for/the#"), false, false, true, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/#the", split("my/test/topic/for/#the"), false, false, true, actual, split(actual)));
+        assertFalse(topicMatcher.matches(actual + "#", split(actual + "#"), false, false, true, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches("/" + actual, actual));
-        assertFalse(topicMatcher.matches("/#", actual));
+        assertFalse(topicMatcher.matches("/" + actual, split("/"), true, false, false, actual, split(actual)));
+        assertFalse(topicMatcher.matches("/#", split("/#"), false, true, true, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/test/toolong/#", actual));
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/toolong/#", actual));
-        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/t+/#", actual));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/test/toolong/#", split("my/test/topic/for/the/unit/test/toolong/#"), false, true, true, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/toolong/#", split("my/test/topic/for/the/unit/toolong/#"), false, true, true, actual, split(actual)));
+        assertFalse(topicMatcher.matches("my/test/topic/for/the/unit/t+/#", split("my/test/topic/for/the/unit/t+/#"), false, true, true, actual, split(actual)));
 
-        assertTrue(topicMatcher.matches("my/test/topic/for/the/unit/+/#", actual));
-        assertTrue(topicMatcher.matches("my/test/topic/for/the/unit/test/#", actual));
+        assertTrue(topicMatcher.matches("my/test/topic/for/the/unit/+/#", split("my/test/topic/for/the/unit/+/#"), false, true, true, actual, split(actual)));
+        assertTrue(topicMatcher.matches("my/test/topic/for/the/unit/test/#", split("my/test/topic/for/the/unit/test/#"), false, true, true, actual, split(actual)));
 
-        assertFalse(topicMatcher.matches("my/#/test/topic", "my/test/topic"));
+        assertFalse(topicMatcher.matches("my/#/test/topic", split("my/#/test/topic"), false, false, true, "my/test/topic", split("my/test/topic")));
 
     }
 
@@ -127,14 +122,18 @@ public class PermissionTopicMatcherTest {
     public void test_invalid_wildcard_handling() throws Exception {
 
 
-        assertFalse(topicMatcher.matches("my/t#", "my/t"));
+        assertFalse(topicMatcher.matches("my/t#", split("my/t#"), false, false, true, "my/t", split("my/t")));
 
-        assertFalse(topicMatcher.matches("my/#t", "my/t"));
-        assertFalse(topicMatcher.matches("my/t#t", "my/ttt"));
+        assertFalse(topicMatcher.matches("my/#t", split("my/#t"), false, false, true, "my/t", split("my/t")));
+        assertFalse(topicMatcher.matches("my/t#t", split("my/t#t"), false, false, true, "my/ttt", split("my/ttt")));
 
 
-        assertFalse(topicMatcher.matches("my/t+", "my/t"));
-        assertFalse(topicMatcher.matches("my/+t", "my/t"));
-        assertFalse(topicMatcher.matches("my/t+t", "my/ttt"));
+        assertFalse(topicMatcher.matches("my/t+", split("my/t+"), false, false, false, "my/t", split("my/t")));
+        assertFalse(topicMatcher.matches("my/+t", split("my/+t"), false, false, false, "my/t", split("my/t")));
+        assertFalse(topicMatcher.matches("my/t+t", split("my/t+t"), false, false, false, "my/ttt", split("my/ttt")));
+    }
+
+    private String[] split(final String str) {
+        return StringUtils.splitPreserveAllTokens(str, "/");
     }
 }
