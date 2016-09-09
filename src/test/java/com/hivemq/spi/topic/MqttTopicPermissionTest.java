@@ -19,9 +19,11 @@ package com.hivemq.spi.topic;
 import com.hivemq.spi.message.QoS;
 import com.hivemq.spi.topic.MqttTopicPermission.ACTIVITY;
 import com.hivemq.spi.topic.MqttTopicPermission.QOS;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import static com.hivemq.spi.topic.MqttTopicPermission.*;
+import static com.hivemq.spi.topic.MqttTopicPermission.RETAIN;
+import static com.hivemq.spi.topic.MqttTopicPermission.TYPE;
 import static org.junit.Assert.*;
 
 
@@ -223,20 +225,20 @@ public class MqttTopicPermissionTest {
         final MqttTopicPermission test3 = new MqttTopicPermission("test3", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.ALL);
         final MqttTopicPermission test4 = new MqttTopicPermission("test4", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, null);
 
-        assertTrue(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-        assertFalse(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+        assertTrue(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertFalse(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
 
-        assertFalse(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-        assertTrue(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+        assertFalse(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertTrue(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
 
-        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+        assertTrue(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertTrue(test3.implies("test3", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
 
-        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
-        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.NOT_RETAINED));
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, RETAIN.RETAINED));
 
-        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
-        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
     }
 
     @Test
@@ -247,20 +249,20 @@ public class MqttTopicPermissionTest {
         final MqttTopicPermission test3 = new MqttTopicPermission("test3", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, RETAIN.ALL);
         final MqttTopicPermission test4 = new MqttTopicPermission("test4", TYPE.ALLOW, QOS.ALL, ACTIVITY.PUBLISH, null);
 
-        assertTrue(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-        assertFalse(test1.implies("test1", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+        assertTrue(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertFalse(test1.implies("test1", split("test1"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
 
-        assertFalse(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-        assertTrue(test2.implies("test2", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+        assertFalse(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertTrue(test2.implies("test2", split("test2"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
 
-        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-        assertTrue(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+        assertTrue(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertTrue(test3.implies("test3", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
 
-        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
-        assertFalse(test4.implies("test4", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, false));
+        assertFalse(test4.implies("test4", split("test4"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, true));
 
-        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
-        assertFalse(test3.implies("test3", QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
+        assertFalse(test3.implies("test3", split("test3"), QoS.EXACTLY_ONCE, ACTIVITY.PUBLISH, null));
     }
 
     @Test
@@ -289,12 +291,12 @@ public class MqttTopicPermissionTest {
 
         final MqttTopicPermission t1 = new MqttTopicPermission("#", TYPE.ALLOW, QOS.ALL, ACTIVITY.ALL);
 
-        assertFalse(t1.implies(null, QoS.AT_LEAST_ONCE, ACTIVITY.PUBLISH));
+        assertFalse(t1.implies(null, new String[1], QoS.AT_LEAST_ONCE, ACTIVITY.PUBLISH));
 
         //hack for Qos to be null
-        assertFalse(t1.implies("test", QoS.valueOf(4), ACTIVITY.PUBLISH));
+        assertFalse(t1.implies("test", new String[1], QoS.valueOf(4), ACTIVITY.PUBLISH));
 
-        assertFalse(t1.implies("test", QoS.AT_LEAST_ONCE, null));
+        assertFalse(t1.implies("test", new String[1], QoS.AT_LEAST_ONCE, null));
     }
 
     @Test
@@ -329,5 +331,7 @@ public class MqttTopicPermissionTest {
         assertEquals(RETAIN.RETAINED, test4.getPublishRetain());
     }
 
-
+    private String[] split(final String topic) {
+        return StringUtils.splitPreserveAllTokens(topic, "/");
+    }
 }
