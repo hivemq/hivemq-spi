@@ -908,6 +908,14 @@ public class HiveMQMetrics {
     public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_OUTGOING_MESSAGE_FLOW_TASKS =
             HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.outgoing-message-flow.tasks");
 
+    /**
+     * represents a {@link Gauge}, which holds the current amount of tasks that are enqueued by the request event bus.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_REQUEST_EVENT_BUS_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.request-event-bus.tasks");
+
 
     /**
      * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by all persistences.
@@ -979,6 +987,14 @@ public class HiveMQMetrics {
     public static final HiveMQMetric<Timer> SINGLE_WRITER_OUTGOING_MESSAGE_FLOW_TIMER =
             HiveMQMetric.valueOf("com.hivemq.persistence.executor.outgoing-message-flow.time", Timer.class);
 
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of request event bus tasks
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_REQUEST_EVENT_BUS_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.request-event-bus.time", Timer.class);
 
     /**
      * represents a {@link Counter}, which measures the current count of loops that all single writer threads have done without executing a task
