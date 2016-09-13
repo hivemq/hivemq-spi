@@ -17,6 +17,7 @@
 package com.hivemq.spi.security;
 
 import com.google.common.base.Optional;
+import com.hivemq.spi.services.configuration.entity.Listener;
 
 import java.net.InetAddress;
 
@@ -68,5 +69,22 @@ public interface ClientData {
      * @since 3.0
      */
     Optional<InetAddress> getInetAddress();
+
+
+    /**
+     * Returns the listener the client connected to.
+     * <p>
+     * If the client is connected locally, the listener will always be available.
+     * If the {@link ClientData} belongs to another cluster node, the listener may be absent.
+     *
+     * @return an {@link Optional} of the {@link Listener} the client connected to.
+     * @see com.hivemq.spi.services.configuration.entity.TcpListener
+     * @see com.hivemq.spi.services.configuration.entity.TlsTcpListener
+     * @see com.hivemq.spi.services.configuration.entity.WebsocketListener
+     * @see com.hivemq.spi.services.configuration.entity.TlsWebsocketListener
+     * @see com.hivemq.spi.util.Listeners
+     * @since 3.2
+     */
+    Optional<Listener> getListener();
 
 }
