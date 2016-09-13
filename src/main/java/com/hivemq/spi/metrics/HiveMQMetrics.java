@@ -1013,5 +1013,20 @@ public class HiveMQMetrics {
     public static final HiveMQMetric<Gauge<Number>> DIRECT_MEMORY_USED =
             HiveMQMetric.gaugeValue("com.hivemq.direct-memory.used");
 
+    /**
+     * represents a {@link Meter}, which measures the rate of PUBLISH messages that are resent, because the broker did not receive a PUBACK message in time.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Meter> PUBLISH_RESENT =
+            HiveMQMetric.valueOf("com.hivemq.messages.publish-resent", Meter.class);
+
+    /**
+     * represents a {@link Meter}, which measures the rate of PUBREL messages that are resent, because the broker did not receive a PUBCOMP message in time.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Meter> PUBREL_RESENT =
+            HiveMQMetric.valueOf("com.hivemq.messages.pubrel-resent", Meter.class);
 }
 
