@@ -1,6 +1,8 @@
-package com.hivemq.spi.callback.events;
+package com.hivemq.spi.message;
 
 /**
+ * The return code of a {@link SUBACK} message.
+ *
  * @author Georg Held
  */
 public enum SubackReturnCode {
