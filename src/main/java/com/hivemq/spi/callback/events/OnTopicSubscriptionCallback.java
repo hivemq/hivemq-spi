@@ -10,12 +10,12 @@ import com.hivemq.spi.security.ClientData;
  * <p/>
  * This callback is called after the {@link com.hivemq.spi.callback.security.OnAuthorizationCallback} but before the {@link OnSubscribeCallback}.
  * When more {@link OnTopicSubscriptionCallback}s are added the one that fires last (with the least priority)
- * has final say.
+ * has the final say.
  * It is possible to override the <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718067">MQTT specification</a>
  * for SUBACK payloads with this callback.
  * <p/>
- * This callback is called once for every topic for every SUBSCRIPE,
- * it is <strong>highly</strong> recommended to make the implementation as economic as possible.
+ * This callback is called once for every topic for every SUBSCRIBE,
+ * it is <strong>highly</strong> recommended to make the implementation as efficient as possible.
  *
  * @author Georg Held
  * @since 3.2
