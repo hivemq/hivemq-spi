@@ -812,6 +812,15 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnTopicSubscriptionCallback} callback
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_TOPIC_SUBSCRIPTION =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.topic-subscription.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
      * of the {@link OnConnackSend} callback
      *
      * @since 3.0
