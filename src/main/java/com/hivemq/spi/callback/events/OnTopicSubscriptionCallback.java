@@ -27,10 +27,11 @@ public interface OnTopicSubscriptionCallback extends SynchronousCallback {
      *
      * @param topic               the topic to which the client wants to subscribe
      * @param authorizationResult the result of a {@link OnTopicSubscriptionCallback} with higher priority if available,
-     *                            or of the last registered {@link com.hivemq.spi.callback.security.OnAuthorizationCallback} if available,
+     *                            or of the {@link com.hivemq.spi.callback.security.OnAuthorizationCallback}s if available,
      *                            or the QoS the client requested.
      * @param clientData          information about the client
-     * @return the {@link SubackReturnCode} that corresponds to the topic in the {@link com.hivemq.spi.message.SUBACK} to be sent to the client
+     * @return the {@link SubackReturnCode} that corresponds to the topic in the {@link com.hivemq.spi.message.SUBACK} to be sent to the client,
+     * a good default would be <code>authorizationResult</code>
      */
     SubackReturnCode getSubackReturnCodeForClient(final Topic topic, final SubackReturnCode authorizationResult, final ClientData clientData);
 }
