@@ -46,8 +46,9 @@ public interface ClientData {
     boolean isAuthenticated();
 
     /**
-     * @return an {@link Optional} of a {@link SslClientCertificate} which was provided at transport level
-     * client certificate authentication.
+     * @return an {@link Optional} of a {@link SslClientCertificate} which was provided at transport level client
+     * certificate authentication.
+     *
      * @since 3.0
      */
     Optional<SslClientCertificate> getCertificate();
@@ -59,6 +60,7 @@ public interface ClientData {
 
     /**
      * @return <code>true</code> if this client is a bridge.
+     *
      * @since 2.0
      */
     boolean isBridge();
@@ -66,6 +68,7 @@ public interface ClientData {
 
     /**
      * @return an {@link Optional} of the clients IP address as {@link InetAddress}
+     *
      * @since 3.0
      */
     Optional<InetAddress> getInetAddress();
@@ -78,6 +81,7 @@ public interface ClientData {
      * If the {@link ClientData} belongs to another cluster node, the listener may be absent.
      *
      * @return an {@link Optional} of the {@link Listener} the client connected to.
+     *
      * @see com.hivemq.spi.services.configuration.entity.TcpListener
      * @see com.hivemq.spi.services.configuration.entity.TlsTcpListener
      * @see com.hivemq.spi.services.configuration.entity.WebsocketListener
@@ -86,5 +90,23 @@ public interface ClientData {
      * @since 3.2
      */
     Optional<Listener> getListener();
+
+
+    /**
+     * Returns optional {@link ProxyInformation} that contains information from
+     * the PROXY protocol.
+     * <p>
+     * This is only useful if a load balancer is in front of the HiveMQ instance
+     * and the {@link Listener} that is used by the load balancer has the PROXY protocol enabled.
+     * You can check this via {@link Listener#isProxyProtocolSupported()}.
+     * <p>
+     * Besides original source information, HiveMQ supports TLVs as specified in the PROXY protocol spec.
+     *
+     * @return an {@link Optional} of the {@link ProxyInformation}.
+     *
+     * @see <a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt">PROXY protocol spec</a>
+     * @since 3.2
+     */
+    Optional<ProxyInformation> getProxyInformation();
 
 }
