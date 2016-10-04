@@ -7,7 +7,7 @@ import java.net.InetAddress;
 
 /**
  * This class encapsulates all information that is forwarded by a load
- * balancer which uses the PROXY protocol. Besides the source connection
+ * balancer which uses the PROXY protocol. Except from the source connection
  * information and the load balancer information, most of the values are optional.
  * <p>
  * HiveMQ supports arbitrary TLVs which can be retrieved as raw TLV values (see {@link #rawTLVs()})
