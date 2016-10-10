@@ -10,6 +10,10 @@ import com.hivemq.spi.services.rest.servlet.ServletFilter;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.ContextResolver;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.MessageBodyWriter;
 import java.util.Collection;
 
 /**
@@ -22,7 +26,7 @@ import java.util.Collection;
  * <p/>
  * It's possible to annotate JAX-RS resources with {@link javax.inject.Singleton} to bind a resource to a singleton
  * context instead of a per-request context.
- *
+ * <p>
  * The REST Service implementation is guaranteed to be thread safe.
  *
  * @author Dominik Obermaier
@@ -287,5 +291,58 @@ public interface RESTService {
      */
     void addJaxRsResources(@NotNull Collection<Class<?>> resources, @NotNull Collection<String> listenerIdentifiers);
 
+    /**
+     * @param exceptionMapper
+     */
+    void addExceptionMapper(@NotNull final ExceptionMapper<? extends Throwable> exceptionMapper);
 
+    /**
+     * @param exceptionMapper
+     * @param listenerIdentifier
+     */
+    void addExceptionMapper(@NotNull final ExceptionMapper<? extends Throwable> exceptionMapper, @NotNull final Collection<String> listenerIdentifier);
+
+    /**
+     * @param exceptionMapper
+     */
+    void addExceptionMapper(@NotNull final Class<? extends ExceptionMapper<? extends Throwable>> exceptionMapper);
+
+    /**
+     * @param exceptionMapper
+     * @param listenerIdentifier
+     */
+    void addExceptionMapper(@NotNull final Class<? extends ExceptionMapper<? extends Throwable>> exceptionMapper, @NotNull final Collection<String> listenerIdentifier);
+
+    /**
+     * @param contextResolver
+     */
+    void addContextResolver(final Class<? extends ContextResolver> contextResolver);
+
+    /**
+     * @param contextResolver
+     * @param listenerIdentifier
+     */
+    void addContextResolver(final Class<? extends ContextResolver> contextResolver, final Collection<String> listenerIdentifier);
+
+    /**
+     * @param messageBodyWriter
+     */
+    void addMessageBodyWriter(final Class<? extends MessageBodyWriter> messageBodyWriter);
+
+    /**
+     * @param messageBodyWriter
+     * @param listenerIdentifier
+     */
+    void addMessageBodyWriter(final Class<? extends MessageBodyWriter> messageBodyWriter, final Collection<String> listenerIdentifier);
+
+    /**
+     * @param messageBodyReader
+     */
+    void addMessageBodyReader(final Class<? extends MessageBodyReader> messageBodyReader);
+
+    /**
+     * @param messageBodyReader
+     * @param listenerIdentifier
+     */
+    void addMessageBodyReader(final Class<? extends MessageBodyReader> messageBodyReader, final Collection<String> listenerIdentifier);
 }
