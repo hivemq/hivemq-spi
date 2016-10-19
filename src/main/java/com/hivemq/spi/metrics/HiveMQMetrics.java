@@ -1015,7 +1015,7 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf("com.hivemq.persistence.executor.queue-misses", Counter.class);
 
     /**
-     * represents a {@link Counter}, which measures the total count of client that have bin disconnected, because they did not send a message during there keep alive interval
+     * represents a {@link Counter}, which measures the total count of clients that have been disconnected, because they did not send a message within their keep alive interval
      * {@link PluginExecutorService}
      *
      * @since 3.2
