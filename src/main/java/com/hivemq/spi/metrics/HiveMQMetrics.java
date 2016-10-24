@@ -1051,7 +1051,7 @@ public class HiveMQMetrics {
     /**
      * represents a {@link Timer}, which measures the time spent waiting for cluster topology changes
      *
-     * @since 3.0
+     * @since 3.2
      */
     public static final HiveMQMetric<Timer> CLUSTER_TOPOLOGY_CHANGE_TIMER =
             HiveMQMetric.valueOf("com.hivemq.cluster.topology-change.time", Timer.class);
