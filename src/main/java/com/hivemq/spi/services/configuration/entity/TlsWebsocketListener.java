@@ -28,6 +28,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use the builder if you want to create a new TLS websocket listener.
  *
  * @author Dominik Obermaier
+ * @author Christoph Schaebel
+ *
  * @since 3.0
  */
 @Immutable
@@ -38,8 +40,9 @@ public class TlsWebsocketListener extends WebsocketListener {
     private TlsWebsocketListener(final int port,
                                  final String bindAddress, final String path,
                                  final Boolean allowExtensions, final List<String> subprotocols,
-                                 final Tls tls) {
-        super(port, bindAddress, path, allowExtensions, subprotocols);
+                                 final Tls tls,
+                                 final boolean proxyProtocolSupported) {
+        super(port, bindAddress, path, allowExtensions, subprotocols, proxyProtocolSupported);
         this.tls = tls;
     }
 
@@ -57,7 +60,6 @@ public class TlsWebsocketListener extends WebsocketListener {
     public String readableName() {
         return "Websocket Listener with TLS";
     }
-
 
     /**
      * A builder which allows to conveniently build a listener object with a fluent API
@@ -141,6 +143,20 @@ public class TlsWebsocketListener extends WebsocketListener {
         }
 
         /**
+         * Set this to true if you want this listener to support the PROXY protocol
+         *
+         * @param proxyProtocolSupported if this listener should be able to utilize the PROXY protocol
+         * @return the Builder
+         *
+         * @since 3.2
+         */
+        @Override
+        public Builder proxyProtocolSupported(final boolean proxyProtocolSupported) {
+            this.proxyProtocolSupported = proxyProtocolSupported;
+            return this;
+        }
+
+        /**
          * Creates the TLS Websocket Listener
          *
          * @return the TLS Websocket Listener
@@ -151,7 +167,7 @@ public class TlsWebsocketListener extends WebsocketListener {
             if (tls == null) {
                 throw new IllegalStateException("The TLS settings for a TLS Websocket listener was not set.");
             }
-            return new TlsWebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, tls);
+            return new TlsWebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, tls, proxyProtocolSupported);
         }
 
     }

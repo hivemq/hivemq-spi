@@ -24,6 +24,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * A listener which allows to listen to MQTT traffic via TCP
  *
  * @author Dominik Obermaier
+ * @author Christoph Schaebel
+ *
  * @since 3.0
  */
 @Immutable
@@ -33,6 +35,8 @@ public class TcpListener implements Listener {
     private int port;
 
     private String bindAddress;
+
+    private boolean proxyProtocolSupported;
 
     /**
      * Creates a new TCP listener which listens to a specific port and bind address
@@ -44,8 +48,22 @@ public class TcpListener implements Listener {
         checkNotNull(bindAddress);
         this.port = port;
         this.bindAddress = bindAddress;
+        this.proxyProtocolSupported = false;
     }
 
+    /**
+     * Creates a new TCP listener which listens to a specific port and bind address
+     *
+     * @param port        the port
+     * @param bindAddress the bind address
+     * @param proxyProtocolSupported if this listener should be able to utilize the PROXY protocol
+     */
+    public TcpListener(final int port, final String bindAddress, final boolean proxyProtocolSupported) {
+        checkNotNull(bindAddress);
+        this.port = port;
+        this.bindAddress = bindAddress;
+        this.proxyProtocolSupported = proxyProtocolSupported;
+    }
 
     /**
      * {@inheritDoc}
@@ -69,5 +87,13 @@ public class TcpListener implements Listener {
     @Override
     public String readableName() {
         return "TCP Listener";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isProxyProtocolSupported() {
+        return proxyProtocolSupported;
     }
 }

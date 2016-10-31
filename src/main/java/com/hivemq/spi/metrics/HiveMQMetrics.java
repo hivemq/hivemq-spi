@@ -18,8 +18,10 @@ public class HiveMQMetrics {
 
     public static final String PLUGIN_EXECUTOR_PREFIX = "com.hivemq.plugin.executor";
     public static final String CALLBACK_EXECUTOR_PREFIX = "com.hivemq.callback.executor";
-    public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
     public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
+
+    @Deprecated
+    public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
 
     /**
      * represents a {@link Counter}, which counts every incoming MQTT message
@@ -810,6 +812,15 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnTopicSubscriptionCallback} callback
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_TOPIC_SUBSCRIPTION =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.topic-subscription.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
      * of the {@link OnConnackSend} callback
      *
      * @since 3.0
@@ -865,5 +876,184 @@ public class HiveMQMetrics {
     public static final HiveMQMetric<Meter> PUBLISH_QUEUE_RATE =
             HiveMQMetric.valueOf("com.hivemq.queues.publish.rate", Meter.class);
 
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by the retained message persistence.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_RETAINED_MESSAGE_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.retained-messages.tasks");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by the client session persistence.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_CLIENT_SESSION_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.client-session.tasks");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by the subscription persistence.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_SUBSCRIPTION_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.subscription.tasks");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by the queued messages persistence.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_QUEUED_MESSAGES_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.queued-messages.tasks");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by the outgoing message flow persistence.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_OUTGOING_MESSAGE_FLOW_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.outgoing-message-flow.tasks");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of tasks that are enqueued by the request event bus.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_REQUEST_EVENT_BUS_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.request-event-bus.tasks");
+
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by all persistences.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_TOTAL_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.total.tasks");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of single writer task queues that are not empty.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_NONEMPTY_QUEUES =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.nonempty-queues");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of threads that are executing disk I/O tasks.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_RUNNING_THREADS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.running.threads");
+
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of retained message disk I/O tasks
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_RETAINED_MESSAGE_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.retained-messages.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of client session disk I/O tasks
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_CLIENT_SESSION_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.client-session.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of subscription disk I/O tasks
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_SUBSCRIPTION_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.subscription.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of queued messages disk I/O tasks
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_QUEUED_MESSAGES_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.queued-messages.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of outgoing message flow disk I/O tasks
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_OUTGOING_MESSAGE_FLOW_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.outgoing-message-flow.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of request event bus tasks
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_REQUEST_EVENT_BUS_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.request-event-bus.time", Timer.class);
+
+    /**
+     * represents a {@link Counter}, which measures the current count of loops that all single writer threads have done without executing a task
+     * {@link PluginExecutorService}
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Counter> SINGLE_WRITER_QUEUE_MISSES =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.queue-misses", Counter.class);
+
+    /**
+     * represents a {@link Counter}, which measures the total count of clients that have been disconnected, because they did not send a message within their keep alive interval
+     * {@link PluginExecutorService}
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Counter> KEEP_ALIVE_DISCONNECT_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.keep-alive.disconnect.count", Counter.class);
+
+
+    /**
+     * represents a {@link Gauge}, which holds the currently used direct memory in bytes
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Gauge<Number>> DIRECT_MEMORY_USED =
+            HiveMQMetric.gaugeValue("com.hivemq.direct-memory.used");
+
+    /**
+     * represents a {@link Meter}, which measures the rate of PUBLISH messages that are resent, because the broker did not receive a PUBACK message in time.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Meter> PUBLISH_RESENT =
+            HiveMQMetric.valueOf("com.hivemq.messages.publish-resent", Meter.class);
+
+    /**
+     * represents a {@link Meter}, which measures the rate of PUBREL messages that are resent, because the broker did not receive a PUBCOMP message in time.
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Meter> PUBREL_RESENT =
+            HiveMQMetric.valueOf("com.hivemq.messages.pubrel-resent", Meter.class);
+
+    /**
+     * represents a {@link Timer}, which measures the time spent waiting for cluster topology changes
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> CLUSTER_TOPOLOGY_CHANGE_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.cluster.topology-change.time", Timer.class);
 }
 

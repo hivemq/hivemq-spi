@@ -10,6 +10,10 @@ import com.hivemq.spi.services.rest.servlet.ServletFilter;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.ContextResolver;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.MessageBodyWriter;
 import java.util.Collection;
 
 /**
@@ -20,9 +24,9 @@ import java.util.Collection;
  * <p/>
  * The REST Service supports first-class dependency injection and even allows to use constructor injection.
  * <p/>
- * It's possible to annotate JAX-RS resources with {@link @javax.inject.Singleton} to bind a resource to a singleton
+ * It's possible to annotate JAX-RS resources with {@link javax.inject.Singleton} to bind a resource to a singleton
  * context instead of a per-request context.
- *
+ * <p>
  * The REST Service implementation is guaranteed to be thread safe.
  *
  * @author Dominik Obermaier
@@ -210,7 +214,7 @@ public interface RESTService {
      * Adds a {@link Application} to the RESTService.
      * <p/>
      * Please be aware that when using this method, only all properties, classes and singletons are
-     * added to the RESTService, the {@link Application} and all annotations on the {@link} Application
+     * added to the RESTService, the {@link Application} and all annotations on the {@link Application}
      * are ignored. So essentially this is a convenient method which allows you to add a lot of resources at once
      * <p/>
      * Important: {@link javax.ws.rs.ApplicationPath} annotations are ignored.
@@ -226,7 +230,7 @@ public interface RESTService {
      * Adds a {@link Application} to the RESTService.
      * <p/>
      * Please be aware that when using this method, only all properties, classes and singletons are
-     * added to the RESTService, the {@link Application} and all annotations on the {@link} Application
+     * added to the RESTService, the {@link Application} and all annotations on the {@link Application}
      * are ignored. So essentially this is a convenient method which allows you to add a lot of resources at once
      * <p/>
      * Important: {@link javax.ws.rs.ApplicationPath} annotations are ignored.
@@ -287,5 +291,128 @@ public interface RESTService {
      */
     void addJaxRsResources(@NotNull Collection<Class<?>> resources, @NotNull Collection<String> listenerIdentifiers);
 
+    /**
+     * Adds an {@link ExceptionMapper} to all available listeners.
+     * <p>
+     * Since you have to instantiate the {@link ExceptionMapper} objects on your own,
+     * it can't use dependency injection by HiveMQ and you have to pass your dependencies on your own
+     * to the objects.
+     * <p/>
+     * If you want to have {@link ExceptionMapper}s which use dependency injection,
+     * consider using another method of the RESTService which accepts classes instead of objects.
+     *
+     * @param exceptionMapper the JAX-RS {@link ExceptionMapper} instance that should be added to all listeners
+     * @throws NullPointerException if the ExceptionMapper is null
+     * @since 3.2
+     */
+    void addExceptionMapper(@NotNull final ExceptionMapper<? extends Throwable> exceptionMapper);
 
+    /**
+     * Adds an {@link ExceptionMapper} to all specified listeners.
+     * <p>
+     * Since you have to instantiate the {@link ExceptionMapper} objects on your own,
+     * it can't use dependency injection by HiveMQ and you have to pass your dependencies on your own
+     * to the objects.
+     * <p/>
+     * If you want to have {@link ExceptionMapper}s which use dependency injection,
+     * consider using another method of the RESTService which accepts classes instead of objects.
+     *
+     * @param exceptionMapper    the JAX-RS {@link ExceptionMapper} instance that should be added to all specified listeners
+     * @param listenerIdentifier a collection of listeners
+     * @throws NullPointerException if the ExceptionMapper or the listener collection is null
+     * @since 3.2
+     */
+    void addExceptionMapper(@NotNull final ExceptionMapper<? extends Throwable> exceptionMapper, @NotNull final Collection<String> listenerIdentifier);
+
+    /**
+     * Adds an {@link ExceptionMapper} to all available listeners.
+     * <p>
+     * The ExceptionMapper can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param exceptionMapper the JAX-RS {@link ExceptionMapper} class that should be added to all listeners
+     * @throws NullPointerException if the ExceptionMapper is null
+     * @since 3.2
+     */
+    void addExceptionMapper(@NotNull final Class<? extends ExceptionMapper<? extends Throwable>> exceptionMapper);
+
+    /**
+     * Adds an {@link ExceptionMapper} to all specified listeners.
+     * <p>
+     * The ExceptionMapper can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param exceptionMapper    the JAX-RS {@link ExceptionMapper} class that should be added to all specified listeners
+     * @param listenerIdentifier a collection of listeners
+     * @throws NullPointerException if the ExceptionMapper or the listener collection is null
+     * @since 3.2
+     */
+    void addExceptionMapper(@NotNull final Class<? extends ExceptionMapper<? extends Throwable>> exceptionMapper, @NotNull final Collection<String> listenerIdentifier);
+
+    /**
+     * Adds an {@link ContextResolver} to all available listeners.
+     * <p>
+     * The ContextResolver can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param contextResolver the JAX-RS {@link ContextResolver} class that should be added to all listeners
+     * @throws NullPointerException if the ContextResolver is null
+     * @since 3.2
+     */
+    void addContextResolver(@NotNull final Class<? extends ContextResolver> contextResolver);
+
+    /**
+     * Adds an {@link ContextResolver} to all specified listeners.
+     * <p>
+     * The ContextResolver can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param contextResolver    the JAX-RS {@link ContextResolver} class that should be added to all specified listeners
+     * @param listenerIdentifier the collection of listeners
+     * @throws NullPointerException if the ContextResolver or the listener collection is null
+     * @since 3.2
+     */
+    void addContextResolver(@NotNull final Class<? extends ContextResolver> contextResolver, @NotNull final Collection<String> listenerIdentifier);
+
+    /**
+     * Adds a {@link MessageBodyWriter} to all listeners.
+     * <p>
+     * The MessageBodyWriter can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param messageBodyWriter the JAX-RS {@link MessageBodyWriter} class that should be added to all listeners
+     * @throws NullPointerException if the MessageBodyWriter is null
+     * @since 3.2
+     */
+    void addMessageBodyWriter(@NotNull final Class<? extends MessageBodyWriter> messageBodyWriter);
+
+    /**
+     * Adds a {@link MessageBodyWriter} to all specified listeners.
+     * <p>
+     * The MessageBodyWriter can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param messageBodyWriter  the JAX-RS {@link MessageBodyWriter} class that should be added to all specified listeners
+     * @param listenerIdentifier the collection of listeners
+     * @throws NullPointerException if the MessageBodyWriter or the listener collection is null
+     * @since 3.2
+     */
+    void addMessageBodyWriter(@NotNull final Class<? extends MessageBodyWriter> messageBodyWriter, @NotNull final Collection<String> listenerIdentifier);
+
+    /**
+     * Adds a {@link MessageBodyReader} to all listeners.
+     * <p>
+     * The MessageBodyReader can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param messageBodyReader the JAX-RS {@link MessageBodyReader} class that should be added to all listeners
+     * @throws NullPointerException if the MessageBodyReader is null
+     * @since 3.2
+     */
+    void addMessageBodyReader(@NotNull final Class<? extends MessageBodyReader> messageBodyReader);
+
+    /**
+     * Adds a {@link MessageBodyReader} to all specified listeners.
+     * <p>
+     * The MessageBodyReader can use dependency injection and HiveMQ will instantiate it for you at runtime
+     *
+     * @param messageBodyReader  the JAX-RS {@link MessageBodyReader} class that should be added to all specified listeners
+     * @param listenerIdentifier the collection of listeners
+     * @throws NullPointerException if the MessageBodyReader or the listener collection is null
+     * @since 3.2
+     */
+    void addMessageBodyReader(@NotNull final Class<? extends MessageBodyReader> messageBodyReader, @NotNull final Collection<String> listenerIdentifier);
 }
