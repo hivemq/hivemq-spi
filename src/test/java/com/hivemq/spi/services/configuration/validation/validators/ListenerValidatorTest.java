@@ -162,7 +162,7 @@ public class ListenerValidatorTest {
     public void test_invalid_keystore_type() throws Exception {
 
         final Tls tls = new Tls("", "", "NOTASTORETYPE", "", "", "", "JKS", 0,
-                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>());
+                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>(), null, false, false, null, 3600);
 
         final List<ValidationError> validate = listenerValidator.validate(new TlsTcpListener(1883, "0.0.0.0", tls), "");
 
@@ -173,7 +173,7 @@ public class ListenerValidatorTest {
     public void test_valid_keystore_type_jks() throws Exception {
 
         final Tls tls = new Tls("", "", "JKS", "", "", "", "JKS", 0,
-                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>());
+                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>(), null, false, false, null, 3600);
 
         final List<ValidationError> validate = listenerValidator.validate(new TlsTcpListener(1883, "0.0.0.0", tls), "");
 
@@ -183,7 +183,7 @@ public class ListenerValidatorTest {
     @Test
     public void test_valid_keystore_type_pkcs12() throws Exception {
         final Tls tls = new Tls("", "", "PKCS12", "", "", "", "JKS", 0,
-                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>());
+                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>(), null, false, false, null, 3600);
 
         final List<ValidationError> validate = listenerValidator.validate(new TlsTcpListener(1883, "0.0.0.0", tls), "");
 
@@ -298,4 +298,45 @@ public class ListenerValidatorTest {
         assertEquals(1, validate.size());
     }
 
+    @Test
+    public void test_ocsp_enabled() throws Exception {
+
+        final File tempFile = temporaryFolder.newFile("tempfile");
+        assertTrue(tempFile.setReadable(false));
+
+        final Tls tls = new Tls("", "", "JKS", "", tempFile.getAbsolutePath(), "", "JKS", 0,
+                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>(), null, true, true, null, 3600);
+
+        final List<ValidationError> validate = listenerValidator.validate(new TlsTcpListener(1883, "0.0.0.0", tls), "");
+
+        assertEquals(1, validate.size());
+    }
+
+    @Test
+    public void test_ocsp_override() throws Exception {
+
+        final File tempFile = temporaryFolder.newFile("tempfile");
+        assertTrue(tempFile.setReadable(false));
+
+        final Tls tls = new Tls("", "", "JKS", "", tempFile.getAbsolutePath(), "", "JKS", 0,
+                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>(), null, false, true, "http://127.0.0.1:2560", 3600);
+
+        final List<ValidationError> validate = listenerValidator.validate(new TlsTcpListener(1883, "0.0.0.0", tls), "");
+
+        assertEquals(1, validate.size());
+    }
+
+    @Test
+    public void test_ocsp_cache_interval() throws Exception {
+
+        final File tempFile = temporaryFolder.newFile("tempfile");
+        assertTrue(tempFile.setReadable(false));
+
+        final Tls tls = new Tls("", "", "JKS", "", tempFile.getAbsolutePath(), "", "JKS", 0,
+                Tls.ClientAuthMode.NONE, new ArrayList<String>(), new ArrayList<String>(), null, false, true, null, 1000);
+
+        final List<ValidationError> validate = listenerValidator.validate(new TlsTcpListener(1883, "0.0.0.0", tls), "");
+
+        assertEquals(1, validate.size());
+    }
 }

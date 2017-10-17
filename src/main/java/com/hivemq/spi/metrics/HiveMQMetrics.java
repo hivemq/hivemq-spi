@@ -4,8 +4,16 @@ import com.codahale.metrics.*;
 import com.hivemq.spi.callback.events.*;
 import com.hivemq.spi.callback.lowlevel.OnConnackSend;
 import com.hivemq.spi.callback.lowlevel.OnPingCallback;
+import com.hivemq.spi.callback.lowlevel.OnPubackReceived;
+import com.hivemq.spi.callback.lowlevel.OnPubackSend;
 import com.hivemq.spi.callback.lowlevel.OnPubcompReceived;
 import com.hivemq.spi.callback.lowlevel.OnPubcompSend;
+import com.hivemq.spi.callback.lowlevel.OnPubrecReceived;
+import com.hivemq.spi.callback.lowlevel.OnPubrecSend;
+import com.hivemq.spi.callback.lowlevel.OnPubrelReceived;
+import com.hivemq.spi.callback.lowlevel.OnPubrelSend;
+import com.hivemq.spi.callback.lowlevel.OnSubackSend;
+import com.hivemq.spi.callback.lowlevel.OnUnsubackSend;
 import com.hivemq.spi.callback.security.*;
 import com.hivemq.spi.services.PluginExecutorService;
 
@@ -19,6 +27,7 @@ public class HiveMQMetrics {
     public static final String PLUGIN_EXECUTOR_PREFIX = "com.hivemq.plugin.executor";
     public static final String CALLBACK_EXECUTOR_PREFIX = "com.hivemq.callback.executor";
     public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
+    public static final String WEBINTERFACE_EXECUTOR_PREFIX = "com.hivemq.webinterface.executor";
 
     @Deprecated
     public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
@@ -415,6 +424,63 @@ public class HiveMQMetrics {
 
 
     /**
+     * represents a {@link Counter}, which counts the PUBLISH messages that have been dropped, because a clean session client disconnected before the message could be sent
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_NOT_CONNECTED_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.not-connected.count", Counter.class);
+
+    /**
+     * represents a {@link Counter}, which counts PUBLISH messages that have been dropped, because the message queue for a disconnected persistent session client was full
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_QUEUE_FULL_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.queue-full.count", Counter.class);
+
+    /**
+     * represents a {@link Counter}, which counts PUBLISH messages that have been dropped, because the in-flight message queue for the client was full
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_IN_FLIGHT_WINDOW_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.in-flight-window.count", Counter.class);
+
+
+    /**
+     * represents a {@link Counter}, which counts PUBLISH messages that have been dropped, because the socket for the client was not writable (only QoS 0)
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_NOT_WRITABLE_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.not-writable.count", Counter.class);
+
+    /**
+     * represents a {@link Counter}, which counts PUBLISH messages that have been dropped, because there QoS was 0 and the client session queue was not yet empty
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_QUEUE_NOT_EMPTY =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.qos-0-queue-not-empty.count", Counter.class);
+
+    /**
+     * represents a {@link Counter}, which counts PUBLISH messages that have been dropped, because of an internal error
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_INTERNAL_ERROR =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.internal-error.count", Counter.class);
+
+    /**
+     * represents a {@link Counter}, which counts PUBLISH messages that have been dropped, because an exception was thrown in a {@link BeforePublishSendCallback}
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> DROPPED_MESSAGE_BEFORE_PUBLISH_SEND_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.dropped.before-publish-send.count", Counter.class);
+
+    /**
      * represents a {@link Meter}, which measures the current rate of outgoing MQTT UNSUBACK messages
      *
      * @since 3.0
@@ -545,7 +611,7 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".submitted", Meter.class);
 
     /**
-     * represents a {@link Meter}, which measures the current rate of submitted jobs to the
+     * represents a {@link Meter}, which measures the current count of running jobs to the
      * {@link PluginExecutorService}
      *
      * @since 3.0
@@ -554,7 +620,7 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".running", Counter.class);
 
     /**
-     * represents a {@link Meter}, which measures the current rate of submitted jobs to the
+     * represents a {@link Meter}, which measures the current count of completed jobs to the
      * {@link PluginExecutorService}
      *
      * @since 3.0
@@ -563,7 +629,7 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".completed", Meter.class);
 
     /**
-     * represents a {@link Meter}, which measures the current rate of submitted jobs to the
+     * represents a {@link Timer}, which measures the duration of time spent on submitted jobs to the
      * {@link PluginExecutorService}
      *
      * @since 3.0
@@ -572,8 +638,8 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".duration", Timer.class);
 
     /**
-     * represents a {@link Meter}, which measures the current rate of submitted jobs to the
-     * {@link PluginExecutorService}
+     * represents a {@link Meter}, which measures the current rate of scheduled jobs in the
+     * {@link PluginExecutorService} that run once
      *
      * @since 3.0
      */
@@ -581,8 +647,8 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".scheduled.once", Meter.class);
 
     /**
-     * represents a {@link Meter}, which measures the current rate of submitted jobs to the
-     * {@link PluginExecutorService}
+     * represents a {@link Meter}, which measures the current rate of scheduled jobs in the
+     * {@link PluginExecutorService} that run repetitively
      *
      * @since 3.0
      */
@@ -590,8 +656,8 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".scheduled.repetitively", Meter.class);
 
     /**
-     * represents a {@link Meter}, which measures the current rate of submitted jobs to the
-     * {@link PluginExecutorService}
+     * represents a {@link Meter}, which measures the current count of jobs to the
+     * {@link PluginExecutorService}  that are overrun which means that the job lasted so long that it interfered with the next scheduled job
      *
      * @since 3.0
      */
@@ -599,8 +665,8 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf(PLUGIN_EXECUTOR_PREFIX + ".scheduled.overrun", Counter.class);
 
     /**
-     * represents a {@link Meter}, which measures the current rate of submitted jobs to the
-     * {@link PluginExecutorService}
+     * represents a {@link Meter}, which Measures how much percent of the scheduled period the
+     * {@link PluginExecutorService} jobs lasted
      *
      * @since 3.0
      */
@@ -719,7 +785,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompSend} callback
+     * of the {@link OnPubackSend} callback
      *
      * @since 3.0
      */
@@ -728,7 +794,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompReceived} callback
+     * of the {@link OnPubackReceived} callback
      *
      * @since 3.0
      */
@@ -737,7 +803,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompSend} callback
+     * of the {@link OnSubackSend} callback
      *
      * @since 3.0
      */
@@ -746,7 +812,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompReceived} callback
+     * of the {@link OnUnsubackSend} callback
      *
      * @since 3.0
      */
@@ -774,7 +840,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompSend} callback
+     * of the {@link OnPubrecSend} callback
      *
      * @since 3.0
      */
@@ -783,7 +849,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompReceived} callback
+     * of the {@link OnPubrecReceived} callback
      *
      * @since 3.0
      */
@@ -793,7 +859,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompSend} callback
+     * of the {@link OnPubrelSend} callback
      *
      * @since 3.0
      */
@@ -802,7 +868,7 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
-     * of the {@link OnPubcompReceived} callback
+     * of the {@link OnPubrelReceived} callback
      *
      * @since 3.0
      */
@@ -848,6 +914,14 @@ public class HiveMQMetrics {
     public static final HiveMQMetric<Timer> PLUGIN_TIMER_PING =
             HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.ping.time", Timer.class);
 
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link OnSessionReadyCallback}
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_SESSION_READY =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.session-ready.time", Timer.class);
 
     /**
      * represents a {@link Meter}, which measures the rate of unhandled Exceptions
@@ -918,12 +992,28 @@ public class HiveMQMetrics {
             HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.outgoing-message-flow.tasks");
 
     /**
+     * represents a {@link Gauge}, which holds the current amount of disk I/O tasks that are enqueued by the attribute persistence.
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_ATTRIBUTE_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.attribute.tasks");
+
+    /**
      * represents a {@link Gauge}, which holds the current amount of tasks that are enqueued by the request event bus.
      *
      * @since 3.2
      */
     public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_REQUEST_EVENT_BUS_TASKS =
             HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.request-event-bus.tasks");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of tasks that are enqueued by the client group persistence.
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Gauge<Number>> SINGLE_WRITER_CLIENT_GROUP_TASKS =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.executor.client-group.tasks");
 
 
     /**
@@ -998,12 +1088,30 @@ public class HiveMQMetrics {
 
     /**
      * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of attribute disk I/O tasks
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_ATTRIBUTE_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.attribute.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
      * of request event bus tasks
      *
      * @since 3.2
      */
     public static final HiveMQMetric<Timer> SINGLE_WRITER_REQUEST_EVENT_BUS_TIMER =
             HiveMQMetric.valueOf("com.hivemq.persistence.executor.request-event-bus.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of client group tasks
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Timer> SINGLE_WRITER_CLIENT_GROUP_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.persistence.executor.client-group.time", Timer.class);
 
     /**
      * represents a {@link Counter}, which measures the current count of loops that all single writer threads have done without executing a task
@@ -1013,6 +1121,23 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Counter> SINGLE_WRITER_QUEUE_MISSES =
             HiveMQMetric.valueOf("com.hivemq.persistence.executor.queue-misses", Counter.class);
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of payloads stored in the payload persistence.
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Gauge<Number>> PAYLOAD_PERSISTENCE_ENTRIES =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.payload-entries.count");
+
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of payloads stored in the payload persistence, that can be removed by the cleanup.
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Gauge<Number>> PAYLOAD_PERSISTENCE_REMOVABLE_ENTRIES =
+            HiveMQMetric.gaugeValue("com.hivemq.persistence.removable-entries.count");
 
     /**
      * represents a {@link Counter}, which measures the total count of clients that have been disconnected, because they did not send a message within their keep alive interval
@@ -1055,5 +1180,38 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Timer> CLUSTER_TOPOLOGY_CHANGE_TIMER =
             HiveMQMetric.valueOf("com.hivemq.cluster.topology-change.time", Timer.class);
+
+    /**
+     * represents a {@link Counter}, which measures the current count of retry that have been processed to request the name of other cluster nodes.
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Counter> CLUSTER_NAME_REQUEST_RETRY_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.cluster.name-request.retry.count", Counter.class);
+
+    /**
+     * represents a {@link Timer}, which measures the execution time of the tombstone cleanup jobs
+     *
+     * @since 3.2
+     */
+    public static final HiveMQMetric<Timer> TOMBSTONE_CLEAN_UP_JOB_TIMER =
+            HiveMQMetric.valueOf("com.hivemq.tombstone-cleanup.time", Timer.class);
+
+    /**
+     * represents a {@link Gauge}, which holds the current number of queued messages in persistent sessions
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Gauge<Number>> SESSIONS_PERSISTENT_QUEUE_MESSAGE_COUNT =
+            HiveMQMetric.gaugeValue("com.hivemq.messages.queued.count");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of nodes in cluster
+     *
+     * @since 3.3
+     */
+    public static final HiveMQMetric<Gauge<Number>> CLUSTER_NODE_COUNT =
+            HiveMQMetric.gaugeValue("com.hivemq.cluster.nodes.count");
+
 }
 

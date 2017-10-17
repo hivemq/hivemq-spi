@@ -23,7 +23,7 @@
 
     <groupId>com.hivemq</groupId>
     <artifactId>hivemq-spi</artifactId>
-    <version>3.2.0</version>
+    <version>3.3.0</version>
 
     <name>HiveMQ SPI</name>
 
@@ -47,28 +47,35 @@
             <name>Dominik Obermaier</name>
             <email>dominik.obermaier@dc-square.de</email>
             <organization>dc-square GmbH</organization>
-            <organizationUrl>http://www.dc-square.de</organizationUrl>
+            <organizationUrl>https://www.dc-square.de</organizationUrl>
         </developer>
         <developer>
             <id>cgoetz</id>
             <name>Christian Götz</name>
             <email>christian.goetz@dc-square.de</email>
             <organization>dc-square GmbH</organization>
-            <organizationUrl>http://www.dc-square.de</organizationUrl>
+            <organizationUrl>https://www.dc-square.de</organizationUrl>
         </developer>
         <developer>
             <id>lbrandl</id>
             <name>Lukas Brandl</name>
             <email>lukas.brandl@dc-square.de</email>
             <organization>dc-square GmbH</organization>
-            <organizationUrl>http://www.dc-square.de</organizationUrl>
+            <organizationUrl>https://www.dc-square.de</organizationUrl>
         </developer>
         <developer>
             <id>cschaebe</id>
             <name>Christoph Schäbel</name>
             <email>christoph.schaebel@dc-square.de</email>
             <organization>dc-square GmbH</organization>
-            <organizationUrl>http://www.dc-square.de</organizationUrl>
+            <organizationUrl>https://www.dc-square.de</organizationUrl>
+        </developer>
+        <developer>
+            <id>gheld</id>
+            <name>Georg Held</name>
+            <email>georg.held@dc-square.de</email>
+            <organization>dc-square GmbH</organization>
+            <organizationUrl>https://www.dc-square.de</organizationUrl>
         </developer>
     </developers>
 

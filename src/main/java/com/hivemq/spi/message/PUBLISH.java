@@ -37,6 +37,13 @@ public class PUBLISH extends MessageWithID {
 
     private QoS qoS;
 
+    protected long timestamp = System.currentTimeMillis();
+
+    /**
+     * default is -1 (= tls disabled)
+     */
+    private int ttl = -1;
+
     public PUBLISH() {
     }
 
@@ -44,6 +51,11 @@ public class PUBLISH extends MessageWithID {
         this.payload = payload;
         this.topic = topic;
         this.qoS = qoS;
+    }
+
+    public PUBLISH(final byte[] payload, final String topic, final QoS qoS, final int ttl) {
+        this(payload, topic, qoS);
+        this.ttl = ttl;
     }
 
     /**
@@ -91,6 +103,17 @@ public class PUBLISH extends MessageWithID {
     }
 
     /**
+     * @return the time-to-live of this PUBLISH message
+     */
+    public int getTTL() {
+        return ttl;
+    }
+
+    public void setTTL(final int ttl) {
+        this.ttl = ttl;
+    }
+
+    /**
      * @return the QoS level of the PUBLISH message
      */
     public QoS getQoS() {
@@ -99,6 +122,13 @@ public class PUBLISH extends MessageWithID {
 
     public void setQoS(final QoS qoS) {
         this.qoS = qoS;
+    }
+
+    /**
+     * @return the timestamp of the PUBLISH message
+     */
+    public long getTimestamp() {
+        return timestamp;
     }
 
     /**
@@ -117,6 +147,7 @@ public class PUBLISH extends MessageWithID {
         publish.setTopic(original.getTopic());
         publish.setDuplicateDelivery(original.isDuplicateDelivery());
         publish.setMessageId(original.getMessageId());
+        publish.setTTL(original.getTTL());
         return publish;
     }
 
@@ -128,9 +159,7 @@ public class PUBLISH extends MessageWithID {
         final PUBLISH publish = (PUBLISH) o;
 
         if (messageId != publish.messageId) return false;
-        if (topic != null ? !topic.equals(publish.topic) : publish.topic != null) return false;
-
-        return true;
+        return topic != null ? topic.equals(publish.topic) : publish.topic == null;
     }
 
     @Override

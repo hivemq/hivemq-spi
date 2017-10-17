@@ -17,6 +17,7 @@
 package com.hivemq.spi.services.configuration.entity;
 
 import com.hivemq.spi.annotations.Immutable;
+import com.hivemq.spi.annotations.Nullable;
 
 import java.util.List;
 
@@ -29,7 +30,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Dominik Obermaier
  * @author Christoph Schaebel
- *
  * @since 3.0
  */
 @Immutable
@@ -41,8 +41,11 @@ public class TlsWebsocketListener extends WebsocketListener {
                                  final String bindAddress, final String path,
                                  final Boolean allowExtensions, final List<String> subprotocols,
                                  final Tls tls,
-                                 final boolean proxyProtocolSupported) {
-        super(port, bindAddress, path, allowExtensions, subprotocols, proxyProtocolSupported);
+                                 final boolean proxyProtocolSupported,
+                                 final SocketOptionsProperties socketOptionsProperties,
+                                 final ConnectOverloadProtectionProperties connectOverloadProtectionProperties,
+                                 final ClientWriteBufferProperties clientWriteBufferProperties) {
+        super(port, bindAddress, path, allowExtensions, subprotocols, proxyProtocolSupported, socketOptionsProperties, connectOverloadProtectionProperties, clientWriteBufferProperties);
         this.tls = tls;
     }
 
@@ -147,7 +150,6 @@ public class TlsWebsocketListener extends WebsocketListener {
          *
          * @param proxyProtocolSupported if this listener should be able to utilize the PROXY protocol
          * @return the Builder
-         *
          * @since 3.2
          */
         @Override
@@ -156,18 +158,59 @@ public class TlsWebsocketListener extends WebsocketListener {
             return this;
         }
 
+
+        /**
+         * Set the {@link SocketOptionsProperties} of this listener
+         *
+         * @param socketOptionsProperties a configuration of {@link SocketOptionsProperties} for this listener or null to use the default
+         * @return the Builder
+         * @since 3.3
+         */
+        @Override
+        public Builder setSocketOptionsProperties(@Nullable final SocketOptionsProperties socketOptionsProperties) {
+            this.socketOptionsProperties = socketOptionsProperties;
+            return this;
+        }
+
+        /**
+         * Set the {@link ConnectOverloadProtectionProperties} of this listener
+         *
+         * @param connectOverloadProtectionProperties a configuration of {@link ConnectOverloadProtectionProperties} for this listener or null to deactivate connect overload protection
+         * @return the Builder
+         * @since 3.3
+         */
+        @Override
+        public Builder setConnectOverloadProtectionProperties(@Nullable final ConnectOverloadProtectionProperties connectOverloadProtectionProperties) {
+            this.connectOverloadProtectionProperties = connectOverloadProtectionProperties;
+            return this;
+        }
+
+        /**
+         * Set the {@link ClientWriteBufferProperties} of this listener
+         *
+         * @param clientWriteBufferProperties a configuration of {@link ClientWriteBufferProperties} for this listener or null to use the default
+         * @return the Builder
+         * @since 3.3
+         */
+        @Override
+        public Builder setClientWriteBufferProperties(@Nullable final ClientWriteBufferProperties clientWriteBufferProperties) {
+            this.clientWriteBufferProperties = clientWriteBufferProperties;
+            return this;
+        }
+
         /**
          * Creates the TLS Websocket Listener
          *
          * @return the TLS Websocket Listener
          */
+        @Override
         public TlsWebsocketListener build() {
             //For validation purposes
             super.build();
             if (tls == null) {
                 throw new IllegalStateException("The TLS settings for a TLS Websocket listener was not set.");
             }
-            return new TlsWebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, tls, proxyProtocolSupported);
+            return new TlsWebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, tls, proxyProtocolSupported, socketOptionsProperties, connectOverloadProtectionProperties, clientWriteBufferProperties);
         }
 
     }

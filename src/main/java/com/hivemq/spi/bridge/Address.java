@@ -24,6 +24,7 @@ import java.io.File;
  * @author Dominik Obermaier
  * @since 2.0
  */
+@Deprecated
 public class Address {
 
     private String host;

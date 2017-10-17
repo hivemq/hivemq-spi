@@ -17,6 +17,7 @@
 package com.hivemq.spi.services.configuration.entity;
 
 import com.hivemq.spi.annotations.Immutable;
+import com.hivemq.spi.annotations.Nullable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -25,7 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Dominik Obermaier
  * @author Christoph Schaebel
- *
  * @since 3.0
  */
 @Immutable
@@ -41,21 +41,41 @@ public class TlsTcpListener extends TcpListener {
      * @param tls         the TLS configuration
      */
     public TlsTcpListener(final Integer port, final String bindAddress, final Tls tls) {
-        super(port, bindAddress);
-        checkNotNull(tls);
-        this.tls = tls;
+        this(port, bindAddress, tls, false);
     }
 
     /**
-     * Creates a new TLS Listener which listens to a specific port and bind address
+     * Creates a new TLS Listener which listens to a specific port, bind address and proxy setting
      *
-     * @param port        the port
-     * @param bindAddress the bind address
-     * @param tls         the TLS configuration
+     * @param port                   the port
+     * @param bindAddress            the bind address
+     * @param tls                    the TLS configuration
      * @param proxyProtocolSupported if this listener should be able to utilize the PROXY protocol
      */
     public TlsTcpListener(final int port, final String bindAddress, final Tls tls, final boolean proxyProtocolSupported) {
-        super(port, bindAddress, proxyProtocolSupported);
+        this(port, bindAddress, tls, proxyProtocolSupported, null, null, null);
+    }
+
+    /**
+     * Creates a new TLS Listener which listens to a specific port, bind address, proxy setting, socket options, overload protection and write buffer properties
+     *
+     * @param port                                the port
+     * @param bindAddress                         the bind address
+     * @param tls                                 the TLS configuration
+     * @param proxyProtocolSupported              if this listener should be able to utilize the PROXY protocol
+     * @param socketOptionsProperties             a configuration of {@link SocketOptionsProperties} for this listener or null to use the default
+     * @param connectOverloadProtectionProperties a configuration of {@link ConnectOverloadProtectionProperties} for this listener or null to deactivate connect overload protection
+     * @param clientWriteBufferProperties         a configuration of {@link ClientWriteBufferProperties} for this listener or null to use the default
+     */
+    public TlsTcpListener(final int port,
+                          final String bindAddress,
+                          final Tls tls,
+                          final boolean proxyProtocolSupported,
+                          @Nullable final SocketOptionsProperties socketOptionsProperties,
+                          @Nullable final ConnectOverloadProtectionProperties connectOverloadProtectionProperties,
+                          @Nullable final ClientWriteBufferProperties clientWriteBufferProperties) {
+        super(port, bindAddress, proxyProtocolSupported, socketOptionsProperties, connectOverloadProtectionProperties, clientWriteBufferProperties);
+        checkNotNull(tls);
         this.tls = tls;
     }
 

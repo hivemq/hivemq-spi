@@ -99,7 +99,7 @@ public interface AsyncClientService {
      * <p/>
      * This method will also get client information from other cluster nodes if needed.
      * <p/>
-     * If the client isn't connected, you will receive an {@link Optional} with absent data.
+     * If the client isn't connected, you will receive null.
      *
      * @param clientId the client identifier of the client
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the {@link ClientData} for a specific client.

@@ -43,14 +43,14 @@ public interface AsyncMetricService {
     <T extends Metric> ListenableFuture<T> getHiveMQMetric(HiveMQMetric<T> metric);
 
     /**
-     * Returns a specific HiveMQ metric. If the metric does not exist, this method will return
-     * <code>null</code>.
+     * Returns a map which contains an entry for every node in the cluster with the given HiveMQ metric. An entry represents the name of the node (key) and the associated metric for the node (value).
+     * If the metric does not exist, this method will return <code>null</code>.
      * <p/>
      * For a list of all available metrics, refer to the {@link com.hivemq.spi.metrics.HiveMQMetrics} constant class.
      *
      * @param metric the metric
      * @param <T>    the metric type
-     * @return a {@link com.google.common.util.concurrent.ListenableFuture} with the metric (if available) or a <code>null</code> result.
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} with a map that contains node names and their sought-after metrics or <code>null</code>.
      */
     <T extends Metric> ListenableFuture<Map<String, T>> getClusterMetric(HiveMQMetric<T> metric);
 

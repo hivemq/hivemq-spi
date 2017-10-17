@@ -94,6 +94,8 @@ public interface RESTService {
      * The given servlet class will be instantiated by HiveMQ and the servlet can use dependency injection.
      * <p/>
      * The servlet will be instantiated once and not per request, so it's essentially a singleton.
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods or {@link RESTService#addServlet(HttpServlet, String)} instead.
      *
      * @param servlet the servlet to add
      * @param path    the path to bind the servlet to
@@ -109,6 +111,8 @@ public interface RESTService {
      * The given servlet class will be instantiated by HiveMQ and the servlet can use dependency injection.
      * <p/>
      * The servlet will be instantiated once and not per request, so it's essentially a singleton.
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods or {@link RESTService#addServlet(HttpServlet, String, Collection)} instead.
      *
      * @param servlet             the servlet to add
      * @param path                the path to bind the servlet to
@@ -180,6 +184,8 @@ public interface RESTService {
      * <p/>
      * Additionally a servlet filter is added directly to the servlet path mapping. This is a convenient
      * method if you need a specific filter only for one servlet
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods or {@link RESTService#addServletWithFilters(HttpServlet, String, ServletFilter[])} instead.
      *
      * @param servlet the servlet to add
      * @param path    the path to bind the servlet to
@@ -198,6 +204,8 @@ public interface RESTService {
      * <p/>
      * Additionally a servlet filter is added directly to the servlet path mapping. This is a convenient
      * method if you need a specific filter only for one servlet
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods or {@link RESTService#addServletWithFilters(HttpServlet, String, Collection, ServletFilter[])} instead.
      *
      * @param servlet             the servlet to add
      * @param path                the path to bind the servlet to
@@ -275,6 +283,8 @@ public interface RESTService {
     /**
      * Adds an arbitrary number of JAX-RS resources to all available listeners.
      * These resources can use dependency injection and HiveMQ will instantiate the resources for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods or {@link RESTService#addJaxRsResources(Collection, Collection)} instead.
      *
      * @param resources a arbitrary number of JAX-RS resource classes
      * @throws NullPointerException if the resources array is null
@@ -284,6 +294,8 @@ public interface RESTService {
     /**
      * Adds an arbitrary number of JAX-RS resources to all specified listeners.
      * These resources can use dependency injection and HiveMQ will instantiate the resources for you at runtime
+     * <p>
+     * Dependency injection during a constructor or an {@link javax.annotation.PostConstruct} method is limited.
      *
      * @param resources           a collection of JAX-RS resource classes
      * @param listenerIdentifiers a collection of listeners
@@ -328,6 +340,8 @@ public interface RESTService {
      * Adds an {@link ExceptionMapper} to all available listeners.
      * <p>
      * The ExceptionMapper can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods or {@link RESTService#addExceptionMapper(ExceptionMapper)} instead.
      *
      * @param exceptionMapper the JAX-RS {@link ExceptionMapper} class that should be added to all listeners
      * @throws NullPointerException if the ExceptionMapper is null
@@ -339,6 +353,8 @@ public interface RESTService {
      * Adds an {@link ExceptionMapper} to all specified listeners.
      * <p>
      * The ExceptionMapper can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods or {@link RESTService#addExceptionMapper(ExceptionMapper, Collection)} instead.
      *
      * @param exceptionMapper    the JAX-RS {@link ExceptionMapper} class that should be added to all specified listeners
      * @param listenerIdentifier a collection of listeners
@@ -351,6 +367,8 @@ public interface RESTService {
      * Adds an {@link ContextResolver} to all available listeners.
      * <p>
      * The ContextResolver can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods instead.
      *
      * @param contextResolver the JAX-RS {@link ContextResolver} class that should be added to all listeners
      * @throws NullPointerException if the ContextResolver is null
@@ -362,6 +380,8 @@ public interface RESTService {
      * Adds an {@link ContextResolver} to all specified listeners.
      * <p>
      * The ContextResolver can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods instead.
      *
      * @param contextResolver    the JAX-RS {@link ContextResolver} class that should be added to all specified listeners
      * @param listenerIdentifier the collection of listeners
@@ -374,6 +394,8 @@ public interface RESTService {
      * Adds a {@link MessageBodyWriter} to all listeners.
      * <p>
      * The MessageBodyWriter can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods instead.
      *
      * @param messageBodyWriter the JAX-RS {@link MessageBodyWriter} class that should be added to all listeners
      * @throws NullPointerException if the MessageBodyWriter is null
@@ -385,6 +407,8 @@ public interface RESTService {
      * Adds a {@link MessageBodyWriter} to all specified listeners.
      * <p>
      * The MessageBodyWriter can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods instead.
      *
      * @param messageBodyWriter  the JAX-RS {@link MessageBodyWriter} class that should be added to all specified listeners
      * @param listenerIdentifier the collection of listeners
@@ -397,6 +421,8 @@ public interface RESTService {
      * Adds a {@link MessageBodyReader} to all listeners.
      * <p>
      * The MessageBodyReader can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods instead.
      *
      * @param messageBodyReader the JAX-RS {@link MessageBodyReader} class that should be added to all listeners
      * @throws NullPointerException if the MessageBodyReader is null
@@ -408,6 +434,8 @@ public interface RESTService {
      * Adds a {@link MessageBodyReader} to all specified listeners.
      * <p>
      * The MessageBodyReader can use dependency injection and HiveMQ will instantiate it for you at runtime
+     * <p>
+     * Dependency injection during a constructor is limited to {@link com.hivemq.spi} and JDK classes. You can use {@link javax.annotation.PostConstruct} methods instead.
      *
      * @param messageBodyReader  the JAX-RS {@link MessageBodyReader} class that should be added to all specified listeners
      * @param listenerIdentifier the collection of listeners

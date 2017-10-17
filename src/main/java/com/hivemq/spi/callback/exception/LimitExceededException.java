@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 dc-square GmbH
+ * Copyright 2017 dc-square GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,28 @@
  * limitations under the License.
  */
 
-package com.hivemq.spi.topic.exception;
+package com.hivemq.spi.callback.exception;
 
 /**
- * Indicates that a provided topic is not compliant with the definition of a topic in the mqtt specification.
- * <p/>
- * Please note that since HiveMQ 3.0 this is a {@link RuntimeException}. Prior to HiveMQ 3.0
- * this was a checked Exception.
+ * Unchecked Exception which is thrown when a limit is exceeded by a passed parameter
  *
- * @author Dominik Obermaier
- * @since 1.4
+ * @author Christoph Schäbel
+ * @since 3.3
  */
-public class InvalidTopicException extends RuntimeException {
+public class LimitExceededException extends RuntimeException {
 
-    public InvalidTopicException() {
+    public LimitExceededException() {
     }
 
-    public InvalidTopicException(final String message) {
+    public LimitExceededException(final String message) {
         super(message);
     }
 
-    public InvalidTopicException(final String message, final Throwable cause) {
+    public LimitExceededException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public InvalidTopicException(final Throwable cause) {
+    public LimitExceededException(final Throwable cause) {
         super(cause);
     }
 }

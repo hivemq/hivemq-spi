@@ -24,6 +24,7 @@ import com.hivemq.spi.message.QoS;
  * @author Dominik Obermaier
  * @since 2.0
  */
+@Deprecated
 public class Notification {
 
     /**

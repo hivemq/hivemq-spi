@@ -21,6 +21,7 @@ import com.hivemq.spi.message.QoS;
 /**
  * @author Dominik Obermaier
  */
+@Deprecated
 public class TopicPattern {
 
     public enum Type {

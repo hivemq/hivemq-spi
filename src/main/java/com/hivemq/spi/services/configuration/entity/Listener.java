@@ -16,13 +16,15 @@
 
 package com.hivemq.spi.services.configuration.entity;
 
+import com.google.common.base.Optional;
+
 /**
  * A marker interface for a listener. Any listener implementation must
  * implement this interface.
  *
  * @author Dominik Obermaier
  * @author Christoph Schaebel
- *
+ * @author Georg Held
  * @see TcpListener
  * @see TlsTcpListener
  * @see WebsocketListener
@@ -47,8 +49,22 @@ public interface Listener {
 
     /**
      * @return if the PROXY protocol is supported by this listener
-     *
      * @since 3.2
      */
     boolean isProxyProtocolSupported();
+
+    /**
+     * @return an {@link Optional} of {@link SocketOptionsProperties} of this listener
+     */
+    Optional<SocketOptionsProperties> getSocketOptionsProperties();
+
+    /**
+     * @return an {@link Optional} of {@link ConnectOverloadProtectionProperties} of this listener
+     */
+    Optional<ConnectOverloadProtectionProperties> getConnectOverloadProtectionProperties();
+
+    /**
+     * @return an {@link Optional} of {@link ClientWriteBufferProperties} of this listener
+     */
+    Optional<ClientWriteBufferProperties> getClientWriteBufferProperties();
 }

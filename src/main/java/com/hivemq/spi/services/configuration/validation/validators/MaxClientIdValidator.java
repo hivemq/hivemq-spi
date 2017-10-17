@@ -35,7 +35,7 @@ public class MaxClientIdValidator implements Validator<Integer> {
 
         final ImmutableList.Builder<ValidationError> validationErrors = ImmutableList.builder();
         if (clientIdLength < 1 || clientIdLength > 65535) {
-            validationErrors.add(new ValidationError("%d is an invalid client identifier length. A valid client identifer length must have a value between 1 and 65535.", clientIdLength));
+            validationErrors.add(new ValidationError("%d is an invalid client identifier length. A valid client identifier length must have a value between 1 and 65535.", clientIdLength));
         }
         return validationErrors.build();
     }

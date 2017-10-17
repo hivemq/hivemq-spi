@@ -22,6 +22,7 @@ package com.hivemq.spi.bridge;
  * @author Dominik Obermaier
  * @since 2.0
  */
+@Deprecated
 public enum TLSVersion {
     /**
      * SSLv3

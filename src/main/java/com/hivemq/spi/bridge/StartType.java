@@ -24,6 +24,7 @@ import com.hivemq.spi.services.BridgeManagerService;
  * @author Dominik Obermaier
  * @since 2.0
  */
+@Deprecated
 public enum StartType {
 
     /**

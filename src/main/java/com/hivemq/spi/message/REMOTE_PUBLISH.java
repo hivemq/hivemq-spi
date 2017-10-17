@@ -19,9 +19,11 @@ package com.hivemq.spi.message;
 /**
  * A publish object received from the cluster
  *
+ * @deprecated use {@link PUBLISH} instead
  * @author Dominik Obermaier
  * @since 1.4
  */
+@Deprecated
 public class REMOTE_PUBLISH extends PUBLISH {
 
     private final PUBLISH original;

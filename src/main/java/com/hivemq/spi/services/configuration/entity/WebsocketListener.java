@@ -16,8 +16,10 @@
 
 package com.hivemq.spi.services.configuration.entity;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.hivemq.spi.annotations.Immutable;
+import com.hivemq.spi.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,34 +33,47 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Dominik Obermaier
  * @author Christoph Schaebel
- *
  * @since 3.0
  */
 @Immutable
 public class WebsocketListener implements Listener {
 
-    private Integer port;
+    private final Integer port;
 
-    private String bindAddress;
+    private final String bindAddress;
 
-    private String path;
+    private final String path;
 
-    private Boolean allowExtensions;
+    private final Boolean allowExtensions;
 
-    private List<String> subprotocols;
+    private final List<String> subprotocols;
 
-    private boolean proxyProtocolSupported;
+    private final boolean proxyProtocolSupported;
+
+    private final Optional<SocketOptionsProperties> socketOptionsProperties;
+
+    private final Optional<ConnectOverloadProtectionProperties> connectOverloadProtectionProperties;
+
+    private final Optional<ClientWriteBufferProperties> clientWriteBufferProperties;
 
     protected WebsocketListener(final int port,
-                                final String bindAddress, final String path,
-                                final boolean allowExtensions, final List<String> subprotocols,
-                                final boolean proxyProtocolSupported) {
+                                final String bindAddress,
+                                final String path,
+                                final boolean allowExtensions,
+                                final List<String> subprotocols,
+                                final boolean proxyProtocolSupported,
+                                final SocketOptionsProperties socketOptionsProperties,
+                                final ConnectOverloadProtectionProperties connectOverloadProtectionProperties,
+                                final ClientWriteBufferProperties clientWriteBufferProperties) {
         this.port = port;
         this.bindAddress = bindAddress;
         this.path = path;
         this.allowExtensions = allowExtensions;
         this.subprotocols = subprotocols;
         this.proxyProtocolSupported = proxyProtocolSupported;
+        this.socketOptionsProperties = Optional.fromNullable(socketOptionsProperties);
+        this.connectOverloadProtectionProperties = Optional.fromNullable(connectOverloadProtectionProperties);
+        this.clientWriteBufferProperties = Optional.fromNullable(clientWriteBufferProperties);
     }
 
     /**
@@ -94,6 +109,30 @@ public class WebsocketListener implements Listener {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<SocketOptionsProperties> getSocketOptionsProperties() {
+        return this.socketOptionsProperties;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<ConnectOverloadProtectionProperties> getConnectOverloadProtectionProperties() {
+        return this.connectOverloadProtectionProperties;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<ClientWriteBufferProperties> getClientWriteBufferProperties() {
+        return this.clientWriteBufferProperties;
+    }
+
+    /**
      * @return the path of the websocket
      */
     public String getPath() {
@@ -124,6 +163,9 @@ public class WebsocketListener implements Listener {
         protected boolean allowExtensions = false;
         protected List<String> subprotocols = new ArrayList<>();
         protected boolean proxyProtocolSupported = false;
+        protected SocketOptionsProperties socketOptionsProperties = null;
+        protected ConnectOverloadProtectionProperties connectOverloadProtectionProperties = null;
+        protected ClientWriteBufferProperties clientWriteBufferProperties = null;
 
 
         public Builder() {
@@ -196,11 +238,46 @@ public class WebsocketListener implements Listener {
          *
          * @param proxyProtocolSupported if this listener should be able to utilize the PROXY protocol
          * @return the Builder
-         *
          * @since 3.2
          */
         public Builder proxyProtocolSupported(final boolean proxyProtocolSupported) {
             this.proxyProtocolSupported = proxyProtocolSupported;
+            return this;
+        }
+
+        /**
+         * Set the {@link SocketOptionsProperties} of this listener
+         *
+         * @param socketOptionsProperties a configuration of {@link SocketOptionsProperties} for this listener or null to use the default
+         * @return the Builder
+         * @since 3.3
+         */
+        public Builder setSocketOptionsProperties(@Nullable final SocketOptionsProperties socketOptionsProperties) {
+            this.socketOptionsProperties = socketOptionsProperties;
+            return this;
+        }
+
+        /**
+         * Set the {@link ConnectOverloadProtectionProperties} of this listener
+         *
+         * @param connectOverloadProtectionProperties a configuration of {@link ConnectOverloadProtectionProperties} for this listener or null to deactivate connect overload protection
+         * @return the Builder
+         * @since 3.3
+         */
+        public Builder setConnectOverloadProtectionProperties(@Nullable final ConnectOverloadProtectionProperties connectOverloadProtectionProperties) {
+            this.connectOverloadProtectionProperties = connectOverloadProtectionProperties;
+            return this;
+        }
+
+        /**
+         * Set the {@link ClientWriteBufferProperties} of this listener
+         *
+         * @param clientWriteBufferProperties a configuration of {@link ClientWriteBufferProperties} for this listener or null to use the default
+         * @return the Builder
+         * @since 3.3
+         */
+        public Builder setClientWriteBufferProperties(@Nullable final ClientWriteBufferProperties clientWriteBufferProperties) {
+            this.clientWriteBufferProperties = clientWriteBufferProperties;
             return this;
         }
 
@@ -218,7 +295,7 @@ public class WebsocketListener implements Listener {
                 throw new IllegalStateException("The bind address for a Websocket listener was not set.");
             }
 
-            return new WebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, proxyProtocolSupported);
+            return new WebsocketListener(port, bindAddress, path, allowExtensions, subprotocols, proxyProtocolSupported, socketOptionsProperties, connectOverloadProtectionProperties, clientWriteBufferProperties);
         }
     }
 }

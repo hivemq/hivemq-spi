@@ -18,6 +18,7 @@ package com.hivemq.spi.services.configuration;
 
 import com.hivemq.spi.services.configuration.validation.annotation.Validate;
 import com.hivemq.spi.services.configuration.validation.validators.MaxClientIdValidator;
+import com.hivemq.spi.services.configuration.validation.validators.TtlValidator;
 import com.hivemq.spi.services.configuration.validation.validators.ZeroablePositiveNumber;
 
 /**
@@ -49,6 +50,22 @@ public interface MqttConfigurationService {
      */
     long noConnectIdleTimeoutMillis();
 
+    /**
+     * @return the default time to live for client sessions. The time to live applies to offline clients.
+     */
+    int offlineClientSessionTimeToLive();
+
+    /**
+     * @return the default time to live for publish messages.
+     */
+    int messageTimeToLive();
+
+
+    /**
+     * @return the default time to live for retained messages.
+     */
+    int retainedMessageTimeToLive();
+
     @Validate(MaxClientIdValidator.class)
     void setMaxClientIdLength(int maxClientIdLength);
 
@@ -60,4 +77,13 @@ public interface MqttConfigurationService {
 
     @Validate(value = ZeroablePositiveNumber.class, name = "no connect packet idle timeout millis")
     void setNoConnectIdleTimeoutMillis(final long noConnectPacketIdleTimeoutMillis);
+
+    @Validate(TtlValidator.class)
+    void setOfflineClientSessionTimeToLive(final int offlineClientSessionTimeToLive);
+
+    @Validate(TtlValidator.class)
+    void setMessageTimeToLive(final int messageTimeToLive);
+
+    @Validate(TtlValidator.class)
+    void setRetainedMessageTimeToLive(final int retainedMessageTimeToLive);
 }
