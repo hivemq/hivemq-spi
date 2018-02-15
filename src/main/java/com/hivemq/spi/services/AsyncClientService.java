@@ -38,6 +38,7 @@ public interface AsyncClientService {
      * effects.
      *
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains all client identifiers of all connected clients
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Set<String>> getLocalConnectedClients();
 
@@ -47,6 +48,7 @@ public interface AsyncClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all disconnected clients with a persistent MQTT session
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Set<String>> getLocalDisconnectedClients();
 
@@ -55,6 +57,7 @@ public interface AsyncClientService {
      *
      * @param clientId client, which should be checked
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains true, if a certain client is currently connected and false otherwise
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Boolean> isClientConnectedLocal(String clientId);
 
@@ -65,6 +68,7 @@ public interface AsyncClientService {
      *
      * @param clientId the client identifier of the client
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the {@link ClientData} for a specific client.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<ClientData> getLocalClientData(String clientId);
 
@@ -74,6 +78,7 @@ public interface AsyncClientService {
      * Calling this method frequently in a clustered environment could have negative performance effects.
      *
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all connected clients
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Set<String>> getConnectedClients();
 
@@ -83,6 +88,7 @@ public interface AsyncClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the of client identifiers of all disconnected clients with a persistent MQTT session
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Set<String>> getDisconnectedClients();
 
@@ -91,6 +97,7 @@ public interface AsyncClientService {
      *
      * @param clientId client, which should be checked
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains true, if a certain client is currently connected and false otherwise
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Boolean> isClientConnected(String clientId);
 
@@ -103,6 +110,7 @@ public interface AsyncClientService {
      *
      * @param clientId the client identifier of the client
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the {@link ClientData} for a specific client.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<ClientData> getClientData(String clientId);
 
@@ -114,6 +122,7 @@ public interface AsyncClientService {
      *
      * @param clientId the clientId to disconnect
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link Boolean} which is true when the client has been disconnected and false if no client with that id was found.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      * @since 3.2
      */
     ListenableFuture<Boolean> disconnectClient(String clientId);
@@ -126,6 +135,7 @@ public interface AsyncClientService {
      * @param clientId          the clientId to disconnect
      * @param preventLwtMessage if true the LWT message for this client is not published when the client gets disconnected
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link Boolean} which is true when the client has been disconnected and false if no client with that id was found.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      * @since 3.2
      */
     ListenableFuture<Boolean> disconnectClient(String clientId, boolean preventLwtMessage);

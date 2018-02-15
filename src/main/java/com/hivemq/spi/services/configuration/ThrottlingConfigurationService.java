@@ -51,6 +51,10 @@ public interface ThrottlingConfigurationService {
      */
     long incomingLimit();
 
+    /**
+     * @return the plugin service call rate limit per second
+     */
+    int pluginServiceRateLimit();
 
     /**
      * Changes the maximum concurrent connections at runtime.
@@ -80,6 +84,12 @@ public interface ThrottlingConfigurationService {
      */
     void setIncomingLimit(long incomingLimit);
 
+    /**
+     * Changes the plugin service call rate limit per second at runtime
+     *
+     * @param pluginServiceRateLimit the plugin service call rate limit per second
+     */
+    void setPluginServiceRateLimit(int pluginServiceRateLimit);
 
     /**
      * Adds a callback which gets called when the maximum concurrent connections changes at runtime
@@ -109,4 +119,11 @@ public interface ThrottlingConfigurationService {
      */
     void incomingLimitChanged(ValueChangedCallback<Long> callback);
 
+
+    /**
+     * Adds a callback which gets called when the plugin service call rate limit changes at runtime
+     *
+     * @param callback the ValueChangedCallback
+     */
+    void pluginServiceRateLimitChanged(ValueChangedCallback<Integer> callback);
 }

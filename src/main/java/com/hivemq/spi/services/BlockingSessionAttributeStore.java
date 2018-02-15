@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException;
 import com.hivemq.spi.services.exception.NoSuchClientIdException;
+import com.hivemq.spi.services.exception.RateLimitExceededException;
 
 import java.nio.charset.Charset;
 
@@ -45,6 +46,7 @@ public interface BlockingSessionAttributeStore {
      * @param value    the value of the session attribute.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void put(@NotNull String clientId, @NotNull String key, @NotNull byte[] value) throws NoSuchClientIdException;
 
@@ -56,6 +58,7 @@ public interface BlockingSessionAttributeStore {
      * @param value    the value of the session attribute as a string.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void putAsString(@NotNull String clientId, @NotNull String key, @NotNull String value) throws NoSuchClientIdException;
 
@@ -68,6 +71,7 @@ public interface BlockingSessionAttributeStore {
      * @param charset  the {@link Charset} of the given value.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void putAsString(@NotNull String clientId, @NotNull String key, @NotNull String value, @NotNull Charset charset) throws NoSuchClientIdException;
 
@@ -79,6 +83,7 @@ public interface BlockingSessionAttributeStore {
      * @return an {@link Optional} containing the value of the session attribute if present.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @NotNull
     Optional<byte[]> get(@NotNull String clientId, @NotNull String key) throws NoSuchClientIdException;
@@ -91,6 +96,7 @@ public interface BlockingSessionAttributeStore {
      * @return an {@link Optional} containing the value of the session attribute if present.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @NotNull
     Optional<String> getAsString(@NotNull String clientId, @NotNull String key) throws NoSuchClientIdException;
@@ -104,6 +110,7 @@ public interface BlockingSessionAttributeStore {
      * @return an {@link Optional} containing the value of the session attribute if present.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @NotNull
     Optional<String> getAsString(@NotNull String clientId, @NotNull String key, @NotNull Charset charset) throws NoSuchClientIdException;
@@ -116,6 +123,7 @@ public interface BlockingSessionAttributeStore {
      * @return an {@link Optional} containing the value of the removed session attribute if it was present.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @NotNull
     Optional<byte[]> remove(@NotNull String clientId, @NotNull String key) throws NoSuchClientIdException;
@@ -127,6 +135,7 @@ public interface BlockingSessionAttributeStore {
      * @return a Future of an {@link Optional} containing all session attributes as a map of key and value pairs if present.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @NotNull
     Optional<ImmutableMap<String, byte[]>> getAll(@NotNull String clientId) throws NoSuchClientIdException;
@@ -137,6 +146,7 @@ public interface BlockingSessionAttributeStore {
      * @param clientId the clientId of a persistent client.
      * @throws NoSuchClientIdException if no session for the given clientId exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void clear(@NotNull String clientId) throws NoSuchClientIdException;
 }

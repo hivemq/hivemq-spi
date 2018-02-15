@@ -20,6 +20,7 @@ import com.google.common.collect.Multimap;
 import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.annotations.ReadOnly;
 import com.hivemq.spi.message.Topic;
+import com.hivemq.spi.services.exception.RateLimitExceededException;
 
 import java.util.Set;
 
@@ -42,6 +43,7 @@ public interface BlockingSubscriptionStore {
      * The returned Multimap is read-only and must not be modified.
      *
      * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     Multimap<String, Topic> getLocalSubscriptions();
@@ -57,6 +59,7 @@ public interface BlockingSubscriptionStore {
      *
      * @param topic the topic
      * @return client identifiers of all subscribers that subscribed to the topic
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     Set<String> getLocalSubscribers(@NotNull String topic);
@@ -73,6 +76,7 @@ public interface BlockingSubscriptionStore {
      *
      * @param clientID of the client
      * @return all topics the client subscribed to
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     Set<Topic> getLocalTopics(@NotNull String clientID);
@@ -86,6 +90,7 @@ public interface BlockingSubscriptionStore {
      *
      * @param clientID client, which should be subscribed
      * @param topic    topic to which the client should be subscribed
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
@@ -95,6 +100,7 @@ public interface BlockingSubscriptionStore {
      *
      * @param clientID client, which should get unsubscribed
      * @param topic    topic from which the client should get unsubscribed
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void removeSubscription(@NotNull String clientID, @NotNull String topic);
 
@@ -108,6 +114,7 @@ public interface BlockingSubscriptionStore {
      * The returned Multimap is read-only and must not be modified.
      *
      * @return a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     Multimap<String, Topic> getSubscriptions();
@@ -123,6 +130,7 @@ public interface BlockingSubscriptionStore {
      *
      * @param topic the topic
      * @return client identifiers of all subscribers that subscribed to the topic
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     Set<String> getSubscribers(@NotNull String topic);
@@ -139,6 +147,7 @@ public interface BlockingSubscriptionStore {
      *
      * @param clientID of the client
      * @return all topics the client subscribed to
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     Set<Topic> getTopics(@NotNull String clientID);

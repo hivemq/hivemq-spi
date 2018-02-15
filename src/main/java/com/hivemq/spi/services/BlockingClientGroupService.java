@@ -21,6 +21,7 @@ import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.security.ClientData;
 import com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException;
 import com.hivemq.spi.services.exception.NoSuchClientIdException;
+import com.hivemq.spi.services.exception.RateLimitExceededException;
 
 /**
  * Through this client group service a plugin can add clients to groups, remove clients from groups, query groups and query clients belonging to a group.
@@ -42,6 +43,7 @@ public interface BlockingClientGroupService {
      * @param clientData the clientData of the client which will be added to the group.
      * @throws NoSuchClientIdException            if no session for the client to the given clientData exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void addClientToGroup(@NotNull String group, @NotNull ClientData clientData) throws NoSuchClientIdException;
 
@@ -52,6 +54,7 @@ public interface BlockingClientGroupService {
      * @param clientIdentifier the identifier of the client which will be added to the group.
      * @throws NoSuchClientIdException            if no session for the client with the given identifier exists.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void addClientToGroup(@NotNull String group, @NotNull String clientIdentifier) throws NoSuchClientIdException;
 
@@ -61,6 +64,7 @@ public interface BlockingClientGroupService {
      * @param group            the group the client will be removed from.
      * @param clientIdentifier the identifier of the client which will be added to the group.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void removeClientFromGroup(@NotNull String group, @NotNull String clientIdentifier);
 
@@ -70,6 +74,7 @@ public interface BlockingClientGroupService {
      * @param group the group the clients will be retrieved of.
      * @return the clients belonging to the given group.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @NotNull
     ImmutableSet<String> getClientsForGroup(@NotNull String group);
@@ -79,6 +84,7 @@ public interface BlockingClientGroupService {
      *
      * @return all available groups.
      * @throws IncompatibleHiveMQVersionException if a node with a version lower than 3.3.0 exists in the cluster.
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @NotNull
     ImmutableSet<String> getAvailableGroups();

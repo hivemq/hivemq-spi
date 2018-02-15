@@ -18,6 +18,7 @@ package com.hivemq.spi.services;
 
 import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.security.ClientData;
+import com.hivemq.spi.services.exception.RateLimitExceededException;
 
 import java.util.Set;
 
@@ -37,6 +38,7 @@ public interface BlockingClientService {
      * effects.
      *
      * @return client identifiers of all connected clients
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     Set<String> getLocalConnectedClients();
 
@@ -46,6 +48,7 @@ public interface BlockingClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     Set<String> getLocalDisconnectedClients();
 
@@ -54,6 +57,7 @@ public interface BlockingClientService {
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     boolean isClientConnectedLocal(String clientId);
 
@@ -64,6 +68,7 @@ public interface BlockingClientService {
      *
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client or <code>null</code> if the client is not connected
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @Nullable
     ClientData getLocalClientData(String clientId);
@@ -74,6 +79,7 @@ public interface BlockingClientService {
      * Calling this method frequently in a clustered environment could have negative performance effects.
      *
      * @return client identifiers of all connected clients
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     Set<String> getConnectedClients();
 
@@ -83,6 +89,7 @@ public interface BlockingClientService {
      * Disconnected MQTT clients which don't have a persistent session won't be returned by this method
      *
      * @return all disconnected clients with a persistent MQTT session
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     Set<String> getDisconnectedClients();
 
@@ -91,6 +98,7 @@ public interface BlockingClientService {
      *
      * @param clientId client, which should be checked
      * @return true, if a certain client is currently connected and false otherwise
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     boolean isClientConnected(String clientId);
 
@@ -103,6 +111,7 @@ public interface BlockingClientService {
      *
      * @param clientId the client identifier of the client
      * @return {@link ClientData} for a specific client or <code>null</code> if the client is not connected
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @Nullable
     ClientData getClientData(String clientId);
@@ -115,6 +124,7 @@ public interface BlockingClientService {
      *
      * @param clientId the clientId to disconnect
      * @return true if the client has been disconnected, false if no client with that id was found
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      * @since 3.2
      */
     boolean disconnectClient(String clientId);
@@ -127,6 +137,7 @@ public interface BlockingClientService {
      * @param clientId          the clientId to disconnect
      * @param preventLwtMessage if true the LWT message for this client is not sent
      * @return true if the client has been disconnected, false if no client with that id was found
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      * @since 3.2
      */
     boolean disconnectClient(String clientId, boolean preventLwtMessage);

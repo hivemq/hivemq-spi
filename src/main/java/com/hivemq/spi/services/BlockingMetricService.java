@@ -18,7 +18,6 @@ package com.hivemq.spi.services;
 
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.metrics.HiveMQMetric;
 

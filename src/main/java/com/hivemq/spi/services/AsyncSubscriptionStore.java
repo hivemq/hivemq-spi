@@ -43,6 +43,7 @@ public interface AsyncSubscriptionStore {
      * The returned Multimap is read-only and must not be modified.
      *
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit is exceeded.
      */
     @ReadOnly
     ListenableFuture<Multimap<String, Topic>> getLocalSubscriptions();
@@ -58,6 +59,7 @@ public interface AsyncSubscriptionStore {
      *
      * @param topic the topic
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all subscribers that subscribed to the topic
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit is exceeded.
      */
     @ReadOnly
     ListenableFuture<Set<String>> getLocalSubscribers(@NotNull String topic);
@@ -74,6 +76,7 @@ public interface AsyncSubscriptionStore {
      *
      * @param clientID of the client
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains all topics the client subscribed to
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit is exceeded.
      */
     @ReadOnly
     ListenableFuture<Set<Topic>> getLocalTopics(@NotNull String clientID);
@@ -87,8 +90,8 @@ public interface AsyncSubscriptionStore {
      *
      * @param clientID client, which should be subscribed
      * @param topic    topic to which the client should be subscribed
-     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
-     * as soon es the subscription was added by all Cluster Nodes.
+     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed, as soon es the subscription was added by all Cluster Nodes.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Void> addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
@@ -98,8 +101,8 @@ public interface AsyncSubscriptionStore {
      *
      * @param clientID client, which should get unsubscribed
      * @param topic    topic from which the client should get unsubscribed
-     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed,
-     * as soon es the subscription was removed by all Cluster Nodes.
+     * @return A {@link com.google.common.util.concurrent.ListenableFuture} object that will succeed, as soon es the subscription was removed by all Cluster Nodes.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Void> removeSubscription(@NotNull String clientID, @NotNull String topic);
 
@@ -113,6 +116,7 @@ public interface AsyncSubscriptionStore {
      * The returned Multimap is read-only and must not be modified.
      *
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains a {@link com.google.common.collect.Multimap} of client identifiers and their topic subscriptions
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     ListenableFuture<Multimap<String, Topic>> getSubscriptions();
@@ -128,6 +132,7 @@ public interface AsyncSubscriptionStore {
      *
      * @param topic the topic
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the client identifiers of all subscribers that subscribed to the topic
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     ListenableFuture<Set<String>> getSubscribers(@NotNull String topic);
@@ -144,6 +149,7 @@ public interface AsyncSubscriptionStore {
      *
      * @param clientID of the client
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains which contains all topics the client subscribed to
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @ReadOnly
     ListenableFuture<Set<Topic>> getTopics(@NotNull String clientID);

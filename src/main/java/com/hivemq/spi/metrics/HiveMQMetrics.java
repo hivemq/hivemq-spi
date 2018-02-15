@@ -27,7 +27,7 @@ public class HiveMQMetrics {
     public static final String PLUGIN_EXECUTOR_PREFIX = "com.hivemq.plugin.executor";
     public static final String CALLBACK_EXECUTOR_PREFIX = "com.hivemq.callback.executor";
     public static final String EXCEPTION_PREFIX = "com.hivemq.exceptions";
-    public static final String WEBINTERFACE_EXECUTOR_PREFIX = "com.hivemq.webinterface.executor";
+    public static final String WEBINTERFACE_EXECUTOR_PREFIX = "com.hivemq.web-ui.executor";
 
     @Deprecated
     public static final String SINGLE_WRITER_PREFIX = "com.hivemq.persistence.executor";
@@ -1212,6 +1212,15 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Gauge<Number>> CLUSTER_NODE_COUNT =
             HiveMQMetric.gaugeValue("com.hivemq.cluster.nodes.count");
+
+    /**
+     * represents a {@link Counter}, which count the amount of times that the plugin service rate limit was exceeded
+     * {@link PluginExecutorService}
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Counter> PLUGIN_RATE_LIMIT_EXCEEDED_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.plugin.services.rate-limit-exceeded.count", Counter.class);
 
 }
 

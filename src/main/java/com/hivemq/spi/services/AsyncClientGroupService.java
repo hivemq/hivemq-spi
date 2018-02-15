@@ -42,6 +42,7 @@ public interface AsyncClientGroupService {
      * @return a {@link ListenableFuture} succeeding when the client is added to the group,
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the client to the given clientData exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Void> addClientToGroup(@NotNull String group, @NotNull ClientData clientData);
@@ -54,6 +55,7 @@ public interface AsyncClientGroupService {
      * @return a {@link ListenableFuture} succeeding when the client is added to the group,
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the client with the given identifier exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Void> addClientToGroup(@NotNull String group, @NotNull String clientIdentifier);
@@ -65,6 +67,7 @@ public interface AsyncClientGroupService {
      * @param clientIdentifier the identifier of the client which will be added to the group.
      * @return a {@link ListenableFuture} succeeding when the client is removed from the group,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Void> removeClientFromGroup(@NotNull String group, @NotNull String clientIdentifier);
@@ -75,6 +78,7 @@ public interface AsyncClientGroupService {
      * @param group the group the clients will be retrieved of.
      * @return a {@link ListenableFuture} succeeding with the clients belonging to the given group,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<ImmutableSet<String>> getClientsForGroup(@NotNull String group);
@@ -84,6 +88,7 @@ public interface AsyncClientGroupService {
      *
      * @return a {@link ListenableFuture} succeeding with the all available groups,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<ImmutableSet<String>> getAvailableGroups();

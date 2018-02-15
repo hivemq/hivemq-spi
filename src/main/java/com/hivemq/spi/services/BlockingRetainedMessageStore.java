@@ -17,6 +17,7 @@ package com.hivemq.spi.services;
 
 import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.message.RetainedMessage;
+import com.hivemq.spi.services.exception.RateLimitExceededException;
 
 import java.util.Set;
 
@@ -42,18 +43,20 @@ public interface BlockingRetainedMessageStore {
      *
      * @param topic the topic associated with the retained message
      * @return true if there's a message for the given topic
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     boolean containsLocally(String topic);
 
     /**
      * @return all retained messages which are currently stored
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     Set<RetainedMessage> getRetainedMessages();
 
     /**
      * @param topic a topic
-     * @return retained message for the specific topic or <code>null</code>.
-     * instance with an empty reference
+     * @return retained message for the specific topic or <code>null</code>. instance with an empty reference
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     @Nullable
     RetainedMessage getRetainedMessage(String topic);
@@ -63,6 +66,7 @@ public interface BlockingRetainedMessageStore {
      * If there isn't any retained message on the topic yet, nothing will happen.
      *
      * @param topic from which the message should be removed
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void remove(String topic);
 
@@ -75,6 +79,7 @@ public interface BlockingRetainedMessageStore {
      * This method adds or replaces a retained message
      *
      * @param retainedMessage which should be added or replaced
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void addOrReplace(RetainedMessage retainedMessage);
 
@@ -83,11 +88,13 @@ public interface BlockingRetainedMessageStore {
      *
      * @param topic the topic associated with the retained message
      * @return true if there's a message for the given topic
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     boolean contains(String topic);
 
     /**
      * @return the number of all retained messages
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     long size();
 }

@@ -35,6 +35,7 @@ public interface AsyncRetainedMessageStore {
 
     /**
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the number of all retained messages on this HiveMQ instance.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Long> localSize();
 
@@ -43,17 +44,20 @@ public interface AsyncRetainedMessageStore {
      *
      * @param topic the topic associated with the retained message
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains true if there's a message for the given topic
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Boolean> containsLocally(String topic);
 
     /**
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains all retained messages which are currently stored
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Set<RetainedMessage>> getRetainedMessages();
 
     /**
      * @param topic a topic
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the retained message for the specific topic or <code>null</code>.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<RetainedMessage> getRetainedMessage(String topic);
 
@@ -63,12 +67,15 @@ public interface AsyncRetainedMessageStore {
      *
      * @param topic from which the message should be removed
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which returns after removal
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Void> remove(String topic);
 
     /**
      * Removes all retained messages from the message store.
-     *@return a {@link com.google.common.util.concurrent.ListenableFuture} which returns after removal
+     *
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which returns after removal
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Void> clear();
 
@@ -77,6 +84,7 @@ public interface AsyncRetainedMessageStore {
      *
      * @param retainedMessage which should be added or replaced
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which returns after adding or replacing
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Void> addOrReplace(RetainedMessage retainedMessage);
 
@@ -85,11 +93,13 @@ public interface AsyncRetainedMessageStore {
      *
      * @param topic the topic associated with the retained message
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains true if there's a message for the given topic
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Boolean> contains(String topic);
 
     /**
      * @return a {@link com.google.common.util.concurrent.ListenableFuture} which contains the number of all retained messages
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     ListenableFuture<Long> size();
 

@@ -45,6 +45,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Void> put(@NotNull String clientId, @NotNull String key, @NotNull byte[] value);
@@ -58,6 +59,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Void> putAsString(@NotNull String clientId, @NotNull String key, @NotNull String value);
@@ -72,6 +74,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Void> putAsString(@NotNull String clientId, @NotNull String key, @NotNull String value, @NotNull Charset charset);
@@ -84,6 +87,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Optional<byte[]>> get(@NotNull String clientId, @NotNull String key);
@@ -96,6 +100,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Optional<String>> getAsString(@NotNull String clientId, @NotNull String key);
@@ -109,6 +114,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Optional<String>> getAsString(@NotNull String clientId, @NotNull String key, @NotNull Charset charset);
@@ -122,6 +128,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Optional<byte[]>> remove(@NotNull String clientId, @NotNull String key);
@@ -133,6 +140,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Optional<ImmutableMap<String, byte[]>>> getAll(@NotNull String clientId);
@@ -144,6 +152,7 @@ public interface AsyncSessionAttributeStore {
      * @return a {@link ListenableFuture} indicating success or
      * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
      * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.3.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
      */
     @NotNull
     ListenableFuture<Void> clear(@NotNull String clientId);
