@@ -2,18 +2,7 @@ package com.hivemq.spi.metrics;
 
 import com.codahale.metrics.*;
 import com.hivemq.spi.callback.events.*;
-import com.hivemq.spi.callback.lowlevel.OnConnackSend;
-import com.hivemq.spi.callback.lowlevel.OnPingCallback;
-import com.hivemq.spi.callback.lowlevel.OnPubackReceived;
-import com.hivemq.spi.callback.lowlevel.OnPubackSend;
-import com.hivemq.spi.callback.lowlevel.OnPubcompReceived;
-import com.hivemq.spi.callback.lowlevel.OnPubcompSend;
-import com.hivemq.spi.callback.lowlevel.OnPubrecReceived;
-import com.hivemq.spi.callback.lowlevel.OnPubrecSend;
-import com.hivemq.spi.callback.lowlevel.OnPubrelReceived;
-import com.hivemq.spi.callback.lowlevel.OnPubrelSend;
-import com.hivemq.spi.callback.lowlevel.OnSubackSend;
-import com.hivemq.spi.callback.lowlevel.OnUnsubackSend;
+import com.hivemq.spi.callback.lowlevel.*;
 import com.hivemq.spi.callback.security.*;
 import com.hivemq.spi.services.PluginExecutorService;
 
@@ -134,6 +123,14 @@ public class HiveMQMetrics {
             HiveMQMetric.valueOf("com.hivemq.messages.incoming.publish.count", Counter.class);
 
     /**
+     * represents a {@link Counter}, which counts every incoming MQTT PUBLISH messages with the retained flag set
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Counter> INCOMING_PUBLISH_RETAINED_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.incoming.publish.retained.count", Counter.class);
+
+    /**
      * represents a {@link Histogram}, which measures the distribution of incoming MQTT message size (payload without fixed header)
      *
      * @since 3.0
@@ -165,6 +162,14 @@ public class HiveMQMetrics {
     public static final HiveMQMetric<Counter> OUTGOING_PUBLISH_COUNT =
             HiveMQMetric.valueOf("com.hivemq.messages.outgoing.publish.count", Counter.class);
 
+
+    /**
+     * represents a {@link Counter}, which counts every outgoing MQTT PUBLISH messages with the retained flag set
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Counter> OUTGOING_PUBLISH_RETAINED_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.messages.outgoing.publish.retained.count", Counter.class);
 
     /**
      * represents a {@link Meter},which measures the current rate of incoming MQTT DISCONNECT messages
@@ -567,12 +572,40 @@ public class HiveMQMetrics {
             HiveMQMetric.gaugeValue("com.hivemq.networking.connections.current");
 
     /**
-     * represents a {@link Gauge}, which holds the mean total number of connections
+     * represents a {@link Histogram}, which holds the mean total number of connections
      *
      * @since 3.0
      */
     public static final HiveMQMetric<Histogram> CONNECTIONS_OVERALL_MEAN =
             HiveMQMetric.valueOf("com.hivemq.networking.connections.mean", Histogram.class);
+
+
+    /**
+     * represents a {@link Counter}, which is increased every time a network connection is closed gracefully.
+     * Graceful means the client sent a DISCONNECT message before closing the TCP connection
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Counter> CONNECTIONS_CLOSED_GRACEFUL_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.networking.connections-closed.graceful.count", Counter.class);
+
+    /**
+     * represents a {@link Counter}, which is increased every time a network connection is closed ungraceful.
+     * Ungraceful means the client did NOT send a DISCONNECT message before closing the TCP connection
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Counter> CONNECTIONS_CLOSED_UNGRACEFUL_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.networking.connections-closed.ungraceful.count", Counter.class);
+
+
+    /**
+     * represents a {@link Counter}, which is increased every time a network connection is closed
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Counter> CONNECTIONS_CLOSED_COUNT =
+            HiveMQMetric.valueOf("com.hivemq.networking.connections-closed.total.count", Counter.class);
 
 
     /**
@@ -1221,6 +1254,55 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Counter> PLUGIN_RATE_LIMIT_EXCEEDED_COUNT =
             HiveMQMetric.valueOf("com.hivemq.plugin.services.rate-limit-exceeded.count", Counter.class);
+
+    /**
+     * represents a {@link Gauge}, which holds the current level of supervision overload protection
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Gauge<Number>> SUPERVISION_OVERLOAD_PROTECTION_LEVEL =
+            HiveMQMetric.gaugeValue("com.hivemq.supervision.overload.protection.level");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of credits a client receives per tick.
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Gauge<Number>> OVERLOAD_PROTECTION_CREDITS_PER_TICK =
+            HiveMQMetric.gaugeValue("com.hivemq.overload-protection.credits.per-tick");
+
+    /**
+     * represents a {@link Gauge}, which holds the average amount of available credits between all clients.
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Gauge<Number>> OVERLOAD_PROTECTION_CLIENTS_AVERAGE_CREDITS =
+            HiveMQMetric.gaugeValue("com.hivemq.overload-protection.clients.average-credits");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of clients having less than the full amount of credits.
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Gauge<Number>> OVERLOAD_PROTECTION_CLIENTS_USING_CREDITS =
+            HiveMQMetric.gaugeValue("com.hivemq.overload-protection.clients.using-credits");
+
+    /**
+     * represents a {@link Gauge}, which holds the current amount of clients for which backpressure is applied by overload protection.
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Gauge<Number>> OVERLOAD_PROTECTION_CLIENTS_BACKPRESSURE_ACTIVE =
+            HiveMQMetric.gaugeValue("com.hivemq.overload-protection.clients.backpressure-active");
+
+    /**
+     * represents a {@link Counter}, which counts the current amount of clients subscriptions that may be removable by the topic tree cleanup.
+     *
+     * @since 3.4
+     */
+    public static final HiveMQMetric<Counter> POSSIBLY_STALE_SUBSCRIPTIONS =
+            HiveMQMetric.valueOf("com.hivemq.internal.topic-tree.possibly-stale-subscriptions", Counter.class);
+
 
 }
 

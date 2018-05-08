@@ -51,6 +51,36 @@ public interface AsyncSessionAttributeStore {
     ListenableFuture<Void> put(@NotNull String clientId, @NotNull String key, @NotNull byte[] value);
 
     /**
+     * Sets the given session attribute for a persistent client if the timestamp of the attribute is newer than the timestamp of the already stored attribute.
+     *
+     * @param clientId   the clientId of a persistent client.
+     * @param key        the key of the session attribute.
+     * @param value      the value of the session attribute.
+     * @param timestamp  the timestamp of the session attribute.
+     * @return a {@link ListenableFuture<OptionalAttribute>} with the previous associated value or null and a boolean if a value was replaced or not.
+     * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
+     * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.4.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
+     */
+    @NotNull
+    ListenableFuture<OptionalAttribute> putIfNewer(@NotNull String clientId, @NotNull String key, @NotNull byte[] value, long timestamp);
+
+    /**
+     * Sets the given session attribute for a persistent client if the timestamp of the attribute is newer than or equal to the timestamp of the already stored attribute.
+     *
+     * @param clientId   the clientId of a persistent client.
+     * @param key        the key of the session attribute.
+     * @param value      the value of the session attribute.
+     * @param timestamp  the timestamp of the session attribute.
+     * @return a {@link ListenableFuture<OptionalAttribute>} with the previous associated value or null and a boolean if a value was replaced or not.
+     * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
+     * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.4.0 exists in the cluster.
+     * failing with a {@link com.hivemq.spi.services.exception.RateLimitExceededException} if the plugin service rate limit was exceeded.
+     */
+    @NotNull
+    ListenableFuture<OptionalAttribute> putIfNewerOrEquals(@NotNull String clientId, @NotNull String key, @NotNull byte[] value, long timestamp);
+
+    /**
      * Sets the given session attribute for a persistent client.
      *
      * @param clientId the clientId of a persistent client.

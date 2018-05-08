@@ -19,7 +19,7 @@ package com.hivemq.spi.annotations;
 import java.lang.annotation.*;
 
 /**
- * An annotation which is used for indicating that something can be <code>null</code>.
+ * An annotation which is used for indicating that something can not be <code>null</code>.
  * This is very useful for static code analysis to prevent bugs.
  *
  * @author Dominik Obermaier

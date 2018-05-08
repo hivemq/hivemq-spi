@@ -18,6 +18,7 @@ package com.hivemq.spi.services;
 
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.security.ClientData;
 
 import java.util.Set;
@@ -139,4 +140,45 @@ public interface AsyncClientService {
      * @since 3.2
      */
     ListenableFuture<Boolean> disconnectClient(String clientId, boolean preventLwtMessage);
+
+    /**
+     * Sets the time to live for a client session in seconds. Session expiry can be disabled by setting the session time to live to -1.
+     * Attention: The given TTL may be overwritten when a client (re-)connects.
+     *
+     * @param clientId the client identifier of the client
+     * @param ttl time to live for the client session in seconds
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} which succeeds when the TTL is set successfully,
+     * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
+     * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.4 exists in the cluster,
+     * failing with a {@link com.hivemq.spi.callback.exception.InvalidTTLException} if the given TTL is invalid (< -1).
+     * @since 3.4
+     */
+    ListenableFuture<Void> setTTL(@NotNull String clientId, int ttl);
+
+    /**
+     * Returns the time to live for a client session in seconds.
+     * <p/>
+     * A value of -1 for the TTL means that session expiry is disabled.
+     *
+     * @param clientId the client identifier of the client
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} succeeding with the client session TTL in seconds,
+     * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
+     * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.4 exists in the cluster.
+     * @since 3.4
+     */
+    ListenableFuture<Integer> getTTL(@NotNull String clientId);
+
+    /**
+     * Invalidates the client session for a client with the given client identifier. If the client is currently connected, it will be disconnected as well.
+     * <p/>
+     * Sets time to live to 0.
+     * Attention: The given TTL of 0 may be overwritten at client reconnection.
+     *
+     * @param clientId the client identifier of the client which session should be invalidated
+     * @return a {@link com.google.common.util.concurrent.ListenableFuture} succeeding with a {@link Boolean} which is true when the client has been actively disconnected by the broker otherwise false,
+     * failing with a {@link com.hivemq.spi.services.exception.NoSuchClientIdException} if no session for the given clientId exists,
+     * failing with a {@link com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.4 exists in the cluster.
+     * @since 3.4
+     */
+    ListenableFuture<Boolean> invalidateSession(@NotNull String clientId);
 }

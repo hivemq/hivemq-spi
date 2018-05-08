@@ -118,4 +118,12 @@ public interface ClientData {
     @NotNull
     ConnectionAttributeStore getConnectionAttributeStore();
 
+    /**
+     * Returns optional {@link Long} that contains the disconnect timestamp.
+     *
+     * @return an {@link Optional} of the {@link Long}.
+     * @since 3.4
+     */
+    Optional<Long> getDisconnectTimestamp();
+
 }

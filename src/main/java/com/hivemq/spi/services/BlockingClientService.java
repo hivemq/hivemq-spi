@@ -16,8 +16,10 @@
 
 package com.hivemq.spi.services;
 
+import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.annotations.Nullable;
 import com.hivemq.spi.security.ClientData;
+import com.hivemq.spi.services.exception.NoSuchClientIdException;
 import com.hivemq.spi.services.exception.RateLimitExceededException;
 
 import java.util.Set;
@@ -141,4 +143,46 @@ public interface BlockingClientService {
      * @since 3.2
      */
     boolean disconnectClient(String clientId, boolean preventLwtMessage);
+
+    /**
+     * Sets the time to live for the client session. A TTL value of -1 results in the session never expiring.
+     * Attention: The given TTL may be overwritten at client reconnection.
+     *
+     * @param clientId the client identifier of the client
+     * @param ttl time to live for a client session in seconds
+     *
+     * @throws NoSuchClientIdException if no session for the given clientId exists
+     * @throws com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException if a node with a version lower than 3.4 exists in the cluster
+     * @throws com.hivemq.spi.callback.exception.InvalidTTLException if the given TTL is invalid (< -1)
+     * @since 3.4
+     */
+    void setTTL(@NotNull String clientId, int ttl) throws NoSuchClientIdException;
+
+    /**
+     * Returns the time to live for a client session in seconds.
+     * <p/>
+     * A value of -1 for the TTL means that the session never expires.
+     *
+     * @param clientId the client identifier of the client
+     *
+     * @return ttl time to live for the client session in seconds
+     * @throws NoSuchClientIdException if no session for the given clientId exists
+     * @throws com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.4 exists in the cluster
+     * @since 3.4
+     */
+    int getTTL(@NotNull String clientId) throws NoSuchClientIdException;
+
+    /**
+     * Invalidates the client session for the client with the given client identifier. If the client is currently connected, it will be disconnected as well.
+     * <p/>
+     * Sets time to live to 0.
+     * Attention: The given TTL of 0 may be overwritten at client reconnection.
+     *
+     * @param clientId the client identifier of the client whose session should be invalidated
+     * @throws NoSuchClientIdException if no session for the given clientId exists
+     * @throws com.hivemq.spi.services.exception.IncompatibleHiveMQVersionException} if a node with a version lower than 3.4 exists in the cluster
+     * @since 3.4
+     */
+    void invalidateSession(@NotNull String clientId) throws NoSuchClientIdException;
+
 }
