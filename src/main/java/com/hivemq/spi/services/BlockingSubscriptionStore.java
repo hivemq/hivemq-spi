@@ -20,7 +20,9 @@ import com.google.common.collect.Multimap;
 import com.hivemq.spi.annotations.NotNull;
 import com.hivemq.spi.annotations.ReadOnly;
 import com.hivemq.spi.message.Topic;
+import com.hivemq.spi.services.exception.NoSuchClientIdException;
 import com.hivemq.spi.services.exception.RateLimitExceededException;
+import com.hivemq.spi.topic.exception.InvalidTopicException;
 
 import java.util.Set;
 
@@ -95,6 +97,21 @@ public interface BlockingSubscriptionStore {
     void addSubscription(@NotNull String clientID, @NotNull Topic topic);
 
     /**
+     * This method adds subscriptions for a certain client to certain topics.
+     * If HiveMQ is connected to a cluster, the subscription will be broadcast to all other Cluster Nodes.
+     * <p>
+     *
+     * @param clientID client, which should be subscribed
+     * @param topics   topics to which the client should be subscribed
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
+     * @throws InvalidTopicException      if any topic is not utf-8 well-formed or empty.
+     * @throws NoSuchClientIdException    if a client does not exist.
+     * @throws NullPointerException       if clientID or topics is <code>null</code>.
+     * @throws IllegalArgumentException   if clientID or topics is empty.
+     */
+    void addSubscriptions(@NotNull String clientID, @NotNull Set<Topic> topics);
+
+    /**
      * This method removes a subscription for a certain client and a certain topic.
      * If HiveMQ is connected to a cluster, the subscription will be removed by other Cluster Nodes as well.
      *
@@ -103,6 +120,19 @@ public interface BlockingSubscriptionStore {
      * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
      */
     void removeSubscription(@NotNull String clientID, @NotNull String topic);
+
+    /**
+     * This method removes subscriptions for a certain client and certain topics.
+     * If HiveMQ is connected to a cluster, the subscription will be removed by other Cluster Nodes as well.
+     * <p>
+     *
+     * @param clientID client, which should get unsubscribed
+     * @param topics   topics from which the client should get unsubscribed
+     * @throws RateLimitExceededException if the plugin service rate limit was exceeded.
+     * @throws NullPointerException       if clientID or topics is <code>null</code>.
+     * @throws IllegalArgumentException   if clientID or topics is empty.
+     */
+    void removeSubscriptions(@NotNull String clientID, @NotNull Set<String> topics);
 
     /**
      * This method returns all subscriptions this HiveMQ instance and all other nodes in a HiveMQ cluster,

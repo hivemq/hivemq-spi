@@ -4,6 +4,7 @@ import com.codahale.metrics.*;
 import com.hivemq.spi.callback.events.*;
 import com.hivemq.spi.callback.lowlevel.*;
 import com.hivemq.spi.callback.security.*;
+import com.hivemq.spi.callback.webui.WebUIAuthenticationCallback;
 import com.hivemq.spi.services.PluginExecutorService;
 
 /**
@@ -955,6 +956,15 @@ public class HiveMQMetrics {
      */
     public static final HiveMQMetric<Timer> PLUGIN_TIMER_SESSION_READY =
             HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.session-ready.time", Timer.class);
+
+    /**
+     * represents a {@link Timer}, which measures the mean execution time (in nanoseconds)
+     * of the {@link WebUIAuthenticationCallback}
+     *
+     * @since 3.4.2
+     */
+    public static final HiveMQMetric<Timer> PLUGIN_TIMER_WEBUI_AUTHENTICATION =
+            HiveMQMetric.valueOf("com.hivemq.plugin.callbacks.webui-authentication.time", Timer.class);
 
     /**
      * represents a {@link Meter}, which measures the rate of unhandled Exceptions
