@@ -1,9 +1,11 @@
 :hivemq-github-link: https://github.com/hivemq
 :hivemq-link: http://www.hivemq.com
-:hivemq-plugin-docu-link: http://www.hivemq.com/docs/plugins/latest
-:hivemq-plugin-directory: http://www.hivemq.com/plugins/
+:hivemq-plugin-docu-link: https://www.hivemq.com/docs/3.4/plugins/introduction.html
+:extension: https://github.com/hivemq/hivemq-extension-sdk
 
 == HiveMQ SDK
+
+NOTE: HiveMQ 4 uses a new extension system. This SDK is not compatible with HiveMQ 4. The new version can be found {extension}[here].
 
 image:https://travis-ci.org/hivemq/hivemq-spi.png?branch=master["Build Status", link="https://travis-ci.org/hivemq/hivemq-spi"]
 
@@ -46,7 +48,4 @@ To use the SDK, add the following dependency to your Maven project:
 Please visit {hivemq-plugin-docu-link}[our website] for the documentation how to develop plugins.
 
 === Example plugins
-
-Many example plugins are available, most of them as open source. You can find an overview of officially supported plugins {hivemq-plugin-directory}[here]:
-
 You can find many example plugins by browsing {hivemq-github-link}[here on Github].
