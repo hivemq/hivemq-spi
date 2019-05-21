@@ -49,3 +49,11 @@ Please visit {hivemq-plugin-docu-link}[our website] for the documentation how to
 
 === Example plugins
 You can find many example plugins by browsing {hivemq-github-link}[here on Github].
+
+= Contributing
+
+If you want to contribute to HiveMQ SPI, see the link:CONTRIBUTING.md[contribution guidelines].
+
+= License
+
+HiveMQ SPI is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found link:LICENSE.txt[here].
