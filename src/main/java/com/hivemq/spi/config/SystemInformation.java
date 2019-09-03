@@ -46,6 +46,11 @@ public interface SystemInformation {
     File getDataFolder();
 
     /**
+     * @return the backup folder of HiveMQ
+     */
+    File getBackupFolder();
+
+    /**
      * @return the timestamp of HiveMQ start
      */
     long getRunningSince();

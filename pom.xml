@@ -23,7 +23,7 @@
 
     <groupId>com.hivemq</groupId>
     <artifactId>hivemq-spi</artifactId>
-    <version>3.4.2</version>
+    <version>3.4.4</version>
 
     <name>HiveMQ SPI</name>
 
